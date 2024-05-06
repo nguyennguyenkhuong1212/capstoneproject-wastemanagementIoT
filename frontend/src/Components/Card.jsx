@@ -4,25 +4,35 @@ import ProgressBar from "react-bootstrap/ProgressBar";
 
 function Card({ name, address, trashPercentage }) {
   // Determine the color of the line based on the trash percentage
-if (!trashPercentage) {
-  trashPercentage = 0;
-  console.log(trashPercentage)
-}
+  if (!trashPercentage) {
+    trashPercentage = 0;
+    console.log(trashPercentage);
+  }
 
   return (
-    <div className="card">
-      <h3>{name}</h3>
-      <p>{address}</p>
-      {/* The line color changes based on the trash percentage */}
+    <div className="split-box">
       <div>
-        {trashPercentage < 80 ? (
-          <ProgressBar now={0} variant="success" />
-        ) : (
-          <ProgressBar now={10} variant="danger" />
-        )}
-        
+        <h5>{name}</h5>
+        <p>{address}</p>
+        <div className="bar" >
+          {trashPercentage < 80 ? (
+            <ProgressBar
+              now={trashPercentage}
+              variant="success"
+              style={{ height: "10px" }}
+            />
+          ) : (
+            <ProgressBar
+              now={trashPercentage}
+              variant="danger"
+              style={{ height: "10px" }}
+            />
+          )}
+        </div>
       </div>
-      <ProgressBar variant="success" now={40} />
+      <div>
+        <p>{trashPercentage}% full</p>
+      </div>
     </div>
   );
 }

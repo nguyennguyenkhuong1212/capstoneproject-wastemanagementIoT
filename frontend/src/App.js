@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./App.css";
 
 import Card from "./Components/Card";
+import ProgressBar from "react-bootstrap/ProgressBar";
 
 function App() {
   return (
