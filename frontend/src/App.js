@@ -2,9 +2,24 @@ import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./App.css";
 
+import Card from "./Components/Card";
+
 function App() {
   return (
-    <BrowserRouter></BrowserRouter>
+    <BrowserRouter>
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <Card
+              name="Tu Du Hospital"
+              address="248 Cong Quynh St., Pham Ngu Lao Ward, District 1 "
+              trashPercentage={80}
+            />
+          }
+        />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
