@@ -6,7 +6,7 @@
 4. In `frontend/src`, there is a folder named `components`, add components into this folder 
 5. Run `npm install` in both `backend` and `frontend` folders to install dependencies ***(REMEMBER TO DO THIS EVERYTIME YOU START CODING TO ENSURE ALL PACKAGES IS UPDATED)***
 ## REMINDER BEFORE CODING
-1. Remember to run this block of code befor coding to update the latest version of code on main
+1. Remember to run this block of code before coding to update the latest version of code on main
 ```
 git checkout main
 git pull
