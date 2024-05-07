@@ -16,3 +16,9 @@ git merge main
 ## REMINDER AFTER CODING 
 1. After pushing code to your branch, an automatically-created pull request will appear. This will be informed through an email send to your email account.
 2. Remember to review and approve your code, so that it could be merged.
+
+## RUN FRONTEND AND BACKEND
+### FOR FRONTEND
+Use `npm start`
+### FOR BACKEND
+Use `npm run server`
