@@ -2,7 +2,7 @@ import React from "react";
 import { NavLink } from "react-router-dom"; // Importing NavLink if using React Router
 import "./nav.css";
 
-function Navbar() {
+function Navbar({name}) {
   return (
     <nav className="navbar">
       <div className="first">
@@ -14,7 +14,7 @@ function Navbar() {
       <div className="second">
         {/* Navigation links */}
         <div>
-          <div className="page-name">Route map</div>
+          <div className="page-name">{name}</div>
         </div>
 
         <div className="nav-links">

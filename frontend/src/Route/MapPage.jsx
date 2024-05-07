@@ -7,7 +7,7 @@ import Navbar from "../Components/Navbar";
 function MapPage() {
   return (
     <div>
-      <Navbar />
+      <Navbar name = "Collection Route Planner"/>
       <div className="main">
         <div className="section">
           <div className="title">Route Map</div>
