@@ -1,4 +1,7 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
 .split-box {
+  font-family: "Roboto", sans-serif;
   border: 1px solid #ccc;
   border-radius: 8px;
   max-width: 370px;
@@ -7,13 +10,19 @@
   box-sizing: border-box;
 }
 
-.split-box h3 {
-  margin: 0 0 4px;
+.split-box h5 {
+  font-weight: 700;
+  margin: 0 0 10px;
+}
+
+.address {
+  margin: 0 0 10px!important;
 }
 
 .split-box p {
-  margin: 0 0 0;
+  margin: 6px 0;
   font-size: small;
+  font-weight: 400;
 }
 
 .split-box > div:first-child {
@@ -31,4 +40,10 @@
 
 .bar {
   margin-top: 4px;
+}
+
+.bottom-bar{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
