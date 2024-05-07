@@ -14,7 +14,7 @@ function Navbar() {
       <div className="second">
         {/* Navigation links */}
         <div>
-          <h7>Route map</h7>
+          <div className="page-name">Route map</div>
         </div>
 
         <div className="nav-links">
