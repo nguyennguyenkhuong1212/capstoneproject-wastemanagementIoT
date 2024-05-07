@@ -3,7 +3,7 @@ import Card from "../Components/Card";
 import "./MapPage.css";
 import pic from "./holder.png";
 import Navbar from "../Components/Navbar";
-
+import Footer from "../Components/Footer";
 function MapPage() {
   return (
     <div>
@@ -70,6 +70,9 @@ function MapPage() {
           </div>
         </div>
       </div>{" "}
+      <div className="footer">
+          <Footer/>
+        </div>
     </div>
   );
 }
