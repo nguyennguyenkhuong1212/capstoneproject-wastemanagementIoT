@@ -4,6 +4,7 @@ import "./MapPage.css";
 import pic from "./holder.png";
 import Navbar from "../Components/Navbar";
 import Footer from "../Components/Footer";
+import Schedule from "./Schedule";
 function MapPage() {
   return (
     <div>
@@ -69,6 +70,7 @@ function MapPage() {
             </div>
           </div>
         </div>
+        <Schedule/>
       </div>{" "}
       <div className="footer">
           <Footer/>
