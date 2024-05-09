@@ -1,0 +1,30 @@
+/* Container for the schedule page */
+.schedule-container {
+    padding: 20px;
+}
+
+/* Table styling */
+.schedule-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+/* Table headers */
+.schedule-table th {
+    background-color: #4CAF50;
+    color: white;
+    padding: 8px;
+    text-align: left;
+}
+
+/* Table rows */
+.schedule-table td {
+    border: 1px solid #ccc;
+    padding: 8px;
+}
+
+/* Highlighting row on hover */
+.schedule-table tr:hover {
+    background-color: #f2f2f2;
+}
