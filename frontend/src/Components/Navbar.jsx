@@ -16,7 +16,6 @@ function Navbar({name}) {
         <div>
           <div className="page-name">{name}</div>
         </div>
-
         <div className="nav-links">
           <NavLink to="/" className="nav-link" activeClassName="active-link">
             Home
