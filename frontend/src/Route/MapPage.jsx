@@ -79,9 +79,6 @@ function MapPage() {
                     </div>
                 </div>
 
-                {/* Schedule Section */}
-                <Schedule />
-
             </div>
 
             {/* Footer Section */}
