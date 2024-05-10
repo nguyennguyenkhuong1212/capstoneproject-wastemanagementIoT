@@ -62,45 +62,9 @@ const Error = {
     errCode: 112,
     errMessage: "Session expired",
   },
-  EmptyPlaylist: {
+  BinAlreadyExists: {
     errCode: 113,
-    errMessage: "Playlist is empty",
-  },
-  EmptySongId: {
-    errCode: 114,
-    errMessage: "SongId is empty",
-  },
-  EmptyTimerSettings: {
-    errCode: 115,
-    errMessage: "TimerSettings is empty",
-  },
-  EmptySong: {
-    errCode: 116,
-    errMessage: "Song is empty",
-  },
-  DeletedSongNotExists: {
-    errCode: 117,
-    errMessage: "Deleted song not existed to delete",
-  },
-  TimerSettingsNotFound: {
-    errCode: 118,
-    errMessage: "Timer Settings not found",
-  },
-  EmptyTask: {
-    errCode: 119,
-    errMessage: "Task is empty",
-  },
-  EmptyTaskIndex: {
-    errCode: 120,
-    errMessage: "Task index empty",
-  },
-  DeletedTaskNotExists: {
-    errCode: 121,
-    errMessage: "Deleted tasks not existed to delete",
-  },
-  NewPasswordInvalid: {
-    errCode: 122,
-    errMessage: "New password is the same as the current password",
+    errMessage: "Bin already existed",
   },
 
   // 200++ Error from Db
