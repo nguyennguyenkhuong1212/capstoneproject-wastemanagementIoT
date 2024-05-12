@@ -1,21 +1,17 @@
 import React from "react";
-import { NavLink } from "react-router-dom"; // Importing NavLink if using React Router
+import { Link, NavLink } from "react-router-dom"; // Importing NavLink if using React Router
 import "./nav.css";
 
-function Navbar({name}) {
+function Navbar({ name }) {
   return (
     <nav className="navbar">
-      <div className="first">
-        <div className="logo">
-          <h4>Waste Management IOT </h4>
-        </div>
-      </div>
-
       <div className="second">
-        {/* Navigation links */}
-        <div>
-          <div className="page-name">{name}</div>
+        <div className="logo">
+          <NavLink to="/" className="link-logo">
+            <h4>Waste Management IOT </h4>
+          </NavLink>
         </div>
+        {/* Navigation links */}
         <div className="nav-links">
           {/* <NavLink to="/" className="nav-link" activeClassName="active-link">
             Home
