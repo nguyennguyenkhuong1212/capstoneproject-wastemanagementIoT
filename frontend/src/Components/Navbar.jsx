@@ -17,11 +17,18 @@ function Navbar({name}) {
           <div className="page-name">{name}</div>
         </div>
         <div className="nav-links">
-          <NavLink to="/" className="nav-link" activeClassName="active-link">
+          {/* <NavLink to="/" className="nav-link" activeClassName="active-link">
             Home
-          </NavLink>
-          <NavLink to="/map" className="nav-link" activeClassName="active-link">
+          </NavLink> */}
+          {/* <NavLink to="/map" className="nav-link" activeClassName="active-link">
             Map
+          </NavLink> */}
+          <NavLink
+            to="/contact"
+            className="nav-link"
+            activeClassName="active-link"
+          >
+            Guide
           </NavLink>
           <NavLink
             to="/schedule"
@@ -29,13 +36,6 @@ function Navbar({name}) {
             activeClassName="active-link"
           >
             Schedule
-          </NavLink>
-          <NavLink
-            to="/contact"
-            className="nav-link"
-            activeClassName="active-link"
-          >
-            Contact
           </NavLink>
         </div>
       </div>
