@@ -1,0 +1,15 @@
+.landing-main {
+  background-image: url(./landing.png);
+  background-position: center;
+  background-size: cover;
+  height: 850px;
+  align-items: center;
+  justify-content: center;
+}
+
+.main-div {
+    height: 700px;
+    background-color: white;
+    width: 1000px;
+    margin: 0 auto;
+}

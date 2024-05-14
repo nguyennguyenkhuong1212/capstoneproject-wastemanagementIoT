@@ -1,6 +1,6 @@
 import React from 'react';
 import Card from '../Components/Card';
-import './MapPage.css';
+import './map.css';
 import pic from './holder.png';
 import Navbar from '../Components/Navbar';
 import Footer from '../Components/Footer';
