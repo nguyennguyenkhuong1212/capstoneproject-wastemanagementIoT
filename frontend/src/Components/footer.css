@@ -1,10 +1,14 @@
 /* Footer styles */
 .footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
     display: flex;
     justify-content: space-between;
     padding: 0.5rem;
     background-color: #f2f2f2;
-    margin-top: 3rem;
+    text-align: center;
 }
 
 .footer-column {
