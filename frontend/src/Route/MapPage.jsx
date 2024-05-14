@@ -8,13 +8,12 @@ import Schedule from './Schedule';
 import "leaflet/dist/leaflet.css"
 import { MapContainer, TileLayer, Marker, Popup, useMap} from "react-leaflet"
 
-const APIkey = "5f704fb8aaca4ffca303820700c9781f"
 const ZOOM_LEVEL = 13
 
 function MapPage() {
     const map = useRef();
     // get user location
-    const [location, setLocation] = useState({ lat: 10.7226964, lng: 33.7055181 });
+    const [location, setLocation] = useState({ lat: 10.7226964, lng: 106.7055181 });
 
     const options = {
         enableHighAccuracy: true,
