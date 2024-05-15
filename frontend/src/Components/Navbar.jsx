@@ -14,25 +14,18 @@ function Navbar({ name }) {
         {/* Navigation links */}
         <div className="nav-links">
           <NavLink
-            to="/landing"
+            to="/"
             className="nav-link"
             activeClassName="active-link"
           >
             Home
           </NavLink>
           <NavLink
-            to="/landing"
-            className="nav-link"
-            activeClassName="active-link"
-          >
-            Map
-          </NavLink>
-          <NavLink
             to="/map"
             className="nav-link"
             activeClassName="active-link"
           >
-            Guide
+            Map
           </NavLink>
           <NavLink
             to="/schedule"
