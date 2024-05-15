@@ -13,14 +13,22 @@ function Navbar({ name }) {
         </div>
         {/* Navigation links */}
         <div className="nav-links">
-          {/* <NavLink to="/" className="nav-link" activeClassName="active-link">
-            Home
-          </NavLink> */}
-          {/* <NavLink to="/map" className="nav-link" activeClassName="active-link">
-            Map
-          </NavLink> */}
           <NavLink
-            to="/contact"
+            to="/landing"
+            className="nav-link"
+            activeClassName="active-link"
+          >
+            Home
+          </NavLink>
+          <NavLink
+            to="/landing"
+            className="nav-link"
+            activeClassName="active-link"
+          >
+            Map
+          </NavLink>
+          <NavLink
+            to="/map"
             className="nav-link"
             activeClassName="active-link"
           >

@@ -1,16 +1,13 @@
 /* Footer styles */
 .footer {
-
-    display: flex;
-    justify-content: space-between;
-    padding: 0.5rem;
-    background-color: #f2f2f2;
-  
+    background-color: #458e60;
+    color: white;
+    padding-top: 2rem;
+    border-top-left-radius: 125px;
 }
 
 .footer-column {
     flex: 1;
-    margin: 0 20px;
 }
 
 .footer-column h3 {
@@ -47,5 +44,12 @@
 }
 
 .footer-column h3 {
-    color: #45a049;
+    color: white;
+    font-weight: bold;
+}
+
+.footer_content{
+    margin-left: 8rem;
+    display: flex;
+    justify-content: space-between;
 }

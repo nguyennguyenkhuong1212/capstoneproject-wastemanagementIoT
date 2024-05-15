@@ -6,10 +6,12 @@ import Card from "./Components/Card";
 import MapPage from "./Route/MapPage";
 import Schedule from "./Route/Schedule";
 import LandingPage from "./Route/LandingPage";
+import Footer from "./Components/Footer";
 
 function App() {
   return (
-    <div>
+    <div className="App">
+      <div className="content">
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<MapPage />} />
@@ -17,6 +19,10 @@ function App() {
           <Route path="landing" element={<LandingPage />} />
         </Routes>
       </BrowserRouter>
+      </div>
+        <div className="Footer">
+          <Footer />
+        </div>
     </div>
   );
 }
