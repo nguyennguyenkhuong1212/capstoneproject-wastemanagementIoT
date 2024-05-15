@@ -52,10 +52,6 @@ function Schedule() {
           </tbody>
         </table>
       </div>
-      {/* Footer Section */}
-      <div className="footer">
-        <Footer />
-      </div>
     </div>
   );
 }

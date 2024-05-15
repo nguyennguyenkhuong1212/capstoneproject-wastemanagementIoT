@@ -9,28 +9,28 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px 30px;
   width: 100%;
-   background-color: #458e60;
 }
 
 .logo h4 {
-  color: white;
+  color: #458e60;
   margin: 0;
+  font-weight: bolder;
+  font-size: 40px;
 }
 
 .nav-links {
   display: flex;
-  gap: 40px; /* Adjust the gap between links */
-  flex-direction: row-reverse;
+  gap: 35px; /* Adjust the gap between links */
 }
 
 /* Navigation links */
 .nav-link {
-  color: white;
+  color: #458e60;
   text-decoration: none;
-  padding: 5px 10px; /* Add some padding to the links */
-  font-size: 20px;
+  padding: 5px 10px; 
+  font-size: 25px;
+  font-weight: 400;
 }
 
 .link-logo:hover {
@@ -39,13 +39,14 @@ text-decoration: none;
 
 /* Hover effect on links */
 .nav-link:hover {
-  background-color: #555; /* Background color change on hover */
+  background-color: #458e60;; /* Background color change on hover */
   border-radius: 5px;
+  color: white;
 }
 
 /* Active link styling */
 .active-link {
-  background-color: #111; /* Active link background color */
+  color: white;
   border-radius: 5px;
 }
 

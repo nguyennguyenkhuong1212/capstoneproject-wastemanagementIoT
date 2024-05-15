@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import Card from '../Components/Card';
 import './map.css';
-import pic from './holder.png';
 import Navbar from '../Components/Navbar';
 import Footer from '../Components/Footer';
 import Schedule from './Schedule';
@@ -144,11 +143,6 @@ function MapPage() {
                     </div>
                 </div>
 
-            </div>
-
-            {/* Footer Section */}
-            <div className="footer">
-                <Footer />
             </div>
         </div>
     );

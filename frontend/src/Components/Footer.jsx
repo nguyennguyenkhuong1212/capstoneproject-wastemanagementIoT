@@ -16,6 +16,7 @@ function Footer() {
 
     return (
         <footer className="footer">
+            <div className="footer_content">
             <div className="footer-column">
                 <h3>Waste Management IOT</h3>
                 <p>Our product is a smart sensor that detects the amount of trash within the bin and provides the shortest path for the trash truck to collect the full bin.</p>
@@ -40,6 +41,7 @@ function Footer() {
                     />
                     <button onClick={handleSubscribe} className="subscribe-button">Subscribe</button>
                 </div>
+            </div>
             </div>
         </footer>
     );
