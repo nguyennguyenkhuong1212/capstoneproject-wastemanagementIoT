@@ -1,7 +1,7 @@
 import React from "react";
 import Navbar from "../Components/Navbar";
 import Footer from "../Components/Footer";
-import BannerBackground from "../Assets/BannerBackground.jpg";
+import BannerBackground from "../Assets/Image.jpeg";
 import BannerImage from "../Assets/BannerImage.png";
 import "./landing.css";
 import { FiArrowRight } from "react-icons/fi";
@@ -17,14 +17,17 @@ function LandingPage() {
           </div>
           <div className="home-text-section">
             <h1 className="primary-heading">
-              Your Favourite Food Delivered Hot & Fresh
+              Optimize Waste Collection, Reduce Costs
             </h1>
             <p className="primary-text">
-              Healthy switcher chefs do all the prep work, like peeding, chopping
-              & marinating, so you can cook a fresh food.
+              Are overflowing bins and inefficient collection routes a problem?
+              Our IoT-powered waste management solutions provide real-time data
+              to optimize collection schedules and resource allocation. Reduce
+              costs, improve efficiency, and create a cleaner, more sustainable
+              environment.
             </p>
             <button className="secondary-button">
-              Order Now <FiArrowRight />{" "}
+              Get Started <FiArrowRight />{" "}
             </button>
           </div>
           <div className="home-image-section">

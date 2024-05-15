@@ -14,9 +14,9 @@ function App() {
       <div className="content">
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<MapPage />} />
+          <Route path="map" element={<MapPage />} />
           <Route path="schedule" element={<Schedule />} />
-          <Route path="landing" element={<LandingPage />} />
+          <Route path="/" element={<LandingPage />} />
         </Routes>
       </BrowserRouter>
       </div>
