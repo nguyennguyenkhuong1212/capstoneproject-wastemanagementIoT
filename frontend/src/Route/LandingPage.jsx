@@ -1,7 +1,7 @@
 import React from "react";
 import Navbar from "../Components/Navbar";
 import Footer from "../Components/Footer";
-import BannerBackground from "../Assets/Image.jpeg";
+import BannerBackground from "../Assets/Image.png";
 import BannerImage from "../Assets/BannerImage.png";
 import "./landing.css";
 import { FiArrowRight } from "react-icons/fi";
