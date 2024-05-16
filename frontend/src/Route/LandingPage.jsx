@@ -20,11 +20,9 @@ function LandingPage() {
               Optimize Waste Collection, Reduce Costs
             </h1>
             <p className="primary-text">
-              Are overflowing bins and inefficient collection routes a problem?
-              Our IoT-powered waste management solutions provide real-time data
-              to optimize collection schedules and resource allocation. Reduce
-              costs, improve efficiency, and create a cleaner, more sustainable
-              environment.
+              Revolutionizing waste management with the power of IoT. Discover
+              how our innovative solution uses sensors and data to optimize
+              waste collection and create a cleaner future.
             </p>
             <button className="secondary-button">
               Get Started <FiArrowRight />{" "}
