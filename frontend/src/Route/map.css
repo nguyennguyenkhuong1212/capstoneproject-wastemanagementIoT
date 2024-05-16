@@ -1,8 +1,8 @@
 .main {
-  display: flex;
-  align-items: center; /* Center child elements vertically */
-  justify-content: center; /* Center child elements horizontally */
-  flex-direction: column;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
 }
 
 .section {
@@ -10,38 +10,106 @@
 }
 
 .container {
-  display: grid;
-  width: 100%;
-  padding: 0;
-  grid-template-columns: repeat(auto-fit, minmax(370px, 1fr));
-  align-items: center; /* Center child elements vertically */
-  justify-content: center; /* Center child elements horizontally */
+    display: grid;
+    width: 100%;
+    padding: 0;
+    grid-template-columns: repeat(auto-fit, minmax(370px, 1fr));
+    align-items: center;
+    justify-content: center;
 }
 
 .column {
-  display: grid;
-  flex: 1;
-  margin: 0;
-  /* align-items: center; 
-  justify-content: center;  */
+    display: grid;
+    flex: 1;
+    margin: 0;
 }
 
 .img {
-  max-width: 1100px;
+    max-width: 1100px;
 }
 
 .title {
-  font-size: 20px;
-  font-weight: bold;
-  margin-bottom: 7px;
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 7px;
 }
 
 .map {
-  height: 450px;
-  width: 1200px;
+    height: 450px;
+    width: 1200px;
 }
 
 .leaflet-container {
-  height: 450px;
-  width: 1200px;
+    height: 450px;
+    width: 1200px;
+}
+
+.add-bin-card {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f0f0f0;
+    border: 2px dashed #ccc;
+    cursor: pointer;
+    max-width: 344px;
+    height: 133px;
+    margin: 13px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.plus-icon {
+    font-size: 50px;
+    color: #ccc;
+}
+
+.popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.popup-content {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.popup-content form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.popup-content label {
+    display: flex;
+    flex-direction: column;
+    font-weight: bold;
+}
+
+.popup-content input {
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.popup-content button {
+    padding: 10px;
+    border: none;
+    background: #007BFF;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.popup-content button:hover {
+    background: #0056b3;
 }
