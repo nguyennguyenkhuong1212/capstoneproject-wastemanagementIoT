@@ -1,49 +1,47 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
 
 .split-box {
-  font-family: "Roboto", sans-serif;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  max-width: 370px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-  margin: 13px ;
-  box-sizing: border-box;
+    font-family: "Roboto", sans-serif;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    margin: 13px;
 }
 
 .split-box h5 {
-  font-weight: 700;
-  margin: 0 0 10px;
+    font-weight: 700;
+    margin: 0 0 10px;
 }
 
 .address {
-  margin: 0 0 10px!important;
+    margin: 0 0 10px !important;
 }
 
 .split-box p {
-  margin: 6px 0;
-  font-size: small;
-  font-weight: 400;
+    margin: 6px 0;
+    font-size: small;
+    font-weight: 400;
 }
 
 .split-box > div:first-child {
-  flex: 1;
-  margin: 12px;
+    flex: 1;
+    margin: 12px;
 }
 
 .split-box > div:last-child {
-  background-color: #F3F4F6;
-  flex: 1;
-  margin-bottom: 0;
-  border-radius: 0 0 8px 8px;
-  padding: 4px 12px 4px;
+    background-color: #F3F4F6;
+    flex: 1;
+    margin-bottom: 0;
+    border-radius: 0 0 8px 8px;
+    padding: 4px 12px 4px;
 }
 
 .bar {
-  margin-top: 4px;
+    margin-top: 4px;
 }
 
-.bottom-bar{
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+.bottom-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }

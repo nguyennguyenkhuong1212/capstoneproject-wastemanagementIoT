@@ -1,12 +1,11 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./App.css";
-import Navbar from "./Components/Navbar";
-import Card from "./Components/Card";
 import MapPage from "./Route/MapPage";
 import Schedule from "./Route/Schedule";
 import LandingPage from "./Route/LandingPage";
 import Footer from "./Components/Footer";
+import BannerBackground from "../src/Assets/Image.png";
 
 function App() {
   return (
