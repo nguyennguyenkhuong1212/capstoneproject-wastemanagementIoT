@@ -2,11 +2,13 @@ const { BinModel } = require("../../models");
 const ResponseService = require("../response/response.service");
 const Error = require("../../config/constant/Error");
 
-const createBin = async (name, address, fullness) => {
+const createBin = async (name, address, fullness, lat, lng) => {
     const binToBeCreated = new BinModel({
         name,
         address,
-        fullness
+        fullness,
+        lat,
+        lng
       });
     
     const result = await binToBeCreated.save();
