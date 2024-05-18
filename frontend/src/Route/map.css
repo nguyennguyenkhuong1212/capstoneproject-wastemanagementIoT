@@ -42,6 +42,32 @@
 .leaflet-container {
     height: 450px;
     width: 1200px;
+    z-index: 0;
+}
+
+.ready-to-collect-bin {
+    color: red;
+}
+
+.regular-bin {
+    color: #28a745;
+}
+
+.popup-title {
+    font-weight: bold;
+    text-align: center;
+}
+
+.popup-description {
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.leaflet-popup {
+    bottom: 30px !important;
+    margin-left: 4px;
 }
 
 .add-bin-card {

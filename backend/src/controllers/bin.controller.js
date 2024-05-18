@@ -9,7 +9,7 @@ const getAllBins = catchAsync(async (req, res) => {
 });
 
 const createBin = catchAsync(async (req, res) => {
-  const { name, address, fullness } = req.body;  
+  const { name, address, fullness, lat, lng } = req.body;  
   const bin = await BinService.getBinByName(name);
   if (bin) {
     res.body = {
@@ -27,7 +27,7 @@ const createBin = catchAsync(async (req, res) => {
       Error.BinAlreadyExists.errMessage
     );
   }
-  const result = await BinService.createBin(name, address, fullness);
+  const result = await BinService.createBin(name, address, fullness, lat, lng);
   res.status(200).json(ResponseService.newSucess(result));
 });
 

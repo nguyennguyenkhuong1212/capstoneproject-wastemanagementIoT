@@ -19,6 +19,7 @@ const { ResponseService } = require("./services");
 const Error = require("./config/constant/Error");
 const { globalErrorHandler } = require("./middlewares");
 
+app.use(cors());
 app.use(helmet());
 
 app.use(bodyParser.json());
