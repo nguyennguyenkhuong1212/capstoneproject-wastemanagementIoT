@@ -14,7 +14,11 @@
 }
 
 .address {
+    max-width: 95%;
     margin: 0 0 10px !important;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .split-box p {

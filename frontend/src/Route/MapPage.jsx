@@ -6,14 +6,19 @@ import Footer from '../Components/Footer';
 import Schedule from './Schedule';
 import "leaflet/dist/leaflet.css"
 import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
+import { Icon, DivIcon } from 'leaflet';
+import axios from 'axios';
 
-const ZOOM_LEVEL = 13;
+const ZOOM_LEVEL = 13; 
 
 function MapPage() {
     const map = useRef();
-    const [location, setLocation] = useState({ lat: 10.7226964, lng: 106.7055181 });
+    const [location, setLocation] = useState({ lat: 10.792838340026323, lng: 106.69810333702068 });
     const [showPopup, setShowPopup] = useState(false);
-    const [newBin, setNewBin] = useState({ name: '', address: '', trashPercentage: '' });
+    const [newBin, setNewBin] = useState({ name: '', address: '', trashPercentage: '', lat: '', lng: ''});
+    const [bins, setBins] = useState([]);
+    const [readyToCollectBins, setReadyToCollectBins] = useState([]);
+    const [regularBins, setRegularBins] = useState([]);
 
     const options = {
         enableHighAccuracy: true,
@@ -21,9 +26,27 @@ function MapPage() {
         maximumAge: 0,
     };
 
+    const customIcon = new Icon({
+        iconUrl: "https://cdn-icons-png.flaticon.com/512/447/447031.png",
+        iconSize: [38, 38] // size of the icon
+    });
+
+    const createDivIcon = (fullness) => {
+        const className = fullness >= 80 ? 'ready-to-collect-bin' : 'regular-bin';
+        return new DivIcon({
+          className,
+          html: `<div className="bin-icon ${className}">
+            <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" class="bi bi-geo-alt-fill" viewBox="0 0 16 16">
+                <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10m0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6"/>
+            </svg>
+        </div>`,
+          iconSize: [30, 42], // Adjust the size as needed
+          iconAnchor: [15, 42]
+        });
+      };
+
     const success = (pos) => {
         const crd = { lat: pos.coords.latitude, lng: pos.coords.longitude };
-        console.log(crd);
         setLocation(crd);
     };
     
@@ -50,6 +73,33 @@ function MapPage() {
         }
     }, []);
 
+    useEffect(() => {
+        // Function to fetch bins from the backend
+        const fetchBins = async () => {
+          try {
+            const response = await axios.get('http://localhost:8080/api/bin/getAllBins');
+            if (response.data && response.data.data && response.data.data.bins) {
+              setBins(response.data.data.bins);
+            }
+          } catch (error) {
+            console.error('Error fetching bins:', error);
+          }
+        };
+    
+        fetchBins();
+      }, []);
+
+    useEffect(() => {
+        const updateBinCategories = () => {
+            const readyToCollect = bins.filter(bin => bin.fullness >= 80);
+            const regular = bins.filter(bin => bin.fullness < 80);
+            setReadyToCollectBins(readyToCollect);
+            setRegularBins(regular);
+        };
+      
+        updateBinCategories();
+    }, [bins])
+
     const FlyToLocation = ({ location, zoom }) => {
         const map = useMap();
     
@@ -61,32 +111,6 @@ function MapPage() {
     
         return null;
     };
-
-    const binsData = [
-        {
-            name: 'Tu Du Hospital',
-            address: '248 Cong Quynh St., Pham Ngu Lao Ward, District 1',
-            trashPercentage: 80
-        },
-        {
-            name: 'Hospital A',
-            address: '789 Street, Ward 5, District 3',
-            trashPercentage: 85
-        },
-        {
-            name: 'Market B',
-            address: '456 Road, Ward 4, District 5',
-            trashPercentage: 30
-        },
-        {
-            name: 'Building C',
-            address: '123 Avenue, Ward 1, District 10',
-            trashPercentage: 45
-        }
-    ];
-
-    const readyToCollectBins = binsData.filter(bin => bin.trashPercentage >= 80);
-    const regularBins = binsData.filter(bin => bin.trashPercentage < 80);
 
     const handleAddBinClick = () => {
         setShowPopup(true);
@@ -101,11 +125,19 @@ function MapPage() {
         setNewBin({ ...newBin, [name]: value });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log('New Bin:', newBin);
-        // Add logic to save the new bin information
-        handlePopupClose();
+        try {
+          const response = await axios.post('http://localhost:8080/api/bin/createBin', newBin);
+          if (response.data && response.data.statusCode === 200) {
+            alert('Bin created successfully!');
+            handlePopupClose();
+            window.location.reload()
+          }
+        } catch (error) {
+          console.error('Error creating bin:', error);
+          alert('Failed to create bin. Please try again.');
+        }
     };
 
     return (
@@ -122,6 +154,16 @@ function MapPage() {
                                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                                 />
                                 <FlyToLocation location={location} zoom={ZOOM_LEVEL} />
+                                {
+                                    bins.map((bin, index) => (
+                                        <Marker key={index} position={[bin.lat, bin.lng]} icon={createDivIcon(bin.fullness)}>
+                                            <Popup>
+                                                <div className='popup-title'>{bin.name}</div>
+                                                <div className='popup-description'>{bin.address}</div>
+                                            </Popup>
+                                        </Marker>
+                                    ))
+                                }
                             </MapContainer>
                         </div>
                     </div>
@@ -135,7 +177,7 @@ function MapPage() {
                                 <Card
                                     name={bin.name}
                                     address={bin.address}
-                                    trashPercentage={bin.trashPercentage}
+                                    trashPercentage={bin.fullness}
                                 />
                             </div>
                         ))}
@@ -150,7 +192,7 @@ function MapPage() {
                                 <Card
                                     name={bin.name}
                                     address={bin.address}
-                                    trashPercentage={bin.trashPercentage}
+                                    trashPercentage={bin.fullness}
                                 />
                             </div>
                         ))}
@@ -174,7 +216,15 @@ function MapPage() {
                                     </label>
                                     <label>
                                         Trash Percentage:
-                                        <input type="number" name="trashPercentage" value={newBin.trashPercentage} onChange={handleInputChange} required />
+                                        <input type="number" name="fullness" value={newBin.fullness} onChange={handleInputChange} required />
+                                    </label>
+                                    <label>
+                                        Lattitude:
+                                        <input type="number" name="lat" value={newBin.lat} onChange={handleInputChange} required />
+                                    </label>
+                                    <label>
+                                        Longitude:
+                                        <input type="number" name="lng" value={newBin.lng} onChange={handleInputChange} required />
                                     </label>
                                     <button type="submit">Finish</button>
                                 </form>

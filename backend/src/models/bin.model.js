@@ -14,6 +14,14 @@ const binSchema = new mongoose.Schema(
     fullness: {
         type: Number,
         default: 0
+    },
+    lat: {
+      type: Number,
+      default: 0
+    },
+    lng: {
+      type: Number,
+      default: 0
     }
   }
 );
