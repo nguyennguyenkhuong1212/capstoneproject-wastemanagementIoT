@@ -34,6 +34,13 @@ function Navbar({ name }) {
           >
             Schedule
           </NavLink>
+          <NavLink
+            to="/"
+            className="nav-link"
+            activeClassName="active-link"
+          >
+            Guide
+          </NavLink>
         </div>
       </div>
     </nav>
