@@ -35,7 +35,7 @@ function Navbar({ name }) {
             Schedule
           </NavLink>
           <NavLink
-            to="/"
+            to="/guide"
             className="nav-link"
             activeClassName="active-link"
           >
