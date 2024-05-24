@@ -5,6 +5,7 @@ import MapPage from "./Route/MapPage";
 import Schedule from "./Route/Schedule";
 import LandingPage from "./Route/LandingPage";
 import Footer from "./Components/Footer";
+import Guide from "./Route/Guide";
 import BannerBackground from "../src/Assets/Image.png";
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
           <Route path="map" element={<MapPage />} />
           <Route path="schedule" element={<Schedule />} />
           <Route path="/" element={<LandingPage />} />
+          <Route path="guide" element={<Guide />} />
         </Routes>
       </BrowserRouter>
       </div>
