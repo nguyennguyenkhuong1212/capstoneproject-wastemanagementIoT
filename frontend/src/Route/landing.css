@@ -55,6 +55,7 @@ nav {
   position: relative;
   display: flex;
   padding-top: 3rem;
+  height: 100vh;
 }
 .home-bannerImage-container img{
   width: 100%;
@@ -376,7 +377,6 @@ nav {
   }
 
   .home-banner-container
-
   {
     flex-direction: column-reverse;
     align-items: center;
@@ -404,3 +404,9 @@ nav {
   }
 
 }
+.teaminfo_section{
+  margin-top: 3rem;
+  height: 100vh;
+
+}
+
