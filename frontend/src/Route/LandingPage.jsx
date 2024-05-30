@@ -1,11 +1,10 @@
 import React from "react";
 import Navbar from "../Components/Navbar";
-import Footer from "../Components/Footer";
 import BannerBackground from "../Assets/Image.png";
 import BannerImage from "../Assets/BannerImage.png";
 import "./landing.css";
 import { FiArrowRight } from "react-icons/fi";
-
+import Teaminfo from "./TeamInfo";
 function LandingPage() {
   return (
     <div>
@@ -32,6 +31,9 @@ function LandingPage() {
             <img src={BannerImage} alt="" />
           </div>
         </div>
+      </div>
+      <div className="teaminfo_section">
+        <Teaminfo/>
       </div>
     </div>
   );
