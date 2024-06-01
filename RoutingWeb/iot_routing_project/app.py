@@ -13,7 +13,7 @@ def get_distance_matrix(api_key, locations):
     }
     body = {
         'locations': locations,
-        'metrics': ['distance'],  # Requesting distance metric only
+        'metrics': ['duration'],  # Requesting distance metric only
         'units': 'm'  # Distance in meters
     }
     response = requests.post(url, json=body, headers=headers)
@@ -25,8 +25,8 @@ def distances():
     locations = data['locations']
     distance_matrix_response = get_distance_matrix(API_KEY, locations)
     # Extract only the distances from the response
-    distances = distance_matrix_response.get('distances', [])
-    return jsonify({'distances': distances})
+    distances = distance_matrix_response.get('durations', [])
+    return jsonify({'durations': distances})
 
 if __name__ == '__main__':
     app.run(debug=True)
