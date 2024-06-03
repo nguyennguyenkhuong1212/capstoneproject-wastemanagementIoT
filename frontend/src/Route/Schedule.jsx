@@ -1,11 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import "./schedule.css";
 import Navbar from "../Components/Navbar";
-import Footer from "../Components/Footer";
 
 function Schedule() {
-  // Example schedule data for the pickup trucks
-  const scheduleData = [
+  const [scheduleData, setScheduleData] = useState([
     {
       truckNumber: 1,
       available: true,
@@ -24,11 +22,30 @@ function Schedule() {
       schedule: "1:00 PM - 3:00 PM",
       pickupPoint: "789 Oak St",
     },
-    // Add more data as needed
-  ];
+  ]);
+
+  const [modalOpen, setModalOpen] = useState(false);
+  const [newTruck, setNewTruck] = useState({
+    truckNumber: "",
+    available: true,
+    schedule: "",
+    pickupPoint: "",
+  });
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setNewTruck((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setScheduleData((prev) => [...prev, newTruck]);
+    setModalOpen(false);
+    setNewTruck({ truckNumber: "", available: true, schedule: "", pickupPoint: "" });
+  };
 
   return (
-    <div className="main-cointainer">
+    <div className="main-container">
       <Navbar name="Pickup Truck Schedule" />
       <div className="schedule-container">
         <table className="schedule-table">
@@ -37,21 +54,79 @@ function Schedule() {
               <th>Truck Number</th>
               <th>Available</th>
               <th>Schedule</th>
-              <th>Pickup Point</th> {/* New column for pickup point */}
+              <th>Pickup Point</th>
             </tr>
           </thead>
           <tbody>
-            {scheduleData.map((item) => (
-              <tr key={item.truckNumber}>
+            {scheduleData.map((item, index) => (
+              <tr key={index}>
                 <td>{item.truckNumber}</td>
                 <td>{item.available ? "Yes" : "No"}</td>
                 <td>{item.schedule}</td>
-                <td>{item.pickupPoint}</td> {/* New cell for pickup point */}
+                <td>{item.pickupPoint}</td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
+      <button className="add-button" onClick={() => setModalOpen(true)}>+</button>
+      {modalOpen && (
+        <div className="modal" style={{ display: 'block' }}>
+          <div className="modal-content">
+            <span className="close" onClick={() => setModalOpen(false)}>&times;</span>
+            <h2>Add New Schedule</h2>
+            <form onSubmit={handleSubmit}>
+              <label>
+                Truck Number:
+                <input
+                  type="number"
+                  name="truckNumber"
+                  value={newTruck.truckNumber}
+                  onChange={handleInputChange}
+                  required
+                />
+              </label>
+              <br />
+              <label>
+                Available:
+                <select
+                  name="available"
+                  value={newTruck.available}
+                  onChange={handleInputChange}
+                  required
+                >
+                  <option value={true}>Yes</option>
+                  <option value={false}>No</option>
+                </select>
+              </label>
+              <br />
+              <label>
+                Schedule:
+                <input
+                  type="text"
+                  name="schedule"
+                  value={newTruck.schedule}
+                  onChange={handleInputChange}
+                  required
+                />
+              </label>
+              <br />
+              <label>
+                Pickup Point:
+                <input
+                  type="text"
+                  name="pickupPoint"
+                  value={newTruck.pickupPoint}
+                  onChange={handleInputChange}
+                  required
+                />
+              </label>
+              <br />
+              <button type="submit">Add Schedule</button>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
