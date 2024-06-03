@@ -125,7 +125,7 @@ function Teaminfo() {
             </Modal.Header>
             <Modal.Body className="modal_body">
               <h5>Team name</h5>
-              <p>R.I.S.E (RMIT Innovative and Strategic Entrepreneurs)</p>
+              <p>TechTitans</p>
               <h5>Team introduction</h5>
               <p>
                 We are team TechTitans. Our team consists of 4 people who are To
