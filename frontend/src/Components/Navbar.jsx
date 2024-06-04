@@ -8,7 +8,7 @@ function Navbar({ name }) {
       <div className="second">
         <div className="logo">
           <NavLink to="/" className="link-logo">
-            <h4>Waste Management IOT </h4>
+            <h4>WASTE MANAGEMENT IOT</h4>
           </NavLink>
         </div>
         {/* Navigation links */}
@@ -18,28 +18,28 @@ function Navbar({ name }) {
             className="nav-link"
             activeClassName="active-link"
           >
-            Home
+            HOME
           </NavLink>
           <NavLink
             to="/map"
             className="nav-link"
             activeClassName="active-link"
           >
-            Map
+            MAP
           </NavLink>
           <NavLink
             to="/schedule"
             className="nav-link"
             activeClassName="active-link"
           >
-            Schedule
+            SCHEDULE
           </NavLink>
           <NavLink
             to="/guide"
             className="nav-link"
             activeClassName="active-link"
           >
-            Guide
+            GUIDE
           </NavLink>
         </div>
       </div>

@@ -71,7 +71,7 @@ function Schedule() {
       </div>
       <button className="add-button" onClick={() => setModalOpen(true)}>+</button>
       {modalOpen && (
-        <div className="modal" style={{ display: 'block' }}>
+        <div className="modal">
           <div className="modal-content">
             <span className="close" onClick={() => setModalOpen(false)}>&times;</span>
             <h2>Add New Schedule</h2>

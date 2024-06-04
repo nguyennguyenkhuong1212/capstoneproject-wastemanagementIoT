@@ -7,13 +7,13 @@ import { FiArrowRight } from "react-icons/fi";
 import Teaminfo from "./TeamInfo";
 function LandingPage() {
   return (
-    <div>
+    <>
+      <Navbar />
       <div className="home-container">
-        <Navbar />
         <div className="home-banner-container">
-          <div className="home-bannerImage-container">
-            <img src={BannerBackground} alt="" />
-          </div>
+          {/* <div className="home-bannerImage-container">
+            <img src={BannerBackground} alt="" style={{transform: "translateX(40px)"}}/>
+          </div> */}
           <div className="home-text-section">
             <h1 className="primary-heading">
               Optimize Waste Collection, Reduce Costs
@@ -35,7 +35,7 @@ function LandingPage() {
       <div className="teaminfo_section">
         <Teaminfo/>
       </div>
-    </div>
+    </>
   );
 }
 
