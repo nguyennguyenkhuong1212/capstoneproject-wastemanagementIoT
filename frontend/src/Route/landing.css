@@ -411,7 +411,7 @@ ul {
   list-style-type: none;
 }
 
-p, ul li {
+.modal_body p, ul li {
   text-align: justify;
 }
 

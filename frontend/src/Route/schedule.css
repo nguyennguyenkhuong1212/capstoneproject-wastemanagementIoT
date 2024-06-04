@@ -129,3 +129,64 @@
     justify-content: center;
     margin-bottom: 2rem;
 }
+
+.truckSelect{
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+}
+
+.truckSelect .truckSelectText{
+    font-family: "Open Sans", sans-serif;
+    font-size: 18px;
+}
+
+.truckSelect select {
+    width: 20%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.05);
+  }
+  
+  .truckSelect select:focus {
+    border-color: #aaa;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  }
+  
+  .truckSelect select option {
+    padding: 10px;
+    font-size: 16px;
+    border-bottom: 1px solid #ccc;
+  }
+  
+  .truckSelect select option:hover {
+    background-color: #f0f0f0;
+    cursor: pointer;
+  }
+  
+  .truckSelect select option:selected {
+    background-color: #ccc;
+    color: #333;
+  }
+
+  .schedule-table td input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    margin: auto;
+    padding: 0;
+    vertical-align: middle;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    background-color: #fff;
+    cursor: pointer;
+    accent-color: #45a049;
+  }
+  
+  .schedule-table td input[type="checkbox"]:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+  }
