@@ -8,20 +8,19 @@
 }
 .rise__teaminfo_header{
     justify-content: center;
-    font-family:'Roboto', sans-serif; 
+    font-family:'Open Sans', sans-serif; 
     font-size: 20px;
-    font-weight: 500;
-
-    
+    font-weight: 800;
+    color: #458e60;
 }
 
 .rise__teaminfo_header hr {
-    background: #FF5E46 ;
+    background: #458e60 ;
     margin-left: auto;
     margin-right: auto;
     margin-top: 0.5rem;
-    width:50%;
-    border: 5px solid #FF5E46;   
+    width: 50%;
+    border: 5px solid #458e60;   
 }
 
 .rise__teaminfo_paragraph{
@@ -82,18 +81,18 @@
 }
 
 .social_media a:hover{  
-    animation: upup 3s linear infinite;
+    animation: upup 2s ease-in-out infinite;
 }
 
 @keyframes upup{
     0%{
-        transform: translateY(-20px);
+        transform: translateY(0px);
     }
     50%{
-        transform: translateY(0);
+        transform: translateY(-12px);
     }
     100%{
-        transform: translateY(-20px);
+        transform: translateY(0px);
     }
 }
 

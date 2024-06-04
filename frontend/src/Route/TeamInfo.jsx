@@ -20,7 +20,7 @@ function Teaminfo() {
     <div id="TEAMPROFILE" className="section__padding">
       <div className="rise__teaminfo_section">
         <div className="rise__teaminfo_header">
-          <h1>TEAM PROFILE</h1>
+          <h1 style={{fontWeight: "800"}}>TEAM PROFILE</h1>
           <hr />
         </div>
       </div>
@@ -137,7 +137,7 @@ function Teaminfo() {
                 paths for the waste-collecting trucks.
               </p>
               <h5>Team Goal</h5>
-              <ul>
+              <ul style={{listStyleType: "none"}}>
                 <li>
                   Firstly, since RMIT University has an enormous campus in
                   Saigon South with many buildings together with the naming

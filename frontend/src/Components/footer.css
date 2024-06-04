@@ -3,6 +3,7 @@
     background-color: #458e60;
     color: white;
     padding-top: 2rem;
+    padding: 2rem 5rem 1rem;
     border-top-right-radius: 125px;
     border-top-left-radius: 125px;
 }
@@ -50,7 +51,7 @@
 }
 
 .footer_content{
-    margin-left: 8rem;
-    display: flex;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    column-gap: 5rem;
 }

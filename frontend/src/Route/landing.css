@@ -2,10 +2,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: "Reem Kufi", sans-serif !important;
-}
-
-
+ }
 
 nav {
   display: flex;
@@ -54,8 +51,8 @@ nav {
 .home-banner-container {
   position: relative;
   display: flex;
-  padding-top: 3rem;
-  height: 100vh;
+  padding-top: 2.6rem;
+  height: 670px;
 }
 .home-bannerImage-container img{
   width: 100%;
@@ -68,27 +65,26 @@ nav {
 }
 .home-bannerImage-container {
   position: absolute;
-  top: -100px;
-  right: -170px;
+  top: -110px;
+  right: -190px;
   z-index: -2;
   max-width: 100%;
 }
 
-.home-image-section {
-  max-width: 600px;
-  flex: 1;
-  margin-right: 10rem;
+.home-image-section img{
+  transform: translateX(25px);
 }
 
 .home-text-section {
   flex: 1;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: flex-start;
+  transform: translateY(20px);
 }
 
 .primary-heading {
+  font-weight: 700;
   font-size: clamp(2rem, 5vw, 4rem);
   color: #4c4c4c;
   max-width: 600px;
@@ -96,7 +92,9 @@ nav {
 
 .primary-text {
   font-size: clamp(1rem, 3vw, 1.5rem);
-  max-width: 500px;
+  text-align: justify;
+  line-height: 35px;
+  max-width: 470px;
   color: #6a6a6a;
   margin: 1.5rem 0rem;
 }
@@ -406,7 +404,14 @@ nav {
 }
 .teaminfo_section{
   margin-top: 3rem;
-  height: 100vh;
+  height: max-content;
+}
 
+ul {
+  list-style-type: none;
+}
+
+.modal_body p, ul li {
+  text-align: justify;
 }
 

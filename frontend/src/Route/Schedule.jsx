@@ -1,27 +1,62 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import "./schedule.css";
 import Navbar from "../Components/Navbar";
 
 function Schedule() {
+  const [currentTruck, setCurrentTruck] = useState(1)
   const [scheduleData, setScheduleData] = useState([
     {
       truckNumber: 1,
+      plate: "51D-19012",
       available: true,
-      schedule: "8:00 AM - 10:00 AM",
+      schedule: [
+        {
+          hospitalName: "Hospital 1",
+          address: "123 Main St",
+          latitude: 37.7749,
+          longitude: -122.4194
+        },
+        {
+          hospitalName: "Hospital 2",
+          address: "456 Elm St",
+          latitude: 37.7858,
+          longitude: -122.4364
+        },
+        {
+          hospitalName: "Hospital 3",
+          address: "789 Oak St",
+          latitude: 37.7963,
+          longitude: -122.4576
+        },
+        {
+          hospitalName: "Hospital 4",
+          address: "321 Cedar St",
+          latitude: 37.8069,
+          longitude: -122.4789
+        }
+      ],
       pickupPoint: "123 Main St",
     },
     {
       truckNumber: 2,
+      plate: "51C-01704",
       available: false,
-      schedule: "10:30 AM - 12:30 PM",
+      schedule: [
+        {
+          hospitalName: "Hospital 5",
+          address: "901 Maple St",
+          latitude: 37.8175,
+          longitude: -122.5002
+        },
+        {
+          hospitalName: "Hospital 6",
+          address: "111 Pine St",
+          latitude: 37.8281,
+          longitude: -122.5215
+        }
+      ],
       pickupPoint: "456 Elm St",
-    },
-    {
-      truckNumber: 3,
-      available: true,
-      schedule: "1:00 PM - 3:00 PM",
-      pickupPoint: "789 Oak St",
-    },
+    }
   ]);
 
   const [modalOpen, setModalOpen] = useState(false);
@@ -44,34 +79,53 @@ function Schedule() {
     setNewTruck({ truckNumber: "", available: true, schedule: "", pickupPoint: "" });
   };
 
+  const handleChangeSelectTruck = (e) => {
+    setCurrentTruck(e.target.value)
+  }
+
   return (
     <div className="main-container">
       <Navbar name="Pickup Truck Schedule" />
+      <div className="truckSelect">
+        <div className="truckSelectText">Select Truck: </div>
+        <select name="truck" onChange={handleChangeSelectTruck}>
+          {scheduleData.map((truck, index) => {
+            return (<option key={index} value={truck.truckNumber}>{truck.plate}</option>)
+          })}
+        </select>
+      </div>
+      
       <div className="schedule-container">
         <table className="schedule-table">
           <thead>
             <tr>
-              <th>Truck Number</th>
-              <th>Available</th>
-              <th>Schedule</th>
-              <th>Pickup Point</th>
+              <th>Location</th>
+              <th>Address</th>
+              <th style={{width: "100px"}}>Collected(?)</th>
             </tr>
           </thead>
           <tbody>
-            {scheduleData.map((item, index) => (
-              <tr key={index}>
-                <td>{item.truckNumber}</td>
-                <td>{item.available ? "Yes" : "No"}</td>
-                <td>{item.schedule}</td>
-                <td>{item.pickupPoint}</td>
-              </tr>
-            ))}
+            {
+              scheduleData.filter((truck) => Number(truck.truckNumber) === Number(currentTruck))[0]
+                ?.schedule
+                ?.map((location, index) => (
+                  <tr key={index}>
+                    <td>{location.hospitalName}</td>
+                    <td>{location.address}</td>
+                    <td style={{textAlign: "center", paddingBottom: "10px"}}><input type="checkbox" /></td>
+                  </tr>
+                )) || (
+                  <tr>
+                    <td colSpan={3}>No schedule found</td>
+                  </tr>
+                )
+            }
           </tbody>
         </table>
       </div>
       <button className="add-button" onClick={() => setModalOpen(true)}>+</button>
       {modalOpen && (
-        <div className="modal" style={{ display: 'block' }}>
+        <div className="modal">
           <div className="modal-content">
             <span className="close" onClick={() => setModalOpen(false)}>&times;</span>
             <h2>Add New Schedule</h2>
