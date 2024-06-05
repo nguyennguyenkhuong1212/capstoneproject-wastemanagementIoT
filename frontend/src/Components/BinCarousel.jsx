@@ -3,10 +3,10 @@ import "slick-carousel/slick/slick-theme.css";
 import React from "react";
 import Slider from "react-slick";
 import Card from "./Card";
+import "./carousel.css";
 
 const BinCarousel = ({ readyToCollectBins }) => {
-
-    console.log(readyToCollectBins)
+  console.log(readyToCollectBins);
   const settings = {
     dots: true,
     infinite: true,
