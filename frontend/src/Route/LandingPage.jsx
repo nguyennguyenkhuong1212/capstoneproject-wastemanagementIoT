@@ -11,9 +11,9 @@ function LandingPage() {
       <Navbar />
       <div className="home-container">
         <div className="home-banner-container">
-          {/* <div className="home-bannerImage-container">
+          <div className="home-bannerImage-container">
             <img src={BannerBackground} alt="" style={{transform: "translateX(40px)"}}/>
-          </div> */}
+          </div>
           <div className="home-text-section">
             <h1 className="primary-heading">
               Optimize Waste Collection, Reduce Costs

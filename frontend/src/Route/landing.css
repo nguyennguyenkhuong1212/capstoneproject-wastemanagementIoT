@@ -10,7 +10,16 @@ nav {
   justify-content: space-between;
   min-height: 90px;
 }
+.home-container{
+  height: 100vh;
+}
 
+.home-text-section{
+  margin-top: 8rem;
+}
+.home-image-section{
+  margin-top: 8rem
+}
 .navbar-menu-container {
   display: none;
 }
@@ -341,7 +350,9 @@ nav {
   align-items: center;
   font-weight: 600;
 }
-
+.teaminfo_section{
+  height: 100vh;
+}
 @media (max-width: 1000px) {
   .navbar-links-container a {
     margin-right: 1rem;
