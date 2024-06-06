@@ -8,8 +8,7 @@ import "leaflet/dist/leaflet.css";
 import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import { Icon, DivIcon } from "leaflet";
 import axios from "axios";
-import Carousel from "react-bootstrap/Carousel";
-import CarouselItem from "react-bootstrap/esm/CarouselItem";
+import BinCarousel from "../Components/BinCarousel";
 
 const ZOOM_LEVEL = 13;
 
@@ -108,6 +107,7 @@ function MapPage() {
       const regular = bins.filter((bin) => bin.fullness < 80);
       setReadyToCollectBins(readyToCollect);
       setRegularBins(regular);
+      console.log(readyToCollectBins);
     };
 
     updateBinCategories();
@@ -194,10 +194,8 @@ function MapPage() {
 
         <div className="section">
           <div className="title">Ready-to-collect Bin</div>
-          <Carousel>
-            <CarouselItem>
-              <div className="container">
-                {readyToCollectBins.map((bin) => (
+          <div className="container">
+            {/* {readyToCollectBins.map((bin) => (
                   <div className="column" key={bin.name}>
                     <Card
                       name={bin.name}
@@ -205,17 +203,16 @@ function MapPage() {
                       trashPercentage={bin.fullness}
                     />
                   </div>
-                ))}
-              </div>
-            </CarouselItem>
-          </Carousel>
+              ))} */}
+            <BinCarousel readyToCollectBins={readyToCollectBins}></BinCarousel>
+          </div>
         </div>
 
         <div className="section">
           <div className="title">Bins</div>
-          <Carousel></Carousel>
           <div className="container">
-            {regularBins.map((bin) => (
+            <BinCarousel readyToCollectBins={regularBins}></BinCarousel>
+            {/* {regularBins.map((bin) => (
               <div className="column" key={bin.name}>
                 <Card
                   name={bin.name}
@@ -223,13 +220,18 @@ function MapPage() {
                   trashPercentage={bin.fullness}
                 />
               </div>
-            ))}
-            <div className="column">
-              <div className="add-bin-card" onClick={handleAddBinClick}>
-                <div className="plus-icon">+</div>
-              </div>
+            ))} */}
+            
+          </div>
+
+          <div className="section"></div>
+          <div className="title">Add New Bins</div>
+          <div className="container">
+            <div className="add-bin-card" onClick={handleAddBinClick}>
+              <div className="plus-icon">+</div>
             </div>
           </div>
+
           {showPopup && (
             <div className="popup">
               <div className="popup-content">
