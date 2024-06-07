@@ -2,10 +2,10 @@ import { React, useState, useEffect } from "react";
 import { Modal } from "react-bootstrap";
 import "./teaminfo.css";
 import Hao from "../Assets/Hao.png";
+import Di from "../Assets/Di.jpg";
+import Hy from "../Assets/Hy.jpg";
 import Aos from "aos";
 import Facebook from "../Assets/facebook.png";
-import Instagram from "../Assets/instagram.png";
-import Linkedin from "../Assets/linkedin.png";
 
 function Teaminfo() {
   const [show, setShow] = useState(false);
@@ -20,7 +20,7 @@ function Teaminfo() {
     <div id="TEAMPROFILE" className="section__padding">
       <div className="rise__teaminfo_section">
         <div className="rise__teaminfo_header">
-          <h1 style={{fontWeight: "800"}}>TEAM PROFILE</h1>
+          <h1 style={{ fontWeight: "800" }}>TEAM PROFILE</h1>
           <hr />
         </div>
       </div>
@@ -40,7 +40,7 @@ function Teaminfo() {
       <div className="rise__teaminfo_member_section" data-aos="fade-right">
         <div className="rise__teaminfo_member">
           <div className="profile_picture">
-            <img src={Hao} />
+            <img src={Hy} />
           </div>
           <div className="profile_name">
             <h5>Tô Gia Hy</h5>
@@ -74,7 +74,7 @@ function Teaminfo() {
 
         <div className="rise__teaminfo_member">
           <div className="profile_picture">
-            <img src={Hao} />
+            <img src={Di} />
           </div>
           <div className="profile_name">
             <h5>Đoàn Thiên Di</h5>
@@ -110,7 +110,12 @@ function Teaminfo() {
         </div>
       </div>
       <div className="rise__teaminfo_btn">
-        <button type="button" id="seebtn" onClick={handleShow}>
+        <button
+          type="button"
+          class="btn btn-outline-success"
+          id="seebtn"
+          onClick={handleShow}
+        >
           Our goal
         </button>
         <Modal className="modalBackground" show={show} onHide={handleClose}>
@@ -137,7 +142,7 @@ function Teaminfo() {
                 paths for the waste-collecting trucks.
               </p>
               <h5>Team Goal</h5>
-              <ul style={{listStyleType: "none"}}>
+              <ul style={{ listStyleType: "none" }}>
                 <li>
                   Firstly, since RMIT University has an enormous campus in
                   Saigon South with many buildings together with the naming
