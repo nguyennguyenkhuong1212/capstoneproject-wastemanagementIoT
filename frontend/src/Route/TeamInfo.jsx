@@ -4,6 +4,7 @@ import "./teaminfo.css";
 import Hao from "../Assets/Hao.png";
 import Di from "../Assets/Di.jpg";
 import Hy from "../Assets/Hy.jpg";
+import Khuong from "../Assets/Khuong.jpg";
 import Aos from "aos";
 import Facebook from "../Assets/facebook.png";
 
@@ -57,7 +58,7 @@ function Teaminfo() {
 
         <div className="rise__teaminfo_member">
           <div className="profile_picture">
-            <img src={Hao} />
+            <img src={Khuong} />
           </div>
           <div className="profile_name">
             <h5>Nguyễn Nguyên Khương</h5>
