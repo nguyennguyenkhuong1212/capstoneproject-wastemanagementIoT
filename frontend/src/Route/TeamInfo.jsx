@@ -144,42 +144,37 @@ function Teaminfo() {
               <h5>Team Goal</h5>
               <ul style={{ listStyleType: "none" }}>
                 <li>
-                  Firstly, since RMIT University has an enormous campus in
-                  Saigon South with many buildings together with the naming
-                  convention and the layout of the rooms are slightly confusing,
-                  there are a lot of people getting lost and they spend a lot of
-                  time navigating around the campus. Thanks to our research and
-                  survey, we found out besides from new students and visitors,
-                  the majority is actually current students. Therefore, our goal
-                  is to create a web application that mainly focuses on
-                  introducing RMIT University and Saigon South campus
-                  exclusively. Furthermore, it will contain more specific
-                  information about the layout of campus and the rooms in each
-                  building, which can help users find rooms easier.
+                  In Vietnam, refuse trucks are one of ways that we can keep our
+                  city clean. They travel through our streets and usually follow
+                  a predetermined route. These are true for medical refuse
+                  trucks as well; the only difference is that they need to
+                  process medical waste by incinerating them in one of the
+                  processing plants. But sometimes, the bins are not full,
+                  making the trip to that clinic or hospital a waste of carbon
+                  emissions. And these trucks emit a higher level of CO2 to the
+                  environment than most vehicles. If we leave this problem
+                  unattended, it will have a long-lasting negative effect to
+                  Vietnams’ environment as the trucks are responsible for 80% of
+                  the carbon emission.
                 </li>
                 <li>
-                  Secondly, we have discovered that there are equivalent
-                  questions about finding a specific location, navigating, and
-                  other general questions that expect the same answers. However,
-                  RMIT Student Connect, a department that can answer these
-                  questions, only works in office hours and students or visitors
-                  cannot have their answers anytime they want. Hence, in our web
-                  application, there is a chatbot available all time to answer
-                  these general questions.
+                  We need to find a way to notify the refuse truck drivers which
+                  bins are full. Furthermore, we must find them the most
+                  efficient route, so they do not have to travel long. If we can
+                  solve this problem, it will significantly reduce the time
+                  these trucks are on the road and save our environment.
                 </li>
                 <li>
-                  Finally, since there have not been any means of entertainment
-                  focusing on Saigon South Campus, our team has created a game
-                  for many reasons. The first reason is that the users can
-                  freely discover the campus which is the game map at any time
-                  they want instead of joining in virtual tours or campus tours.
-                  Secondly, to enhance their experience and stimulate their
-                  sense of victory, they can fight against monsters in our game
-                  while discovering and if they win the final boss, they can
-                  receive a certificate with a similar appearance to the
-                  Bachelor’s degree graduation certificate. Finally, our game
-                  can attract more students to RMIT University, especially
-                  students who want to join the Game Design program.
+                  The components of the project include an IoT hardware
+                  component that uses ultrasonic sensors to scan bin fullness.
+                  It then transmits the data collected from the sensors
+                  controlled by a microprocessor to the internet using a SIM
+                  module. Our website collects this data then passes it through
+                  the routing algorithm to determine which bins are ready to
+                  pick up and what is the most efficient route to getting there.
+                  The website displays this information through an intuitive
+                  UI/UX design, which helps the truck drivers move
+                  through the city in a quick and timely matter.
                 </li>
               </ul>
             </Modal.Body>
