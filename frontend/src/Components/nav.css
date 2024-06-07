@@ -24,6 +24,7 @@
   display: flex;
   width: 35%;
   justify-content: space-between;
+  transition: transform 0.3s ease-in-out;
 }
 
 /* Navigation links */
@@ -79,3 +80,62 @@ text-decoration: none;
   font-weight: bold;
 }
 
+/* New styles for mobile responsiveness */
+
+.mobile-menu-button {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+}
+
+.menu-icon {
+  width: 25px;
+  height: 3px;
+  background-color: #458e60;
+}
+
+/* Hide nav-links by default on mobile */
+.nav-links {
+  display: flex;
+  gap: 1rem;
+  transition: transform 0.3s ease-in-out;
+}
+
+.nav-links.mobile-open {
+  display: flex;
+  flex-direction: column;
+  gap: 0;  /* Adjust the gap to reduce space between links */
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 250px;
+  height: auto;
+  background-color: #fff;
+  padding-top: 40px; /* Adjust based on your navbar height */
+  box-shadow: -2px 0 5px rgba(0,0,0,0.5);
+  transform: translateX(0);
+  z-index: 1000;
+}
+
+.nav-link {
+  margin: 0.5rem 0; /* Adjust the margin to reduce space between links */
+  padding: 0.5rem 1rem; /* Adjust padding for better spacing */
+  display: block; /* Ensure links are block elements for vertical layout */
+}
+
+@media (max-width: 768px) {
+  .nav-links {
+    display: none;
+    transform: translateX(100%);
+  }
+
+  .mobile-menu-button {
+    display: flex;
+  }
+
+  .nav-links.mobile-open {
+    display: flex;
+    height: auto;
+  }
+}
