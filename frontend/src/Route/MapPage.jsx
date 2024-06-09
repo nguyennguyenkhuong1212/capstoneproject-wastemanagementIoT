@@ -143,7 +143,7 @@ function MapPage() {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "http://localhost:8080/api/bin/createBin",
+        `${backendURL}/api/bin/createBin`,
         newBin
       );
       if (response.data && response.data.statusCode === 200) {
@@ -154,6 +154,7 @@ function MapPage() {
     } catch (error) {
       console.error("Error creating bin:", error);
       alert("Failed to create bin. Please try again.");
+      window.location.reload()
     }
   };
 
