@@ -39,8 +39,9 @@
   background: none;
   border: none;
   outline: none;
-  margin: 0px;
-  padding: 0px;
+  margin: 0.5rem 0;
+  padding: 0;
+  display: block;
   &:hover {
     color: #458e60;
   }
@@ -116,12 +117,6 @@ text-decoration: none;
   box-shadow: -2px 0 5px rgba(0,0,0,0.5);
   transform: translateX(0);
   z-index: 1000;
-}
-
-.nav-link {
-  margin: 0.5rem 0; /* Adjust the margin to reduce space between links */
-  padding: 0.5rem 1rem; /* Adjust padding for better spacing */
-  display: block; /* Ensure links are block elements for vertical layout */
 }
 
 @media (max-width: 768px) {
