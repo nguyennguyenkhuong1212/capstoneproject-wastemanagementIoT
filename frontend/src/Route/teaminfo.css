@@ -1,146 +1,138 @@
-.rise__teaminfo_section{
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center; 
-    justify-content: center;
-    
+.rise__teaminfo_section {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
-.rise__teaminfo_header{
-    justify-content: center;
-    font-family:'Open Sans', sans-serif; 
-    font-size: 20px;
-    font-weight: 800;
-    color: #458e60;
+.rise__teaminfo_header {
+  justify-content: center;
+  font-family: "Open Sans", sans-serif;
+  font-size: 20px;
+  font-weight: 800;
+  color: #458e60;
 }
 
 .rise__teaminfo_header hr {
-    background: #458e60 ;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 0.5rem;
-    width: 50%;
-    border: 5px solid #458e60;   
+  background: #458e60;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 0.5rem;
+  width: 50%;
+  border: 5px solid #458e60;
 }
 
-.rise__teaminfo_paragraph{
-    flex: 1;
-    justify-content: flex-start;
-    margin: 2rem 0;
+.rise__teaminfo_paragraph {
+  flex: 1;
+  justify-content: flex-start;
+  margin: 2rem 0;
 
-    font-family:'Roboto', sans-serif;
-    color: black;
-    font-size: 22px;
-    text-align: justify;
-   
+  font-family: "Roboto", sans-serif;
+  color: black;
+  font-size: 22px;
+  text-align: justify;
 }
 
-.rise__teaminfo_member_section{    
+.rise__teaminfo_member_section {
+  display: flex;
+  justify-content: space-around;
+  font-family: "Roboto";
+  font-style: normal;
+  font-size: 20px;
+  line-height: 27px;
+}
+.profile_picture img {
+  background-color: #ccd7e2;
+  border-radius: 360px;
+  height: 200px;
+  margin: 1.2rem;
+}
+
+.profile_name {
+  font-weight: 300;
+}
+
+.profile_sid {
+  text-align: center;
+}
+
+.profile_name h5 {
+  text-align: center;
+  width: 100%;
+}
+
+.social_media {
+  justify-content: space-around;
+  display: flex;
+  margin: 0.5rem;
+}
+
+.rise__teaminfo_btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 2rem;
+}
+
+.social_media a:hover {
+  animation: upup 2s ease-in-out infinite;
+}
+
+.section__padding {
+  height: 100vh;
+}
+
+@keyframes upup {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-12px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+@media (max-width: 490px) {
+  .rise__teaminfo_member_section {
     display: flex;
-    justify-content: space-around;  
-    font-family: 'Roboto';
-    font-style: normal;
-    font-size: 20px;
-    line-height: 27px;  
-}
-.profile_picture img{
-    background-color: #ccd7e2;
-    border-radius: 360px;
-    height: 200px;
-    margin: 1.2rem;
-}
-
-.profile_name{
-    
-    font-weight:  300;
-    
-}
-
-.profile_sid{
-    text-align: center;
-}
-
-.profile_name h5{
-    text-align: center;
-    width:100%
-
-}
-
-.social_media{
-    justify-content: space-around;
+    flex-direction: column;
+  }
+  .rise__teaminfo_paragraph {
+    display: none;
+  }
+  .rise__teaminfo_header h1 {
     display: flex;
-    margin: 0.5rem ;
+    flex-direction: column;
+    text-align: center;
+  }
 
-}
-
-.rise__teaminfo_btn{
+  .profile_picture {
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-top: 2rem;
+  }
 }
+@media (max-width: 850px) {
+  .profile_picture {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 
-.social_media a:hover{  
-    animation: upup 2s ease-in-out infinite;
+  .rise__teaminfo_member_section {
+    display: flex;
+    flex-direction: column;
+  }
+  .social_media {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 }
-
-.section__padding{
-    height: 100vh;
-}
-
-@keyframes upup{
-    0%{
-        transform: translateY(0px);
-    }
-    50%{
-        transform: translateY(-12px);
-    }
-    100%{
-        transform: translateY(0px);
-    }
-}
-
-
-@media (max-width:490px) {
-    .rise__teaminfo_member_section{
-        display: flex;
-        flex-direction: column;
-    }
-    .rise__teaminfo_paragraph{
-        display: none;
-    }
-    .rise__teaminfo_header h1{
-        display: flex;
-        flex-direction: column;
-        text-align: center;
-
-    }
-
-    .profile_picture{
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-}
-@media (max-width:850px){
-    .profile_picture{
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-    
-    .rise__teaminfo_member_section{
-        display: flex;
-        flex-direction: column;
-    }
-    .social_media{
-        display:flex;
-        align-items: center;
-        justify-content: center;
-    }
-}
-@media (max-width:1000px){
-    .rise__teaminfo_paragraph p{
-        font-size: 18px;
-    }
+@media (max-width: 1000px) {
+  .rise__teaminfo_paragraph p {
+    font-size: 18px;
+  }
 }
