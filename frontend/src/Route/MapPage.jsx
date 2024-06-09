@@ -13,6 +13,7 @@ import BinCarousel from "../Components/BinCarousel";
 const ZOOM_LEVEL = 13;
 
 function MapPage() {
+  const backendURL = process.env.REACT_APP_BACKEND_URL
   const map = useRef();
   const [location, setLocation] = useState({
     lat: 10.792838340026323,
@@ -88,7 +89,7 @@ function MapPage() {
     const fetchBins = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:8080/api/bin/getAllBins"
+          `${backendURL}/api/bin/getAllBins`
         );
         if (response.data && response.data.data && response.data.data.bins) {
           setBins(response.data.data.bins);
