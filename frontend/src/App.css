@@ -66,4 +66,6 @@ body {
 
 .content{
   margin: 1rem 8rem;
+  display: flex;
+  flex-direction: column;
 }
