@@ -65,8 +65,8 @@ nav {
 }
 .home-image-section img{
   width: 35vw;
+  height: 35vw;
   max-width: 100%;
-  height: auto;
   transform: translateX(25px);
 }
 .home-bannerImage-container {
@@ -350,6 +350,12 @@ nav {
 .home-image-section{
   display: flex;
   justify-content: center;
+}
+
+@media (max-width: 1200px) {
+  .home-bannerImage-container img {
+    display: none;
+  }
 }
 
 @media (max-width: 1000px) {
