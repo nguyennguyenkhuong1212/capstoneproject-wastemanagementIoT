@@ -197,15 +197,6 @@ function MapPage() {
         <div className="section">
           <div className="title">Ready-to-collect Bin</div>
           <div className="container">
-            {/* {readyToCollectBins.map((bin) => (
-                  <div className="column" key={bin.name}>
-                    <Card
-                      name={bin.name}
-                      address={bin.address}
-                      trashPercentage={bin.fullness}
-                    />
-                  </div>
-              ))} */}
             <BinCarousel readyToCollectBins={readyToCollectBins}></BinCarousel>
           </div>
         </div>
@@ -214,25 +205,18 @@ function MapPage() {
           <div className="title">Bins</div>
           <div className="container">
             <BinCarousel readyToCollectBins={regularBins}></BinCarousel>
-            {/* {regularBins.map((bin) => (
-              <div className="column" key={bin.name}>
-                <Card
-                  name={bin.name}
-                  address={bin.address}
-                  trashPercentage={bin.fullness}
-                />
-              </div>
-            ))} */}
-            
           </div>
+        </div>
 
-          <div className="section"></div>
+        <div className="section">
           <div className="title">Add New Bins</div>
           <div className="container">
             <div className="add-bin-card" onClick={handleAddBinClick}>
               <div className="plus-icon">+</div>
             </div>
           </div>
+        </div>
+          
 
           {showPopup && (
             <div className="popup">
@@ -294,7 +278,6 @@ function MapPage() {
               </div>
             </div>
           )}
-        </div>
       </div>
     </div>
   );

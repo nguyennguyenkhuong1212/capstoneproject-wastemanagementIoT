@@ -7,6 +7,7 @@
 
 .section {
     margin: 10px 0;
+    width: 100%;
 }
 
 .container {
@@ -36,12 +37,12 @@
 
 .map {
     height: 450px;
-    width: 1200px;
+    width: 1280px;
 }
 
 .leaflet-container {
     height: 450px;
-    width: 1200px;
+    width: 100%;
     z-index: 0;
 }
 
@@ -79,7 +80,7 @@
     cursor: pointer;
     max-width: 344px;
     height: 133px;
-    margin: 13px;
+    margin: 15px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 

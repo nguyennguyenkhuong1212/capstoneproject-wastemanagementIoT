@@ -34,7 +34,9 @@ const BinCarousel = ({ readyToCollectBins }) => {
   };
 
   if (!readyToCollectBins || readyToCollectBins.length === 0) {
-    return <div>No bins available to display</div>;
+    return <div className="empty-box">
+      No bins available to display
+    </div>;
   }
 
   return (
