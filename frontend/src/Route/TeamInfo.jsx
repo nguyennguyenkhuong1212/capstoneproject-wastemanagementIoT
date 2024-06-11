@@ -50,7 +50,10 @@ function Teaminfo() {
             <p>s3927539</p>
           </div>
           <div className="social_media">
-            <a href="" target="_blank">
+            <a
+              href="https://www.facebook.com/profile.php?id=100008408078047"
+              target="_blank"
+            >
               <img src={Facebook} />
             </a>
           </div>
@@ -67,7 +70,7 @@ function Teaminfo() {
             <p>s3924577</p>
           </div>
           <div className="social_media">
-            <a href="" target="_blank">
+            <a href="https://www.facebook.com/whitemirror1212" target="_blank">
               <img src={Facebook} />
             </a>
           </div>
@@ -84,7 +87,7 @@ function Teaminfo() {
             <p>s3926977</p>
           </div>
           <div className="social_media">
-            <a href="" target="_blank">
+            <a href="https://www.facebook.com/didoan322" target="_blank">
               <img src={Facebook} />
             </a>
           </div>
@@ -174,8 +177,8 @@ function Teaminfo() {
                   the routing algorithm to determine which bins are ready to
                   pick up and what is the most efficient route to getting there.
                   The website displays this information through an intuitive
-                  UI/UX design, which helps the truck drivers move
-                  through the city in a quick and timely matter.
+                  UI/UX design, which helps the truck drivers move through the
+                  city in a quick and timely matter.
                 </li>
               </ul>
             </Modal.Body>

@@ -13,6 +13,7 @@ const BinCarousel = ({ readyToCollectBins }) => {
     speed: 500,
     slidesToShow: 3, // Show 3 bins at a time
     slidesToScroll: 1,
+    arrow: true,
     responsive: [
       {
         breakpoint: 1024,
@@ -21,6 +22,7 @@ const BinCarousel = ({ readyToCollectBins }) => {
           slidesToScroll: 1,
           infinite: true,
           dots: true,
+          arrow: true,
         },
       },
       {
@@ -28,15 +30,14 @@ const BinCarousel = ({ readyToCollectBins }) => {
         settings: {
           slidesToShow: 1,
           slidesToScroll: 1,
+          arrow: false,
         },
       },
     ],
   };
 
   if (!readyToCollectBins || readyToCollectBins.length === 0) {
-    return <div className="empty-box">
-      No bins available to display
-    </div>;
+    return <div className="empty-box">No bins available to display</div>;
   }
 
   return (
