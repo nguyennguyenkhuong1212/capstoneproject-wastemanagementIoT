@@ -49,3 +49,13 @@
     justify-content: space-between;
     align-items: center;
 }
+
+.check-button{
+ height: 20px;
+ width: 20px;
+ background-color: #4CAF50;
+ color: #F3F4F6;
+ font-size: bold;
+ border: none;
+
+}
