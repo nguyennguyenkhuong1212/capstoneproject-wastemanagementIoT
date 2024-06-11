@@ -51,7 +51,15 @@
 }
 
 .footer_content{
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    column-gap: 5rem;
+    display: flex;
+    gap: 5rem;
+}
+
+@media (max-width: 800px) {
+    .footer_content{
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 2rem;
+    }
 }

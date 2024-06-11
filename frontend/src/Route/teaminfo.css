@@ -79,7 +79,7 @@
 }
 
 .section__padding {
-  height: 100vh;
+  height: max-content;
 }
 
 @keyframes upup {

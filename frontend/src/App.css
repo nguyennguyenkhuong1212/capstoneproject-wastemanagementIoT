@@ -43,11 +43,11 @@
 .App {
   min-height: 100vh;
   width: 100vw;
-  max-width: 1900px;
-  max-width: 1900px;
+  max-width: 1900px; 
   margin: 0rem auto;
   display: flex;
   flex-direction: column;
+  gap: 30px;
 }
 body {
   max-width: 100%;
@@ -65,5 +65,7 @@ body {
 }
 
 .content{
-  margin: 1rem 8rem;
+  margin: 1rem 7vw;
+  display: flex;
+  flex-direction: column;
 }

@@ -6,7 +6,9 @@ const bodyParser = require('body-parser');
 const app = express();
 
 // Import env
-require("dotenv").config({ path: path.join(__dirname, "../.env") });
+if (process.env.NODE_ENV !== "production") {
+  require("dotenv").config({ path: path.join(__dirname, "../.env") });
+}
 
 // Import 3rd party libraries
 const cors = require("cors");

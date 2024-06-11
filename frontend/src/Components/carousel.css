@@ -2,3 +2,14 @@
 .slick-next:before {
   color: #4CAF50; /* Change this to your desired color */
 }
+
+.empty-box {
+  padding: 30px;
+  width: 100%;
+  text-align: center;
+  border: 3px solid #4CAF50;
+  border-style: dashed;
+  border-radius: 15px;
+  margin: 15px auto;
+  font-family: "Open Sans", sans-serif;
+}

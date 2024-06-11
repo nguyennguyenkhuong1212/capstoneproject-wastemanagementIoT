@@ -18,3 +18,15 @@ code {
 .modal-backdrop.show{
   z-index: 1;
 }
+
+@media (min-width: 1200px) {
+  .container {
+      max-width: 1280px!important;
+  } 
+}
+
+@media (max-width: 1200px) {
+  .home-banner-container{
+      gap: 3vw; 
+  }
+}

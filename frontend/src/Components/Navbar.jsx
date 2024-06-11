@@ -36,22 +36,27 @@ function Navbar() {
         </div>
         {/* Navigation links */}
         <div className={`nav-links ${isMobileMenuOpen ? "mobile-open" : ""}`}>
-          <NavLink to="/" className="nav-link" activeClassName="active-link">
+          <div className="nav-mobile-close-btn" onClick={toggleMobileMenu} style={{display: isMobileMenuOpen ? "block" : "none"}}>
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
+              <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z"/>
+            </svg>
+          </div>
+          <NavLink to="/" className={`nav-link${isMobileMenuOpen ? "-mobile" : ""}`} activeClassName="active-link">
             HOME
           </NavLink>
-          <NavLink to="/map" className="nav-link" activeClassName="active-link">
+          <NavLink to="/map" className={`nav-link${isMobileMenuOpen ? "-mobile" : ""}`} activeClassName="active-link">
             MAP
           </NavLink>
           <NavLink
             to="/schedule"
-            className="nav-link"
+            className={`nav-link${isMobileMenuOpen ? "-mobile" : ""}`}
             activeClassName="active-link"
           >
             SCHEDULE
           </NavLink>
           <NavLink
             to="/guide"
-            className="nav-link"
+            className={`nav-link${isMobileMenuOpen ? "-mobile" : ""}`}
             activeClassName="active-link"
           >
             GUIDE

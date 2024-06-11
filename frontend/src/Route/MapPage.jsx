@@ -13,6 +13,7 @@ import BinCarousel from "../Components/BinCarousel";
 const ZOOM_LEVEL = 13;
 
 function MapPage() {
+  const backendURL = process.env.REACT_APP_BACKEND_URL
   const map = useRef();
   const [location, setLocation] = useState({
     lat: 10.792838340026323,
@@ -88,7 +89,7 @@ function MapPage() {
     const fetchBins = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:8080/api/bin/getAllBins"
+          `${backendURL}/api/bin/getAllBins`
         );
         if (response.data && response.data.data && response.data.data.bins) {
           setBins(response.data.data.bins);
@@ -142,7 +143,7 @@ function MapPage() {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "http://localhost:8080/api/bin/createBin",
+        `${backendURL}/api/bin/createBin`,
         newBin
       );
       if (response.data && response.data.statusCode === 200) {
@@ -153,6 +154,7 @@ function MapPage() {
     } catch (error) {
       console.error("Error creating bin:", error);
       alert("Failed to create bin. Please try again.");
+      window.location.reload()
     }
   };
 
@@ -195,15 +197,6 @@ function MapPage() {
         <div className="section">
           <div className="title">Ready-to-collect Bin</div>
           <div className="container">
-            {/* {readyToCollectBins.map((bin) => (
-                  <div className="column" key={bin.name}>
-                    <Card
-                      name={bin.name}
-                      address={bin.address}
-                      trashPercentage={bin.fullness}
-                    />
-                  </div>
-              ))} */}
             <BinCarousel readyToCollectBins={readyToCollectBins}></BinCarousel>
           </div>
         </div>
@@ -212,25 +205,18 @@ function MapPage() {
           <div className="title">Bins</div>
           <div className="container">
             <BinCarousel readyToCollectBins={regularBins}></BinCarousel>
-            {/* {regularBins.map((bin) => (
-              <div className="column" key={bin.name}>
-                <Card
-                  name={bin.name}
-                  address={bin.address}
-                  trashPercentage={bin.fullness}
-                />
-              </div>
-            ))} */}
-            
           </div>
+        </div>
 
-          <div className="section"></div>
+        <div className="section">
           <div className="title">Add New Bins</div>
           <div className="container">
             <div className="add-bin-card" onClick={handleAddBinClick}>
               <div className="plus-icon">+</div>
             </div>
           </div>
+        </div>
+          
 
           {showPopup && (
             <div className="popup">
@@ -292,7 +278,6 @@ function MapPage() {
               </div>
             </div>
           )}
-        </div>
       </div>
     </div>
   );
