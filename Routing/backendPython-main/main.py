@@ -15,6 +15,10 @@ travel_times_storage = [
     [45, 25, 20, 0]   # Times from cust3 to other locations
 ]
 
+@app.get("/")
+def read_root():
+    return {"Hello": "World"}
+
 @app.get("/get-travel-times")
 async def get_travel_times():
     return travel_times_storage
