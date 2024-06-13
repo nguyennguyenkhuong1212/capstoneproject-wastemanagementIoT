@@ -1,65 +1,74 @@
 /* Footer styles */
 .footer {
-    background-color: #458e60;
-    color: white;
-    padding-top: 2rem;
-    padding: 2rem 5rem 1rem;
-    border-top-right-radius: 125px;
-    border-top-left-radius: 125px;
+  background-color: #458e60;
+  color: white;
+  padding-top: 2rem;
+  padding: 2rem 5rem 1rem;
+  border-top-right-radius: 125px;
+  border-top-left-radius: 125px;
 }
 
 .footer-column {
-    flex: 1;
+  flex: 1;
 }
 
 .footer-column h3 {
-    margin-bottom: 1rem;
+  margin-bottom: 1rem;
 }
 
 .footer-column p {
-    margin: 5px 0;
+  margin: 5px 0;
 }
 
 .subscription-form {
-    display: flex;
-    gap: 10px;
+  display: flex;
+  gap: 10px;
 }
 
 .subscription-form input {
-    padding: 10px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    width: 70%;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  width: 70%;
 }
 
 .subscribe-button {
-    background-color: #4CAF50; /* Green */
-    color: white;
-    border: none;
-    padding: 10px 15px;
-    border-radius: 5px;
-    cursor: pointer;
+  background-color: #4caf50; /* Green */
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
 }
 
 .subscribe-button:hover {
-    background-color: #45a049;
+  background-color: #45a049;
 }
 
 .footer-column h3 {
-    color: white;
-    font-weight: bold;
+  color: white;
+  font-weight: bold;
 }
 
-.footer_content{
-    display: flex;
-    gap: 5rem;
+.footer_content {
+  display: flex;
+  justify-content: space-between; /* Distribute columns evenly */
+  align-items: flex-start; /* Align items to the top */
+  gap: 5rem;
 }
 
 @media (max-width: 800px) {
-    .footer_content{
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-        gap: 2rem;
-    }
+  .footer_content {
+    flex-direction: column;
+    align-items: center; /* Center items */
+    text-align: center;
+    justify-content: center; /* Center justify content */
+    gap: 2rem;
+  }
+
+  .footer {
+    border-top-right-radius: 0;
+    border-top-left-radius: 0;
+    padding: 2rem 1rem; /* Adjust padding */
+  }
 }

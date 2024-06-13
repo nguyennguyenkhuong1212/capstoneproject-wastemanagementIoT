@@ -1,15 +1,28 @@
-.slick-prev:before, 
+.slick-prev:before,
 .slick-next:before {
-  color: #4CAF50; /* Change this to your desired color */
+  color: #4caf50; /* Change this to your desired color */
+  display: block;
 }
 
 .empty-box {
   padding: 30px;
   width: 100%;
   text-align: center;
-  border: 3px solid #4CAF50;
+  border: 3px solid #4caf50;
   border-style: dashed;
   border-radius: 15px;
   margin: 15px auto;
   font-family: "Open Sans", sans-serif;
+}
+
+/* Media query to hide slick-arrows on smaller screens */
+@media (max-width: 600px) {
+  .slick-prev:before,
+  .slick-next:before {
+    display: none;
+  }
+
+  .slick-arrow {
+    display: none;
+  }
 }

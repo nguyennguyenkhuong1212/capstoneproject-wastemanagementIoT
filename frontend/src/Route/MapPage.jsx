@@ -1,5 +1,4 @@
 import React, { useEffect, useState, useRef } from "react";
-import Card from "../Components/Card";
 import "./map.css";
 import Navbar from "../Components/Navbar";
 import Footer from "../Components/Footer";
