@@ -3,7 +3,6 @@ import "./card.css";
 import ProgressBar from "react-bootstrap/ProgressBar";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
-import { FiCheck  } from "react-icons/fi";
 import axios from "axios";
 function Card({ bID, name, address, trashPercentage }) {
   const [showModal, setShowModal] = useState(false);
