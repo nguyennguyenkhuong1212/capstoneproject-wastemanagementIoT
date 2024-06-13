@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 const RouteFinder = () => {
+  const backendURL = process.env.REACT_APP_BACKEND_URL
   const [travelTimeMatrix, setTravelTimeMatrix] = useState([]);
   const [route, setRoute] = useState([]);
   const [cost, setCost] = useState(0);
@@ -9,7 +10,7 @@ const RouteFinder = () => {
   useEffect(() => {
     const fetchTravelTimes = async () => {
       try {
-        const response = await axios.get('http://localhost:8000/get-travel-times');
+        const response = await axios.get(`${backendURL}/get-travel-times`);
         setTravelTimeMatrix(response.data);
       } catch (error) {
         console.error("Error fetching travel times:", error);
@@ -21,7 +22,7 @@ const RouteFinder = () => {
 
   const findBestRoute = async () => {
     try {
-      const response = await axios.post('http://localhost:8000/find-route', {
+      const response = await axios.post(`${backendURL}/find-route`, {
         travel_time_matrix: travelTimeMatrix
       });
       const { route, cost } = response.data;
