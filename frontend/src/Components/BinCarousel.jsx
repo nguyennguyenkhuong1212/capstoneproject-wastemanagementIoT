@@ -46,6 +46,7 @@ const BinCarousel = ({ readyToCollectBins }) => {
         {readyToCollectBins.map((bin) => (
           <div className="column" key={bin.name}>
             <Card
+              bID={bin._id}
               name={bin.name}
               address={bin.address}
               trashPercentage={bin.fullness}

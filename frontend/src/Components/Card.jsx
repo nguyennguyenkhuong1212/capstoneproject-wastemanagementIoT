@@ -5,16 +5,31 @@ import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import { FiCheck  } from "react-icons/fi";
 import axios from "axios";
-function Card({ name, address, trashPercentage, onConfirmPickup }) {
+function Card({ bID, name, address, trashPercentage }) {
   const [showModal, setShowModal] = useState(false);
 
   const handleClose = () => setShowModal(false);
   const handleShow = () => setShowModal(true);
   const backendURL = process.env.REACT_APP_BACKEND_URL
-  const handleConfirm = () => {
 
-    onConfirmPickup();
-    handleClose();
+  const onConfirmPickup = async (id) => {
+    const payload = {
+      id,
+      newInfo: {
+        fullness: 0
+      }
+    }
+    const response = await axios.put(
+      `${backendURL}/api/bin/updateBin`,
+      payload
+    );
+    return response
+  }
+  const handleConfirm = (id) => {
+    onConfirmPickup(id)
+    handleClose()
+    alert("Bin was reloaded")
+    window.location.reload()
   };
 
   if (!trashPercentage) {
@@ -37,9 +52,14 @@ function Card({ name, address, trashPercentage, onConfirmPickup }) {
       </div>
       <div className="bottom-bar">
         <p>{trashPercentage}% Full</p>
-        <button className="check-button" onClick={handleShow}>
-              <FiCheck />{" "}
-        </button>
+        {trashPercentage >= 80 ?
+          <svg onClick={handleShow} xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="check-button bi bi-arrow-clockwise" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2z"/>
+            <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466"/>
+          </svg>
+        : 
+        <></>
+        }
       </div>
 
       <Modal show={showModal} onHide={handleClose}>
@@ -51,7 +71,7 @@ function Card({ name, address, trashPercentage, onConfirmPickup }) {
           <Button variant="secondary" onClick={handleClose}>
             Cancel
           </Button>
-          <Button variant="primary" onClick={handleConfirm}>
+          <Button variant="primary" onClick={() => handleConfirm(bID)}>
             Confirm
           </Button>
         </Modal.Footer>
