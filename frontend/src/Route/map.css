@@ -32,7 +32,8 @@
 .title {
     font-size: 20px;
     font-weight: bold;
-    margin-bottom: 7px;
+    margin-bottom: 5px;
+    margin-top: 7px;
 }
 
 .map {
@@ -139,4 +140,15 @@
 
 .popup-content button:hover {
     background: #0056b3;
+}
+
+.truckSelect_routemap{
+    margin-bottom: 2rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.truckSelectText_routemap{
+    margin-right: 0.5rem;
 }

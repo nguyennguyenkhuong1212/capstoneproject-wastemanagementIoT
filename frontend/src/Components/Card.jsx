@@ -62,8 +62,11 @@ function Card({ bID, name, address, trashPercentage }) {
       </div>
 
       <Modal show={showModal} onHide={handleClose}>
-        <Modal.Header closeButton>
+        <Modal.Header>
           <Modal.Title>Confirm Pickup</Modal.Title>
+          <button type="button_confrim" class="close_button" data-dismiss="modal" onClick={handleClose} aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
         </Modal.Header>
         <Modal.Body>Are you sure the bin has been picked up?</Modal.Body>
         <Modal.Footer>
