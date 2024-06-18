@@ -141,3 +141,14 @@
 .popup-content button:hover {
     background: #0056b3;
 }
+
+.truckSelect_routemap{
+    margin-bottom: 2rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.truckSelectText_routemap{
+    margin-right: 0.5rem;
+}
