@@ -113,15 +113,15 @@
 }
 
 .modal-content button {
-    background-color: #4CAF50;
+    /* background-color: #4CAF50; */
     color: white;
     border: none;
     cursor: pointer;
 }
 
-.modal-content button:hover {
+/* .modal-content button:hover {
     background-color: #45a049;
-}
+} */
 
 .modal-content h2{
     font-weight: bold;

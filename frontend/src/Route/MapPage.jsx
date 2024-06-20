@@ -12,6 +12,65 @@ import BinCarousel from "../Components/BinCarousel";
 const ZOOM_LEVEL = 13;
 
 function MapPage() {
+  const [currentTruck, setCurrentTruck] = useState(1)
+  const handleChangeSelectTruck = (e) => {
+    setCurrentTruck(e.target.value)
+  }
+  const [scheduleData, setScheduleData] = useState([
+    {
+      truckNumber: 1,
+      plate: "51D-19012",
+      available: true,
+      schedule: [
+        {
+          hospitalName: "Hospital 1",
+          address: "123 Main St",
+          latitude: 37.7749,
+          longitude: -122.4194
+        },
+        {
+          hospitalName: "Hospital 2",
+          address: "456 Elm St",
+          latitude: 37.7858,
+          longitude: -122.4364
+        },
+        {
+          hospitalName: "Hospital 3",
+          address: "789 Oak St",
+          latitude: 37.7963,
+          longitude: -122.4576
+        },
+        {
+          hospitalName: "Hospital 4",
+          address: "321 Cedar St",
+          latitude: 37.8069,
+          longitude: -122.4789
+        }
+      ],
+      pickupPoint: "123 Main St",
+    },
+    {
+      truckNumber: 2,
+      plate: "51C-01704",
+      available: false,
+      schedule: [
+        {
+          hospitalName: "Hospital 5",
+          address: "901 Maple St",
+          latitude: 37.8175,
+          longitude: -122.5002
+        },
+        {
+          hospitalName: "Hospital 6",
+          address: "111 Pine St",
+          latitude: 37.8281,
+          longitude: -122.5215
+        }
+      ],
+      pickupPoint: "456 Elm St",
+    }
+  ]);
+
   const backendURL = process.env.REACT_APP_BACKEND_URL
   const map = useRef();
   const [location, setLocation] = useState({
@@ -163,6 +222,14 @@ function MapPage() {
       <div className="main">
         <div className="section">
           <div className="title">Route Map</div>
+          <div className="truckSelect_routemap">
+            <div className="truckSelectText_routemap">Select Truck: </div>
+            <select name="truck" onChange={handleChangeSelectTruck}>
+              {scheduleData.map((truck, index) => {
+              return (<option key={index} value={truck.truckNumber}>{truck.plate}</option>)
+              })}
+             </select>
+          </div>
           <div className="container">
             <div className="map">
               <MapContainer
