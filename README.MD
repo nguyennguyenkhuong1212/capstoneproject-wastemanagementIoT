@@ -30,3 +30,11 @@ pm2 stop 0
 cd capstoneproject-wastemanagementIoT
 bash update.sh
 ```
+
+## CODE FOR REBUILD AND REDEPLOY
+```
+pm2 start "gunicorn -w 4 -k uvicorn.workers.UvicornWorker -b 0.0.0.0:8000 main:app" --name routingbackend
+pm2 serve ./build 3001 --name "routingfrontend" --spa
+pm2 serve ./build 3000 --name "dashboard" --spa
+pm2 start server.js
+```
