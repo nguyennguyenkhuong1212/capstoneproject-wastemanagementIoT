@@ -39,7 +39,7 @@ def get_locations():
     return JSONResponse(content=locations)
 
 def get_travel_time_matrix(locations):
-    coordinates = ";".join([f"{loc['Longtitude']},{loc['Latitude']}" for loc in locations])
+    coordinates = ";".join([f"{loc['Longitude']},{loc['Latitude']}" for loc in locations])
     
     url = f"https://api.mapbox.com/directions-matrix/v1/mapbox/driving/{coordinates}?access_token={MAPBOX_API_KEY}"
     
