@@ -11,17 +11,22 @@ function Card({ bID, name, address, trashPercentage }) {
   const handleShow = () => setShowModal(true);
   const backendURL = process.env.REACT_APP_BACKEND_URL
 
-  const onConfirmPickup = async (id) => {
+  const setFullnessLevel = async (fullness, id) => {
     const payload = {
       id,
       newInfo: {
-        fullness: 0
+        fullness
       }
     }
     const response = await axios.put(
       `${backendURL}/api/bin/updateBin`,
       payload
     );
+    return response
+  }
+
+  const onConfirmPickup = async (id) => {
+    const response = await setFullnessLevel(0, id);
     return response
   }
   const handleConfirm = (id) => {
@@ -57,7 +62,7 @@ function Card({ bID, name, address, trashPercentage }) {
             <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466"/>
           </svg>
         : 
-        <></>
+        <div onClick={() => {setFullnessLevel(Math.floor(Math.random() * 21) + 80, bID); window.location.reload()}}>Set full</div>
         }
       </div>
 
