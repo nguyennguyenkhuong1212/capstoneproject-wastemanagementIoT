@@ -6,6 +6,7 @@ import Schedule from "./Route/Schedule";
 import LandingPage from "./Route/LandingPage";
 import Footer from "./Components/Footer";
 import Guide from "./Route/Guide";
+import Trash from "./Route/Trash";
 import BannerBackground from "../src/Assets/Image.png";
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
           <Route path="schedule" element={<Schedule />} />
           <Route path="/" element={<LandingPage />} />
           <Route path="guide" element={<Guide />} />
+          <Route path="TrashBinPage" element={<Trash />} />
         </Routes>
       </BrowserRouter>
       </div>
