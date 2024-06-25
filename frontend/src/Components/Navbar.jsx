@@ -61,6 +61,13 @@ function Navbar() {
           >
             GUIDE
           </NavLink>
+          <NavLink
+            to="/TrashBinPage"
+            className={`nav-link${isMobileMenuOpen ? "-mobile" : ""}`}
+            activeClassName="active-link"
+          >
+            BIN
+          </NavLink>
         </div>
       </div>
     </nav>
