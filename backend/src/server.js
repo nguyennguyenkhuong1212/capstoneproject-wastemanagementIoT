@@ -1,4 +1,3 @@
-// import express
 const express = require("express");
 const path = require("path");
 const bodyParser = require('body-parser');
@@ -16,7 +15,7 @@ const helmet = require("helmet");
 
 // Import resources
 const { PORT } = require("./config/constant/Env");
-const { BinRouter } = require("./routers");
+const { BinRouter, FullnessRouter } = require("./routers");
 const { ResponseService } = require("./services");
 const Error = require("./config/constant/Error");
 const { globalErrorHandler } = require("./middlewares");
@@ -28,6 +27,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use("/api/bin", BinRouter);
+app.use("/api", FullnessRouter);  // Add the new route for fullness
 
 app.use("*", (req, res, next) => {
   next(
