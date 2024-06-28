@@ -8,7 +8,7 @@ const apiSecret = process.env.TWILIO_API_SECRET;
 const client = twilio(apiKey, apiSecret, { accountSid });
 
 let latestFullness = 0;
-const maxDistance = 15; // Maximum distance for the bin
+const maxDistance = 27; // Maximum distance for the bin
 
 const parseFullnessFromMessage = (messageBody) => {
   const distance = parseInt(messageBody, 10);
