@@ -22,6 +22,7 @@
     "http-status": "^1.7.4",
     "mongoose": "^8.3.4",
     "morgan": "^1.10.0",
-    "nodemon": "^3.1.0"
+    "nodemon": "^3.1.0",
+    "twilio": "^5.2.0"
   }
 }
