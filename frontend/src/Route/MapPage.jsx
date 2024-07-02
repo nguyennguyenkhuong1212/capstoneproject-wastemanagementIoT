@@ -3,19 +3,22 @@ import "./map.css";
 import Navbar from "../Components/Navbar";
 import Footer from "../Components/Footer";
 import Schedule from "./Schedule";
+import 'leaflet-routing-machine/dist/leaflet-routing-machine.css';
 import "leaflet/dist/leaflet.css";
-import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
-import { Icon, DivIcon } from "leaflet";
+import { MapContainer, TileLayer, Marker, Popup, useMap, useMapEvents } from "react-leaflet";
+import L, { Icon, DivIcon } from "leaflet";
+import "leaflet-routing-machine";
 import axios from "axios";
 import BinCarousel from "../Components/BinCarousel";
 
 const ZOOM_LEVEL = 13;
+const ACCESS_TOKEN = 'pk.eyJ1IjoidG9naWFoeSIsImEiOiJjbHd3NThyeXgwdWE0MnFxNXh3MzF4YjE3In0.Ikxdlh66ijGULuZhR3QaMw'; // Your Mapbox access token
 
 function MapPage() {
-  const [currentTruck, setCurrentTruck] = useState(1)
+  const [currentTruck, setCurrentTruck] = useState(1);
   const handleChangeSelectTruck = (e) => {
-    setCurrentTruck(e.target.value)
-  }
+    setCurrentTruck(e.target.value);
+  };
   const [scheduleData, setScheduleData] = useState([
     {
       truckNumber: 1,
@@ -71,8 +74,8 @@ function MapPage() {
     }
   ]);
 
-  const backendURL = process.env.REACT_APP_BACKEND_URL
-  const map = useRef();
+  const backendURL = process.env.REACT_APP_BACKEND_URL;
+  const mapRef = useRef(null);  // Define the map reference
   const [location, setLocation] = useState({
     lat: 10.792838340026323,
     lng: 106.69810333702068,
@@ -88,6 +91,7 @@ function MapPage() {
   const [bins, setBins] = useState([]);
   const [readyToCollectBins, setReadyToCollectBins] = useState([]);
   const [regularBins, setRegularBins] = useState([]);
+
 
   const options = {
     enableHighAccuracy: true,
@@ -171,6 +175,20 @@ function MapPage() {
 
     updateBinCategories();
   }, [bins]);
+  // useEffect(() => {
+  //   // Use test data instead of fetching from backend
+  //   const testBins = [
+  //     { name: "Bin 1", lat: 10.762622, lng: 106.660172, fullness: 90 },
+  //     { name: "Bin 2", lat: 10.776889, lng: 106.700806, fullness: 85 },
+  //     { name: "Bin 3", lat: 10.762622, lng: 106.700806, fullness: 75 },
+  //     { name: "Bin 4", lat: 10.776889, lng: 106.660172, fullness: 60 },
+  //   ];
+  //   setBins(testBins);
+  //   const readyToCollect = testBins.filter((bin) => bin.fullness >= 80);
+  //   const regular = testBins.filter((bin) => bin.fullness < 80);
+  //   setReadyToCollectBins(readyToCollect);
+  //   setRegularBins(regular);
+  // }, []);
 
   const FlyToLocation = ({ location, zoom }) => {
     const map = useMap();
@@ -216,6 +234,80 @@ function MapPage() {
     }
   };
 
+  const RoutingControl = () => {
+    const map = useMapEvents({
+      load: () => {
+        console.log('Map loaded:', map);
+        setupRouting(map);
+      },
+    });
+
+    useEffect(() => {
+      if (map) {
+        setupRouting(map);
+      }
+    }, [map, bins]);
+
+    const setupRouting = (map) => {
+      if (!map || bins.length === 0) return;
+
+      // const validBins = bins.filter(bin => bin.lat && bin.lng); // Ensure all coordinates are valid
+      const waypoints = bins.map(bin => L.latLng(parseFloat(bin.lat), parseFloat(bin.lng)));
+
+      console.log('Waypoints:', waypoints); // Debugging
+
+      if (waypoints.length < 2) {
+        console.log('Not enough waypoints to create a route');
+        return;
+      }
+
+      const router = L.Routing.mapbox(ACCESS_TOKEN, {
+        alternatives: true,
+        profile: 'mapbox/driving',
+      });
+
+      const routingControl = L.Routing.control({
+        waypoints,
+        router,
+        createMarker: function () {
+          return null;
+        },
+        routeWhileDragging: true,
+      }).addTo(map);
+
+      routingControl.on('routesfound', function (e) {
+        const routes = e.routes;
+        const routeSum = routes[0].summary;
+
+        alert(
+          'Total distance is ' +
+            (routeSum.totalDistance / 1000).toFixed(2) +
+            ' km and total time is ' +
+            Math.round(routeSum.totalTime / 60) +
+            ' minutes'
+        );
+
+        // setRouteSummary(routeSummaryRef.current);
+
+        routes.forEach((route, index) => {
+          if (index > 0) {
+            L.Routing.line(route, {
+              styles: [
+                { color: index === 0 ? 'blue' : 'green', weight: 4, opacity: 0.7 },
+              ],
+            }).addTo(map);
+          }
+        });
+      });
+
+      return () => {
+        map.removeControl(routingControl);
+      };
+    };
+
+    return null;
+  };
+
   return (
     <div>
       <Navbar name="Collection Route Planner" />
@@ -236,7 +328,7 @@ function MapPage() {
                 center={location}
                 zoom={ZOOM_LEVEL}
                 scrollWheelZoom={false}
-                ref={map}
+                whenCreated={mapInstance => mapRef.current = mapInstance}
               >
                 <TileLayer
                   noWrap={false}
@@ -246,7 +338,7 @@ function MapPage() {
                 {bins.map((bin, index) => (
                   <Marker
                     key={index}
-                    position={[bin.lat, bin.lng]}
+                    position={[parseFloat(bin.lat), parseFloat(bin.lng)]}
                     icon={createDivIcon(bin.fullness)}
                   >
                     <Popup>
@@ -255,6 +347,7 @@ function MapPage() {
                     </Popup>
                   </Marker>
                 ))}
+                <RoutingControl />
               </MapContainer>
             </div>
           </div>
@@ -282,7 +375,6 @@ function MapPage() {
             </div>
           </div>
         </div>
-          
 
           {showPopup && (
             <div className="popup">
@@ -319,7 +411,7 @@ function MapPage() {
                     />
                   </label>
                   <label>
-                    Lattitude:
+                    Latitude:
                     <input
                       type="number"
                       name="lat"
