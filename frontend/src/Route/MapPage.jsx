@@ -290,13 +290,13 @@ function MapPage() {
         const routes = e.routes;
         const routeSum = routes[0].summary;
 
-        alert(
-          'Total distance is ' +
-            (routeSum.totalDistance / 1000).toFixed(2) +
-            ' km and total time is ' +
-            Math.round(routeSum.totalTime / 60) +
-            ' minutes'
-        );
+        // alert(
+        //   'Total distance is ' +
+        //     (routeSum.totalDistance / 1000).toFixed(2) +
+        //     ' km and total time is ' +
+        //     Math.round(routeSum.totalTime / 60) +
+        //     ' minutes'
+        // );
 
         // setRouteSummary(routeSummaryRef.current);
 
