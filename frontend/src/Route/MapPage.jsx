@@ -8,10 +8,14 @@ import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import { Icon, DivIcon } from "leaflet";
 import axios from "axios";
 import BinCarousel from "../Components/BinCarousel";
-
 const ZOOM_LEVEL = 13;
 
+
 function MapPage() {
+  const [titleSolution, setTitleSolution] = useState("baseline");
+  const handleChangeSelectTitleSolution = (e) => {
+    setTitleSolution(e.target.value);
+};
   const [currentTruck, setCurrentTruck] = useState(1);
   const handleChangeSelectTruck = (e) => {
     setCurrentTruck(e.target.value);
@@ -233,6 +237,11 @@ function MapPage() {
             </select>
             <div className="truckSelectText_routemap seperate_left">Select Date: </div>
             <input type="date" name="date" onChange={handleChangeSelectDate} />
+            <div className="truckSelectText_routemap seperate_left">Select Title Solution: </div>
+              <select name="titleSolution" onChange={handleChangeSelectTitleSolution}>
+                <option value="baseline">Baseline</option>
+                <option value="optimized">Optimized</option>
+              </select>
           </div>
           <div className="container">
             <div className="map">
