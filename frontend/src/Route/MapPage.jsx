@@ -10,27 +10,19 @@ import L, { Icon, DivIcon } from "leaflet";
 import "leaflet-routing-machine";
 import axios from "axios";
 import BinCarousel from "../Components/BinCarousel";
+const BASE_URL = 'http://localhost:8000';
 const ZOOM_LEVEL = 13;
 const ACCESS_TOKEN = 'pk.eyJ1IjoidG9naWFoeSIsImEiOiJjbHd3NThyeXgwdWE0MnFxNXh3MzF4YjE3In0.Ikxdlh66ijGULuZhR3QaMw'; // Your Mapbox access token
 
-
 function MapPage() {
-
-  const [titleSolution, setTitleSolution] = useState("baseline");
-  const handleChangeSelectTitleSolution = (e) => {
-    setTitleSolution(e.target.value);
-};
-
   const [currentTruck, setCurrentTruck] = useState(1);
+  const [titleSolution, setTitleSolution] = useState("baseline");
+  const [optimizedBins, setOptimizedBins] = useState([]);
   const handleChangeSelectTruck = (e) => {
     setCurrentTruck(e.target.value);
   };
-
-
-  const [currentDate, setCurrentDate] = useState("");
-  
-  const handleChangeSelectDate = (e) => {
-    setCurrentDate(e.target.value);
+  const handleChangeSelectTitleSolution = (e) => {
+    setTitleSolution(e.target.value);
   };
 
   const [scheduleData, setScheduleData] = useState([
@@ -89,11 +81,7 @@ function MapPage() {
   ]);
 
   const backendURL = process.env.REACT_APP_BACKEND_URL;
-
   const mapRef = useRef(null);  // Define the map reference
-
-  const map = useRef();
-
   const [location, setLocation] = useState({
     lat: 10.792838340026323,
     lng: 106.69810333702068,
@@ -245,6 +233,24 @@ function MapPage() {
     }
   };
 
+  const fetchOptimizedRoute = async () => {
+    try {
+      const response = await axios.post(`${BASE_URL}/optimize-route`, bins);
+      if (response.data && response.data.optimized_bins) {
+        setOptimizedBins(response.data.optimized_bins);
+      }
+    } catch (error) {
+      console.error("Error fetching optimized route:", error);
+      alert("Failed to fetch optimized route. Please try again.");
+    }
+  };
+
+  useEffect(() => {
+    if (titleSolution === "optimized") {
+      fetchOptimizedRoute();
+    }
+  }, [titleSolution]);
+
   const RoutingControl = () => {
     const map = useMapEvents({
       load: () => {
@@ -257,13 +263,14 @@ function MapPage() {
       if (map) {
         setupRouting(map);
       }
-    }, [map, bins]);
+    }, [map, bins, optimizedBins, titleSolution]);
 
     const setupRouting = (map) => {
       if (!map || bins.length === 0) return;
 
-      // const validBins = bins.filter(bin => bin.lat && bin.lng); // Ensure all coordinates are valid
-      const waypoints = bins.map(bin => L.latLng(parseFloat(bin.lat), parseFloat(bin.lng)));
+      const waypoints = titleSolution === "optimized"
+        ? optimizedBins.map(bin => L.latLng(parseFloat(bin.lat), parseFloat(bin.lng)))
+        : bins.map(bin => L.latLng(parseFloat(bin.lat), parseFloat(bin.lng)));
 
       console.log('Waypoints:', waypoints); // Debugging
 
@@ -283,20 +290,20 @@ function MapPage() {
         createMarker: function () {
           return null;
         },
-        routeWhileDragging: true,
+        routeWhileDragging: false,
       }).addTo(map);
 
       routingControl.on('routesfound', function (e) {
         const routes = e.routes;
         const routeSum = routes[0].summary;
 
-        // alert(
-        //   'Total distance is ' +
-        //     (routeSum.totalDistance / 1000).toFixed(2) +
-        //     ' km and total time is ' +
-        //     Math.round(routeSum.totalTime / 60) +
-        //     ' minutes'
-        // );
+        alert(
+          'Total distance is ' +
+            (routeSum.totalDistance / 1000).toFixed(2) +
+            ' km and total time is ' +
+            Math.round(routeSum.totalTime / 60) +
+            ' minutes'
+        );
 
         // setRouteSummary(routeSummaryRef.current);
 
@@ -334,8 +341,6 @@ function MapPage() {
                 </option>
               ))}
             </select>
-            <div className="truckSelectText_routemap seperate_left">Select Date: </div>
-            <input type="date" name="date" onChange={handleChangeSelectDate} />
             <div className="truckSelectText_routemap seperate_left">Select Title Solution: </div>
               <select name="titleSolution" onChange={handleChangeSelectTitleSolution}>
                 <option value="baseline">Baseline</option>
