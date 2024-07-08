@@ -17,11 +17,13 @@ git merge main
 1. After pushing code to your branch, an automatically-created pull request will appear. This will be informed through an email send to your email account.
 2. Remember to review and approve your code, so that it could be merged.
 
-## RUN FRONTEND AND BACKEND
+## RUN FRONTEND AND BACKEND AND ROUTING 
 ### FOR FRONTEND
 Use `npm start`
 ### FOR BACKEND
 Use `npm run server`
+### FOR ROUTING
+use `uvicorn main:app --reload`
 
 ## FOR UPDATE NEW WEBSITE VERSION ON EC2 INSTANCE
 ```
@@ -38,3 +40,4 @@ pm2 serve ./build 3001 --name "routingfrontend" --spa
 pm2 serve ./build 3000 --name "dashboard" --spa
 pm2 start server.js
 ```
+
