@@ -13,7 +13,7 @@
     margin: 0 0 10px;
 }
 
-.address {
+h5.name, .address {
     max-width: 95%;
     margin: 0 0 10px !important;
     overflow: hidden;
