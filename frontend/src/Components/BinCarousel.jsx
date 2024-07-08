@@ -9,7 +9,7 @@ const BinCarousel = ({ readyToCollectBins }) => {
   console.log(readyToCollectBins);
   const settings = {
     dots: true,
-    infinite: true,
+    infinite: false,
     speed: 500,
     slidesToShow: 3, // Show 3 bins at a time
     slidesToScroll: 1,
