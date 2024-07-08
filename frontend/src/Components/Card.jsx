@@ -44,7 +44,7 @@ function Card({ bID, name, address, trashPercentage }) {
   return (
     <div className="split-box">
       <div>
-        <h5>{name}</h5>
+        <h5 className="name">{name}</h5>
         <p className="address">{address}</p>
         <div className="bar">
           <ProgressBar
