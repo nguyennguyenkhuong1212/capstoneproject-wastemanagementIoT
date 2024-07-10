@@ -105,6 +105,14 @@ function MapPage() {
     maximumAge: 0,
   };
 
+  const createNumberedIcon = (number) => {
+    return new DivIcon({
+      className: 'custom-div-icon',
+      html: `<div style="background-color: blue; color: white; border-radius: 50%; text-align: center; width: 24px; height: 24px; line-height: 24px;">${number}</div>`,
+      iconSize: [24, 24],
+    });
+  };
+
   const customIcon = new Icon({
     iconUrl: "https://cdn-icons-png.flaticon.com/512/447/447031.png",
     iconSize: [38, 38], // size of the icon
@@ -287,8 +295,8 @@ function MapPage() {
       const routingControl = L.Routing.control({
         waypoints,
         router,
-        createMarker: function () {
-          return null;
+        createMarker: function (i, wp) {
+          return L.marker(wp.latLng, { icon: createNumberedIcon(i + 1) }).bindPopup(bins[i]?.name || "Bin");
         },
         routeWhileDragging: false,
       }).addTo(map);
@@ -297,13 +305,13 @@ function MapPage() {
         const routes = e.routes;
         const routeSum = routes[0].summary;
 
-        alert(
-          'Total distance is ' +
-            (routeSum.totalDistance / 1000).toFixed(2) +
-            ' km and total time is ' +
-            Math.round(routeSum.totalTime / 60) +
-            ' minutes'
-        );
+        // alert(
+        //   'Total distance is ' +
+        //     (routeSum.totalDistance / 1000).toFixed(2) +
+        //     ' km and total time is ' +
+        //     Math.round(routeSum.totalTime / 60) +
+        //     ' minutes'
+        // );
 
         // setRouteSummary(routeSummaryRef.current);
 
