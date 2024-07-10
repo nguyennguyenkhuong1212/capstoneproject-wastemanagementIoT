@@ -98,7 +98,7 @@ def optimize_route(bins: List[Dict]):
         min_cost = float('inf')
         min_route = []
         for perm in itertools.permutations(range(1, num_locations)):
-            route = [0] + list(perm) + [0]
+            route = [0] + list(perm)
             cost = compute_route_time(route)
             if cost < min_cost:
                 min_cost = cost
