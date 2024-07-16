@@ -10,6 +10,7 @@ import L, { Icon, DivIcon } from "leaflet";
 import "leaflet-routing-machine";
 import axios from "axios";
 import BinCarousel from "../Components/BinCarousel";
+
 const BASE_URL = 'http://localhost:8000';
 const ZOOM_LEVEL = 13;
 const ACCESS_TOKEN = 'pk.eyJ1IjoidG9naWFoeSIsImEiOiJjbHd3NThyeXgwdWE0MnFxNXh3MzF4YjE3In0.Ikxdlh66ijGULuZhR3QaMw'; // Your Mapbox access token
@@ -17,10 +18,18 @@ const ACCESS_TOKEN = 'pk.eyJ1IjoidG9naWFoeSIsImEiOiJjbHd3NThyeXgwdWE0MnFxNXh3MzF
 function MapPage() {
   const [currentTruck, setCurrentTruck] = useState(1);
   const [titleSolution, setTitleSolution] = useState("baseline");
+  const [currentScenario, setCurrentScenario] = useState("scenario1");
   const [optimizedBins, setOptimizedBins] = useState([]);
+  const [filteredBins, setFilteredBins] = useState([]);
+  
   const handleChangeSelectTruck = (e) => {
     setCurrentTruck(e.target.value);
   };
+
+  const handleChangeScenario = (e) => {
+    setCurrentScenario(e.target.value);
+  };
+
   const handleChangeSelectTitleSolution = (e) => {
     setTitleSolution(e.target.value);
   };
@@ -31,30 +40,10 @@ function MapPage() {
       plate: "51D-19012",
       available: true,
       schedule: [
-        {
-          hospitalName: "Hospital 1",
-          address: "123 Main St",
-          latitude: 37.7749,
-          longitude: -122.4194,
-        },
-        {
-          hospitalName: "Hospital 2",
-          address: "456 Elm St",
-          latitude: 37.7858,
-          longitude: -122.4364,
-        },
-        {
-          hospitalName: "Hospital 3",
-          address: "789 Oak St",
-          latitude: 37.7963,
-          longitude: -122.4576,
-        },
-        {
-          hospitalName: "Hospital 4",
-          address: "321 Cedar St",
-          latitude: 37.8069,
-          longitude: -122.4789,
-        },
+        { hospitalName: "Hospital 1", address: "123 Main St", latitude: 37.7749, longitude: -122.4194 },
+        { hospitalName: "Hospital 2", address: "456 Elm St", latitude: 37.7858, longitude: -122.4364 },
+        { hospitalName: "Hospital 3", address: "789 Oak St", latitude: 37.7963, longitude: -122.4576 },
+        { hospitalName: "Hospital 4", address: "321 Cedar St", latitude: 37.8069, longitude: -122.4789 },
       ],
       pickupPoint: "123 Main St",
     },
@@ -63,18 +52,8 @@ function MapPage() {
       plate: "51C-01704",
       available: false,
       schedule: [
-        {
-          hospitalName: "Hospital 5",
-          address: "901 Maple St",
-          latitude: 37.8175,
-          longitude: -122.5002,
-        },
-        {
-          hospitalName: "Hospital 6",
-          address: "111 Pine St",
-          latitude: 37.8281,
-          longitude: -122.5215,
-        },
+        { hospitalName: "Hospital 5", address: "901 Maple St", latitude: 37.8175, longitude: -122.5002 },
+        { hospitalName: "Hospital 6", address: "111 Pine St", latitude: 37.8281, longitude: -122.5215 },
       ],
       pickupPoint: "456 Elm St",
     },
@@ -82,28 +61,14 @@ function MapPage() {
 
   const backendURL = process.env.REACT_APP_BACKEND_URL;
   const mapRef = useRef(null);  // Define the map reference
-  const [location, setLocation] = useState({
-    lat: 10.792838340026323,
-    lng: 106.69810333702068,
-  });
+  const [location, setLocation] = useState({ lat: 10.792838340026323, lng: 106.69810333702068 });
   const [showPopup, setShowPopup] = useState(false);
-  const [newBin, setNewBin] = useState({
-    name: "",
-    address: "",
-    trashPercentage: "",
-    lat: "",
-    lng: "",
-  });
+  const [newBin, setNewBin] = useState({ name: "", address: "", trashPercentage: "", lat: "", lng: "" });
   const [bins, setBins] = useState([]);
   const [readyToCollectBins, setReadyToCollectBins] = useState([]);
   const [regularBins, setRegularBins] = useState([]);
 
-
-  const options = {
-    enableHighAccuracy: true,
-    timeout: 5000,
-    maximumAge: 0,
-  };
+  const options = { enableHighAccuracy: true, timeout: 5000, maximumAge: 0 };
 
   const createNumberedIcon = (number) => {
     return new DivIcon({
@@ -123,10 +88,10 @@ function MapPage() {
     return new DivIcon({
       className,
       html: `<div className="bin-icon ${className}">
-            <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" class="bi bi-geo-alt-fill" viewBox="0 0 16 16">
+              <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" class="bi bi-geo-alt-fill" viewBox="0 0 16 16">
                 <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10m0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6"/>
-            </svg>
-        </div>`,
+              </svg>
+            </div>`,
       iconSize: [30, 42], // Adjust the size as needed
       iconAnchor: [15, 42],
     });
@@ -144,7 +109,6 @@ function MapPage() {
   useEffect(() => {
     if (navigator.geolocation) {
       navigator.permissions.query({ name: "geolocation" }).then(function (result) {
-        console.log(result);
         if (result.state === "granted") {
           navigator.geolocation.getCurrentPosition(success, errors, options);
         } else if (result.state === "prompt") {
@@ -159,7 +123,6 @@ function MapPage() {
   }, []);
 
   useEffect(() => {
-    // Function to fetch bins from the backend
     const fetchBins = async () => {
       try {
         const response = await axios.get(`${backendURL}/api/bin/getAllBins`);
@@ -185,20 +148,6 @@ function MapPage() {
 
     updateBinCategories();
   }, [bins]);
-  // useEffect(() => {
-  //   // Use test data instead of fetching from backend
-  //   const testBins = [
-  //     { name: "Bin 1", lat: 10.762622, lng: 106.660172, fullness: 90 },
-  //     { name: "Bin 2", lat: 10.776889, lng: 106.700806, fullness: 85 },
-  //     { name: "Bin 3", lat: 10.762622, lng: 106.700806, fullness: 75 },
-  //     { name: "Bin 4", lat: 10.776889, lng: 106.660172, fullness: 60 },
-  //   ];
-  //   setBins(testBins);
-  //   const readyToCollect = testBins.filter((bin) => bin.fullness >= 80);
-  //   const regular = testBins.filter((bin) => bin.fullness < 80);
-  //   setReadyToCollectBins(readyToCollect);
-  //   setRegularBins(regular);
-  // }, []);
 
   const FlyToLocation = ({ location, zoom }) => {
     const map = useMap();
@@ -241,6 +190,18 @@ function MapPage() {
     }
   };
 
+  const fetchFilteredBins = async () => {
+    try {
+      const response = await axios.post(`${BASE_URL}/filter-bins-by-weight`, bins);
+      if (response.data && response.data.filtered_bins) {
+        setFilteredBins(response.data.filtered_bins);
+      }
+    } catch (error) {
+      console.error("Error filtering bins:", error);
+      alert("Failed to filter bins. Please try again.");
+    }
+  };
+
   const fetchOptimizedRoute = async () => {
     try {
       const response = await axios.post(`${BASE_URL}/optimize-route`, bins);
@@ -257,64 +218,94 @@ function MapPage() {
     if (titleSolution === "optimized") {
       fetchOptimizedRoute();
     }
+    else if (titleSolution === "optimized2") {
+      fetchFilteredBins();
+    }
   }, [titleSolution]);
 
   const RoutingControl = () => {
+    let waypoints = [];
+  
+      if (titleSolution === "optimized2") {
+        waypoints = filteredBins.map(bin => L.latLng(parseFloat(bin.lat), parseFloat(bin.lng)));
+      } else if (titleSolution === "optimized") {
+        waypoints = optimizedBins.map(bin => L.latLng(parseFloat(bin.lat), parseFloat(bin.lng)));
+      } else {
+        waypoints = bins.map(bin => L.latLng(parseFloat(bin.lat), parseFloat(bin.lng)));
+      }
+  
     const map = useMapEvents({
       load: () => {
         console.log('Map loaded:', map);
         setupRouting(map);
       },
     });
-
+  
     useEffect(() => {
       if (map) {
         setupRouting(map);
       }
-    }, [map, bins, optimizedBins, titleSolution]);
-
+    }, [map, bins, optimizedBins, filteredBins, titleSolution]);
+  
     const setupRouting = (map) => {
-      if (!map || bins.length === 0) return;
-
-      const waypoints = titleSolution === "optimized"
-        ? optimizedBins.map(bin => L.latLng(parseFloat(bin.lat), parseFloat(bin.lng)))
-        : bins.map(bin => L.latLng(parseFloat(bin.lat), parseFloat(bin.lng)));
-
+      if (!map) return;
+  
+      // Remove existing routing control if it exists
+      // if (map.routingControl) {
+      //   map.removeControl(map.routingControl);
+      // }
+      
+      // Remove existing markers
+      if (map.markerGroup) {
+        map.removeLayer(map.markerGroup);
+      }
+      
+      
       console.log('Waypoints:', waypoints); // Debugging
-
+  
       if (waypoints.length < 2) {
         console.log('Not enough waypoints to create a route');
         return;
       }
-
+  
       const router = L.Routing.mapbox(ACCESS_TOKEN, {
         alternatives: true,
         profile: 'mapbox/driving',
       });
-
+  
+      const markerGroup = L.layerGroup(); // Create a new layer group for markers
+  
       const routingControl = L.Routing.control({
         waypoints,
         router,
         createMarker: function (i, wp) {
-          return L.marker(wp.latLng, { icon: createNumberedIcon(i + 1) }).bindPopup(bins[i]?.name || "Bin");
+          if (titleSolution === "optimized2" && filteredBins[i]) {
+            const marker = L.marker(wp.latLng, { icon: createNumberedIcon(i + 1) }).bindPopup(filteredBins[i]?.name || "Bin");
+            markerGroup.addLayer(marker); // Add marker to the layer group
+            return marker;
+          } else if (titleSolution === "optimized" && optimizedBins[i]) {
+            const marker = L.marker(wp.latLng, { icon: createNumberedIcon(i + 1) }).bindPopup(optimizedBins[i]?.name || "Bin");
+            markerGroup.addLayer(marker); // Add marker to the layer group
+            return marker;
+          } else if (bins[i]) {
+            const marker = L.marker(wp.latLng, { icon: createNumberedIcon(i + 1) }).bindPopup(bins[i]?.name || "Bin");
+            markerGroup.addLayer(marker); // Add marker to the layer group
+            return marker;
+          }
+          return L.marker(wp.latLng);
         },
         routeWhileDragging: false,
       }).addTo(map);
-
+  
+      map.markerGroup = markerGroup; // Store marker group on the map instance
+      markerGroup.addTo(map); // Add marker group to the map
+      
+      map.routingControl = routingControl; // Store routing control on the map instance
+      // routingControl.addTo(map)
       routingControl.on('routesfound', function (e) {
         const routes = e.routes;
         const routeSum = routes[0].summary;
-
-        // alert(
-        //   'Total distance is ' +
-        //     (routeSum.totalDistance / 1000).toFixed(2) +
-        //     ' km and total time is ' +
-        //     Math.round(routeSum.totalTime / 60) +
-        //     ' minutes'
-        // );
-
-        // setRouteSummary(routeSummaryRef.current);
-
+  
         routes.forEach((route, index) => {
           if (index > 0) {
             L.Routing.line(route, {
@@ -325,14 +316,14 @@ function MapPage() {
           }
         });
       });
-
       return () => {
         map.removeControl(routingControl);
       };
     };
-
+  
     return null;
   };
+  
 
   return (
     <div>
@@ -353,11 +344,11 @@ function MapPage() {
               <select name="titleSolution" onChange={handleChangeSelectTitleSolution}>
                 <option value="baseline">Baseline</option>
                 <option value="optimized">Optimized</option>
+                <option value="optimized2">Optimized Weight</option>
               </select>
           </div>
           <div className="container">
             <div className="map">
-
               <MapContainer
                 center={location}
                 zoom={ZOOM_LEVEL}
@@ -375,7 +366,6 @@ function MapPage() {
                     position={[parseFloat(bin.lat), parseFloat(bin.lng)]}
                     icon={createDivIcon(bin.fullness)}
                   >
-
                     <Popup>
                       <div className="popup-title">{bin.name}</div>
                       <div className="popup-description">{bin.address}</div>
@@ -411,7 +401,6 @@ function MapPage() {
           </div>
         </div>
 
-
         {showPopup && (
           <div className="popup">
             <div className="popup-content">
@@ -439,7 +428,6 @@ function MapPage() {
                 <button type="submit">Finish</button>
               </form>
               <button onClick={handlePopupClose}>Close</button>
-
             </div>
           </div>
         )}
