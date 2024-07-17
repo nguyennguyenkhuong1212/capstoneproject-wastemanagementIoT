@@ -58,7 +58,7 @@ def filter_bins_by_weight(bins: List[Dict], max_weight: int = 100, bin_weight: i
     current_weight = 0
     
     for bin in bins:
-        if current_weight <= max_weight:
+        if current_weight + bin_weight <= max_weight:
             filtered_bins.append(bin)
             current_weight += bin_weight
         
