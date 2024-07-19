@@ -158,7 +158,7 @@ def optimize_route(bins: List[Dict]):
     def solve_tsp():
         min_cost = float('inf')
         min_route = []
-        for perm in itertools.permutations(range(1, num_locations - 1)):
+        for perm in itertools.permutations(range(1, num_locations)):
             route = [0] + list(perm) + [0]
             cost = compute_route_time(route)
             if cost < min_cost:
@@ -172,6 +172,19 @@ def optimize_route(bins: List[Dict]):
         return JSONResponse(content={"route": route, "cost": cost, "optimized_bins": optimized_bins})
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
+@app.post("/baseline-route")
+def baseline_route(bins: List[Dict]):
+    # Ensure the starting location is the first in the list
+    starting_index = next((i for i, bin in enumerate(bins) if bin['lat'] == START_LOCATION['lat'] and bin['lng'] == START_LOCATION['lng']), None)
+    if starting_index is None:
+        raise HTTPException(status_code=400, detail="Starting location not found in the bins list.")
+    
+    # Move the starting location to the first position if it's not already there
+    if starting_index != 0:
+        bins.insert(0, bins.pop(starting_index))
+    
+    return JSONResponse(content={"route": list(range(len(bins))), "cost": 0, "optimized_bins": bins})
 
 if __name__ == "__main__":
     import uvicorn

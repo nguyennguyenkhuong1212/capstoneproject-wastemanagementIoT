@@ -17,17 +17,11 @@ const ACCESS_TOKEN = 'pk.eyJ1IjoidG9naWFoeSIsImEiOiJjbHd3NThyeXgwdWE0MnFxNXh3MzF
 
 function MapPage() {
   const [currentTruck, setCurrentTruck] = useState(1);
-  const [titleSolution, setTitleSolution] = useState("baseline");
-  const [currentScenario, setCurrentScenario] = useState("scenario1");
-  const [optimizedBins, setOptimizedBins] = useState([]);
-  const [filteredBins, setFilteredBins] = useState([]);
+  const [titleSolution, setTitleSolution] = useState("None");
+  const [binMap, setBinMap] = useState([]);
   
   const handleChangeSelectTruck = (e) => {
     setCurrentTruck(e.target.value);
-  };
-
-  const handleChangeScenario = (e) => {
-    setCurrentScenario(e.target.value);
   };
 
   const handleChangeSelectTitleSolution = (e) => {
@@ -143,7 +137,6 @@ function MapPage() {
       const regular = bins.filter((bin) => bin.fullness < 80);
       setReadyToCollectBins(readyToCollect);
       setRegularBins(regular);
-      console.log(readyToCollectBins);
     };
 
     updateBinCategories();
@@ -192,9 +185,9 @@ function MapPage() {
 
   const fetchFilteredBins = async () => {
     try {
-      const response = await axios.post(`${BASE_URL}/filter-bins-by-weight`, bins);
+      const response = await axios.post(`${BASE_URL}/filter-bins-by-weight`, readyToCollectBins);
       if (response.data && response.data.filtered_bins) {
-        setFilteredBins(response.data.filtered_bins);
+        setBinMap(response.data.filtered_bins);
       }
     } catch (error) {
       console.error("Error filtering bins:", error);
@@ -204,126 +197,110 @@ function MapPage() {
 
   const fetchOptimizedRoute = async () => {
     try {
-      const response = await axios.post(`${BASE_URL}/optimize-route`, bins);
+      const response = await axios.post(`${BASE_URL}/optimize-route`, readyToCollectBins);
       if (response.data && response.data.optimized_bins) {
-        setOptimizedBins(response.data.optimized_bins);
+        setBinMap(response.data.optimized_bins);
       }
     } catch (error) {
       console.error("Error fetching optimized route:", error);
       alert("Failed to fetch optimized route. Please try again.");
     }
   };
+  const fetchBaselineRoute = async () => {
+    try {
+      const response = await axios.post(`${BASE_URL}/baseline-route`, readyToCollectBins);
+      if (response.data && response.data.optimized_bins) {
+        setBinMap(response.data.optimized_bins);
+      }
+    } catch (error) {
+      console.error("Error fetching baseline route:", error);
+      alert("Failed to fetch baseline route. Please try again.");
+    }
+  };
 
   useEffect(() => {
     if (titleSolution === "optimized") {
       fetchOptimizedRoute();
-    }
-    else if (titleSolution === "optimized2") {
+    } else if (titleSolution === "optimized2") {
       fetchFilteredBins();
+    } else if(titleSolution === "baseline") {
+      fetchBaselineRoute();
     }
   }, [titleSolution]);
 
+
   const RoutingControl = () => {
-    let waypoints = [];
-  
-      if (titleSolution === "optimized2") {
-        waypoints = filteredBins.map(bin => L.latLng(parseFloat(bin.lat), parseFloat(bin.lng)));
-      } else if (titleSolution === "optimized") {
-        waypoints = optimizedBins.map(bin => L.latLng(parseFloat(bin.lat), parseFloat(bin.lng)));
-      } else {
-        waypoints = bins.map(bin => L.latLng(parseFloat(bin.lat), parseFloat(bin.lng)));
-      }
-  
-    const map = useMapEvents({
-      load: () => {
-        console.log('Map loaded:', map);
-        setupRouting(map);
-      },
-    });
-  
+    const map = useMap();
+
     useEffect(() => {
-      if (map) {
-        setupRouting(map);
-      }
-    }, [map, bins, optimizedBins, filteredBins, titleSolution]);
-  
-    const setupRouting = (map) => {
+      // Ensure the map is ready
       if (!map) return;
-  
-      // Remove existing routing control if it exists
-      // if (map.routingControl) {
-      //   map.removeControl(map.routingControl);
-      // }
-      
-      // Remove existing markers
+
+      // Cleanup existing routing control and markers
+      if (map.routingControl) {
+        map.routingControl.getPlan().setWaypoints([]);
+        map.removeControl(map.routingControl);
+      }
       if (map.markerGroup) {
         map.removeLayer(map.markerGroup);
       }
-      
-      
-      console.log('Waypoints:', waypoints); // Debugging
-  
+
+      // Initialize waypoints
+      const waypoints = binMap.map((bin) => L.latLng(parseFloat(bin.lat), parseFloat(bin.lng)));
+
       if (waypoints.length < 2) {
         console.log('Not enough waypoints to create a route');
         return;
       }
-  
+
       const router = L.Routing.mapbox(ACCESS_TOKEN, {
         alternatives: true,
         profile: 'mapbox/driving',
       });
-  
-      const markerGroup = L.layerGroup(); // Create a new layer group for markers
-  
+
+      const markerGroup = L.layerGroup();
+
+      // Create and add routing control
       const routingControl = L.Routing.control({
         waypoints,
         router,
         createMarker: function (i, wp) {
-          if (titleSolution === "optimized2" && filteredBins[i]) {
-            const marker = L.marker(wp.latLng, { icon: createNumberedIcon(i + 1) }).bindPopup(filteredBins[i]?.name || "Bin");
-            markerGroup.addLayer(marker); // Add marker to the layer group
-            return marker;
-          } else if (titleSolution === "optimized" && optimizedBins[i]) {
-            const marker = L.marker(wp.latLng, { icon: createNumberedIcon(i + 1) }).bindPopup(optimizedBins[i]?.name || "Bin");
-            markerGroup.addLayer(marker); // Add marker to the layer group
-            return marker;
-          } else if (bins[i]) {
-            const marker = L.marker(wp.latLng, { icon: createNumberedIcon(i + 1) }).bindPopup(bins[i]?.name || "Bin");
-            markerGroup.addLayer(marker); // Add marker to the layer group
-            return marker;
-          }
-          return L.marker(wp.latLng);
+          const marker = L.marker(wp.latLng, { icon: createNumberedIcon(i + 1) }).bindPopup(binMap[i]?.name || "Bin");
+          markerGroup.addLayer(marker);
+          return marker;
         },
         routeWhileDragging: false,
       }).addTo(map);
-  
-      map.markerGroup = markerGroup; // Store marker group on the map instance
-      markerGroup.addTo(map); // Add marker group to the map
-      
-      map.routingControl = routingControl; // Store routing control on the map instance
-      // routingControl.addTo(map)
+
+      map.markerGroup = markerGroup;
+      markerGroup.addTo(map);
+      map.routingControl = routingControl;
+
       routingControl.on('routesfound', function (e) {
         const routes = e.routes;
-        const routeSum = routes[0].summary;
-  
         routes.forEach((route, index) => {
           if (index > 0) {
             L.Routing.line(route, {
-              styles: [
-                { color: index === 0 ? 'blue' : 'green', weight: 4, opacity: 0.7 },
-              ],
+              styles: [{ color: 'green', weight: 4, opacity: 0.7 }],
             }).addTo(map);
           }
         });
       });
+
+      // Cleanup function
       return () => {
-        map.removeControl(routingControl);
+        if (map.routingControl) {
+          map.routingControl.getPlan().setWaypoints([]);
+          map.removeControl(map.routingControl);
+        }
+        if (map.markerGroup) {
+          map.removeLayer(map.markerGroup);
+        }
       };
-    };
-  
+    }, [map, binMap]);
+
     return null;
   };
-  
 
   return (
     <div>
@@ -341,11 +318,12 @@ function MapPage() {
               ))}
             </select>
             <div className="truckSelectText_routemap seperate_left">Select Title Solution: </div>
-              <select name="titleSolution" onChange={handleChangeSelectTitleSolution}>
-                <option value="baseline">Baseline</option>
-                <option value="optimized">Optimized</option>
-                <option value="optimized2">Optimized Weight</option>
-              </select>
+            <select name="titleSolution" onChange={handleChangeSelectTitleSolution}>
+              <option value="None">None</option>
+              <option value="baseline">Baseline</option>
+              <option value="optimized">Optimized</option>
+              <option value="optimized2">Optimized Weight</option>
+            </select>
           </div>
           <div className="container">
             <div className="map">
