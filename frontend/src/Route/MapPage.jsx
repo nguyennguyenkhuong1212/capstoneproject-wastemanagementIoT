@@ -11,7 +11,7 @@ import "leaflet-routing-machine";
 import axios from "axios";
 import BinCarousel from "../Components/BinCarousel";
 
-const BASE_URL = 'http://localhost:8000';
+const BASE_URL = process.env.REACT_APP_ROUTING_URL
 const ZOOM_LEVEL = 13;
 const ACCESS_TOKEN = 'pk.eyJ1IjoidG9naWFoeSIsImEiOiJjbHd3NThyeXgwdWE0MnFxNXh3MzF4YjE3In0.Ikxdlh66ijGULuZhR3QaMw'; // Your Mapbox access token
 
