@@ -5,11 +5,12 @@ import Navbar from '../Components/Navbar';
 
 const Trash = () => {
   const [fullness, setFullness] = useState(0);
+  const backendURL = process.env.REACT_APP_BACKEND_URL
 
   useEffect(() => {
     const fetchFullnessData = async () => {
       try {
-        const response = await fetch('http://localhost:8080/api/fullness');
+        const response = await fetch(`${backendURL}}/api/fullness`);
         const data = await response.json();
         setFullness(data.fullness);
       } catch (error) {
