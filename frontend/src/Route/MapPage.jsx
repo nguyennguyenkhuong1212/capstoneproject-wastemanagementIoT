@@ -1,17 +1,18 @@
 import React, { useEffect, useState, useRef } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import "./map.css";
 import Navbar from "../Components/Navbar";
 import Footer from "../Components/Footer";
 import Schedule from "./Schedule";
 import 'leaflet-routing-machine/dist/leaflet-routing-machine.css';
 import "leaflet/dist/leaflet.css";
-import { MapContainer, TileLayer, Marker, Popup, useMap, useMapEvents } from "react-leaflet";
+import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import L, { Icon, DivIcon } from "leaflet";
 import "leaflet-routing-machine";
 import axios from "axios";
 import BinCarousel from "../Components/BinCarousel";
 
-const BASE_URL = process.env.REACT_APP_ROUTING_URL
+const BASE_URL = process.env.REACT_APP_ROUTING_URL;
 const ZOOM_LEVEL = 13;
 const ACCESS_TOKEN = 'pk.eyJ1IjoidG9naWFoeSIsImEiOiJjbHd3NThyeXgwdWE0MnFxNXh3MzF4YjE3In0.Ikxdlh66ijGULuZhR3QaMw'; // Your Mapbox access token
 
@@ -19,7 +20,10 @@ function MapPage() {
   const [currentTruck, setCurrentTruck] = useState(1);
   const [titleSolution, setTitleSolution] = useState("None");
   const [binMap, setBinMap] = useState([]);
-  
+  const [showMap, setShowMap] = useState(false);
+  const navigate = useNavigate();
+  const currentLocation = useLocation();
+
   const handleChangeSelectTruck = (e) => {
     setCurrentTruck(e.target.value);
   };
@@ -29,32 +33,12 @@ function MapPage() {
   };
 
   const [scheduleData, setScheduleData] = useState([
-    {
-      truckNumber: 1,
-      plate: "51D-19012",
-      available: true,
-      schedule: [
-        { hospitalName: "Hospital 1", address: "123 Main St", latitude: 37.7749, longitude: -122.4194 },
-        { hospitalName: "Hospital 2", address: "456 Elm St", latitude: 37.7858, longitude: -122.4364 },
-        { hospitalName: "Hospital 3", address: "789 Oak St", latitude: 37.7963, longitude: -122.4576 },
-        { hospitalName: "Hospital 4", address: "321 Cedar St", latitude: 37.8069, longitude: -122.4789 },
-      ],
-      pickupPoint: "123 Main St",
-    },
-    {
-      truckNumber: 2,
-      plate: "51C-01704",
-      available: false,
-      schedule: [
-        { hospitalName: "Hospital 5", address: "901 Maple St", latitude: 37.8175, longitude: -122.5002 },
-        { hospitalName: "Hospital 6", address: "111 Pine St", latitude: 37.8281, longitude: -122.5215 },
-      ],
-      pickupPoint: "456 Elm St",
-    },
+    // Schedule data here...
   ]);
 
   const backendURL = process.env.REACT_APP_BACKEND_URL;
   const mapRef = useRef(null);  // Define the map reference
+  const routingControlRef = useRef(null);  // Define the routing control reference
   const [location, setLocation] = useState({ lat: 10.792838340026323, lng: 106.69810333702068 });
   const [showPopup, setShowPopup] = useState(false);
   const [newBin, setNewBin] = useState({ name: "", address: "", trashPercentage: "", lat: "", lng: "" });
@@ -206,6 +190,7 @@ function MapPage() {
       alert("Failed to fetch optimized route. Please try again.");
     }
   };
+
   const fetchBaselineRoute = async () => {
     try {
       const response = await axios.post(`${BASE_URL}/baseline-route`, readyToCollectBins);
@@ -223,11 +208,39 @@ function MapPage() {
       fetchOptimizedRoute();
     } else if (titleSolution === "optimized2") {
       fetchFilteredBins();
-    } else if(titleSolution === "baseline") {
+    } else if (titleSolution === "baseline") {
       fetchBaselineRoute();
+    } else if (titleSolution === "None" && routingControlRef.current) {
+      // Remove the routing control when "None" is selected
+      routingControlRef.current.getPlan().setWaypoints([]);
+      mapRef.current.removeControl(routingControlRef.current);
+      routingControlRef.current = null;
     }
   }, [titleSolution]);
 
+  useEffect(() => {
+    const handleNavigation = (e) => {
+      if (showMap) {
+        e.preventDefault();
+        setTitleSolution("None");
+        setTimeout(() => {
+          setShowMap(false);
+          navigate(e.target.getAttribute("href"));
+        }, 100);
+      }
+    };
+
+    const navLinks = document.querySelectorAll("a");
+    navLinks.forEach((link) => {
+      link.addEventListener("click", handleNavigation);
+    });
+
+    return () => {
+      navLinks.forEach((link) => {
+        link.removeEventListener("click", handleNavigation);
+      });
+    };
+  }, [showMap, navigate]);
 
   const RoutingControl = () => {
     const map = useMap();
@@ -236,13 +249,16 @@ function MapPage() {
       // Ensure the map is ready
       if (!map) return;
 
-      // Cleanup existing routing control and markers
-      if (map.routingControl) {
-        map.routingControl.getPlan().setWaypoints([]);
-        map.removeControl(map.routingControl);
+      // Cleanup existing routing control
+      if (routingControlRef.current) {
+        routingControlRef.current.getPlan().setWaypoints([]);
+        map.removeControl(routingControlRef.current);
+        routingControlRef.current = null;
       }
-      if (map.markerGroup) {
-        map.removeLayer(map.markerGroup);
+
+      if (titleSolution === "None") {
+        // If titleSolution is "None", we don't set up a new routing control
+        return;
       }
 
       // Initialize waypoints
@@ -258,23 +274,18 @@ function MapPage() {
         profile: 'mapbox/driving',
       });
 
-      const markerGroup = L.layerGroup();
-
       // Create and add routing control
       const routingControl = L.Routing.control({
         waypoints,
         router,
         createMarker: function (i, wp) {
           const marker = L.marker(wp.latLng, { icon: createNumberedIcon(i + 1) }).bindPopup(binMap[i]?.name || "Bin");
-          markerGroup.addLayer(marker);
           return marker;
         },
         routeWhileDragging: false,
       }).addTo(map);
 
-      map.markerGroup = markerGroup;
-      markerGroup.addTo(map);
-      map.routingControl = routingControl;
+      routingControlRef.current = routingControl;
 
       routingControl.on('routesfound', function (e) {
         const routes = e.routes;
@@ -289,81 +300,102 @@ function MapPage() {
 
       // Cleanup function
       return () => {
-        if (map.routingControl) {
-          if (map?.routingControl) {
-              const plan = map.routingControl.getPlan();
-              if (plan) {
-                  plan.setWaypoints([]);
-              } else {
-                  console.error("Failed to get the plan from routingControl.");
-              }
-          } else {
-              console.error("Map or routingControl is not initialized.");
-          }
-          map?.removeControl(map.routingControl);
-        }
-        if (map.markerGroup) {
-          map?.removeLayer(map.markerGroup);
+        if (routingControlRef.current) {
+          routingControlRef.current.getPlan().setWaypoints([]);
+          map.removeControl(routingControlRef.current);
+          routingControlRef.current = null;
         }
       };
-    }, [map, binMap]);
+    }, [map, binMap, titleSolution]);
 
     return null;
+  };
+
+  useEffect(() => {
+    return () => {
+      // Cleanup function when the component unmounts
+      setTitleSolution("None");
+      if (mapRef.current) {
+        mapRef.current.eachLayer((layer) => {
+          mapRef.current.removeLayer(layer);
+        });
+        if (routingControlRef.current) {
+          routingControlRef.current.getPlan().setWaypoints([]);
+          mapRef.current.removeControl(routingControlRef.current);
+          routingControlRef.current = null;
+        }
+      }
+    };
+  }, []);
+
+  const handleToggleMap = () => {
+    setTitleSolution("None");
+    setTimeout(() => {
+      setShowMap(!showMap);
+    }, 100); // Delay to ensure titleSolution is set to None first
   };
 
   return (
     <div>
       <Navbar name="Collection Route Planner" />
       <div className="main">
-        <div className="section">
-          <div className="title">Route Map</div>
-          <div className="truckSelect_routemap">
-            <div className="truckSelectText_routemap">Select Truck: </div>
-            <select name="truck" onChange={handleChangeSelectTruck}>
-              {scheduleData.map((truck, index) => (
-                <option key={index} value={truck.truckNumber}>
-                  {truck.plate}
-                </option>
-              ))}
-            </select>
-            <div className="truckSelectText_routemap seperate_left">Select Title Solution: </div>
-            <select name="titleSolution" onChange={handleChangeSelectTitleSolution}>
-              <option value="None">None</option>
-              <option value="baseline">Baseline</option>
-              <option value="optimized">Optimized</option>
-              <option value="optimized2">Optimized Weight</option>
-            </select>
-          </div>
-          <div className="container">
-            <div className="map">
-              <MapContainer
-                center={location}
-                zoom={ZOOM_LEVEL}
-                scrollWheelZoom={false}
-                whenCreated={mapInstance => mapRef.current = mapInstance}
-              >
-                <TileLayer
-                  noWrap={false}
-                  url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                />
-                <FlyToLocation location={location} zoom={ZOOM_LEVEL} />
-                {bins.map((bin, index) => (
-                  <Marker
-                    key={index}
-                    position={[parseFloat(bin.lat), parseFloat(bin.lng)]}
-                    icon={createDivIcon(bin.fullness)}
-                  >
-                    <Popup>
-                      <div className="popup-title">{bin.name}</div>
-                      <div className="popup-description">{bin.address}</div>
-                    </Popup>
-                  </Marker>
+        <button onClick={handleToggleMap}>
+          {showMap ? "Hide Map" : "Show Map"}
+        </button>
+        {showMap && (
+          <div className="section">
+            <div className="title">Route Map</div>
+            <div className="truckSelect_routemap">
+              <div className="truckSelectText_routemap">Select Truck: </div>
+              <select name="truck" onChange={handleChangeSelectTruck}>
+                {scheduleData.map((truck, index) => (
+                  <option key={index} value={truck.truckNumber}>
+                    {truck.plate}
+                  </option>
                 ))}
-                <RoutingControl />
-              </MapContainer>
+              </select>
+              <div className="truckSelectText_routemap seperate_left">Select Title Solution: </div>
+              <select name="titleSolution" onChange={handleChangeSelectTitleSolution}>
+                <option value="None">None</option>
+                <option value="baseline">Baseline</option>
+                <option value="optimized">Optimized</option>
+                <option value="optimized2">Optimized Weight</option>
+              </select>
+            </div>
+            <div className="container">
+              <div className="map">
+                <MapContainer
+                  center={location}
+                  zoom={ZOOM_LEVEL}
+                  scrollWheelZoom={false}
+                  zoomControl={false} // Disable zoom control
+                  whenCreated={(mapInstance) => {
+                    mapRef.current = mapInstance;
+                  }}
+                >
+                  <TileLayer
+                    noWrap={false}
+                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                  />
+                  <FlyToLocation location={location} zoom={ZOOM_LEVEL} />
+                  {bins.map((bin, index) => (
+                    <Marker
+                      key={index}
+                      position={[parseFloat(bin.lat), parseFloat(bin.lng)]}
+                      icon={createDivIcon(bin.fullness)}
+                    >
+                      <Popup>
+                        <div className="popup-title">{bin.name}</div>
+                        <div className="popup-description">{bin.address}</div>
+                      </Popup>
+                    </Marker>
+                  ))}
+                  <RoutingControl />
+                </MapContainer>
+              </div>
             </div>
           </div>
-        </div>
+        )}
 
         <div className="section">
           <div className="title">Ready-to-collect Bin</div>
