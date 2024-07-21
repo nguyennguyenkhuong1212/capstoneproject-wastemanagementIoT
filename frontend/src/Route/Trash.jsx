@@ -10,7 +10,7 @@ const Trash = () => {
   useEffect(() => {
     const fetchFullnessData = async () => {
       try {
-        const response = await fetch(`${backendURL}}/api/fullness`);
+        const response = await fetch(`${backendURL}/api/fullness`);
         const data = await response.json();
         setFullness(data.fullness);
       } catch (error) {
