@@ -291,10 +291,10 @@ function MapPage() {
       return () => {
         if (map.routingControl) {
           map?.routingControl?.getPlan()?.setWaypoints([]);
-          map.removeControl(map.routingControl);
+          map?.removeControl(map.routingControl);
         }
         if (map.markerGroup) {
-          map.removeLayer(map.markerGroup);
+          map?.removeLayer(map.markerGroup);
         }
       };
     }, [map, binMap]);
