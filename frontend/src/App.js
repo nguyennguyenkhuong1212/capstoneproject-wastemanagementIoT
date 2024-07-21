@@ -7,7 +7,6 @@ import LandingPage from "./Route/LandingPage";
 import Footer from "./Components/Footer";
 import Guide from "./Route/Guide";
 import Trash from "./Route/Trash";
-import BannerBackground from "../src/Assets/Image.png";
 
 function App() {
   return (

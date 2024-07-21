@@ -1,11 +1,9 @@
 import React, { useEffect, useState, useRef } from "react";
 import "./map.css";
 import Navbar from "../Components/Navbar";
-import Footer from "../Components/Footer";
-import Schedule from "./Schedule";
 import 'leaflet-routing-machine/dist/leaflet-routing-machine.css';
 import "leaflet/dist/leaflet.css";
-import { MapContainer, TileLayer, Marker, Popup, useMap, useMapEvents } from "react-leaflet";
+import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import L, { Icon, DivIcon } from "leaflet";
 import "leaflet-routing-machine";
 import axios from "axios";
