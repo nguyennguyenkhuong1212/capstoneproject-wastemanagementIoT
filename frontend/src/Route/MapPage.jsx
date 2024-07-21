@@ -290,7 +290,16 @@ function MapPage() {
       // Cleanup function
       return () => {
         if (map.routingControl) {
-          map?.routingControl?.getPlan()?.setWaypoints([]);
+          if (map?.routingControl) {
+              const plan = map.routingControl.getPlan();
+              if (plan) {
+                  plan.setWaypoints([]);
+              } else {
+                  console.error("Failed to get the plan from routingControl.");
+              }
+          } else {
+              console.error("Map or routingControl is not initialized.");
+          }
           map?.removeControl(map.routingControl);
         }
         if (map.markerGroup) {
