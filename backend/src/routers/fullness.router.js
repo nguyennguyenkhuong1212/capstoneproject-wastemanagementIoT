@@ -1,6 +1,6 @@
 // src/routers/fullnessRoutes.js
 const express = require('express');
-const { getFullnessData } = require('../controllers/fullnessController');
+const { getFullnessData } = require('../controllers/fullness.controller');
 
 const router = express.Router();
 
