@@ -290,7 +290,7 @@ function MapPage() {
       // Cleanup function
       return () => {
         if (map.routingControl) {
-          map.routingControl.getPlan().setWaypoints([]);
+          map?.routingControl?.getPlan()?.setWaypoints([]);
           map.removeControl(map.routingControl);
         }
         if (map.markerGroup) {
