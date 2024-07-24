@@ -54,7 +54,7 @@ def get_travel_time_matrix(locations):
     return data['durations']
 
 @app.post("/filter-bins-by-weight")
-def filter_bins_by_weight(bins: List[Dict], max_weight: int = 100, bin_weight: int = 50):
+def filter_bins_by_weight(bins: List[Dict], max_weight: int = 100, bin_max_weight: int = 50):
     filtered_bins = []
     current_weight = 0
 
@@ -70,6 +70,11 @@ def filter_bins_by_weight(bins: List[Dict], max_weight: int = 100, bin_weight: i
     for bin in bins:
         if bin['lat'] == START_LOCATION['lat'] and bin['lng'] == START_LOCATION['lng']:
             continue
+        
+        # Calculate the actual weight of the bin based on its fullness percentage
+        bin_weight = (bin['fullness'] / 100) * bin_max_weight
+
+        # Check if adding this bin exceeds the set weight limit
         if current_weight + bin_weight <= max_weight:
             filtered_bins.append(bin)
             current_weight += bin_weight
