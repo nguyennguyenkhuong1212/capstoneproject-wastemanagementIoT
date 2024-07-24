@@ -53,6 +53,71 @@ def get_travel_time_matrix(locations):
     data = response.json()
     return data['durations']
 
+@app.post("/multi-run-route")
+def multi_run_route(bins: List[Dict], max_weight: int = 100, bin_max_weight: int = 50):
+    def solve_tsp(travel_time_matrix):
+        num_locations = len(travel_time_matrix)
+        min_cost = float('inf')
+        min_route = []
+        for perm in itertools.permutations(range(1, num_locations)):
+            route = [0] + list(perm) + [0]
+            cost = sum(travel_time_matrix[route[i]][route[i + 1]] for i in range(len(route) - 1))
+            if cost < min_cost:
+                min_cost = cost
+                min_route = route
+        return min_route, min_cost
+
+    run1_bins = []
+    run2_bins = []
+    current_weight = 0
+    current_run = 1
+
+    # Ensure the starting location is included at the start of the first run
+    if bins and (bins[0]['lat'] != START_LOCATION['lat'] or bins[0]['lng'] != START_LOCATION['lng']):
+        bins.insert(0, {"name": "Start", "lat": START_LOCATION['lat'], "lng": START_LOCATION['lng'], "fullness": 0})
+
+    for bin in bins:
+        if bin['lat'] == START_LOCATION['lat'] and bin['lng'] == START_LOCATION['lng']:
+            if current_run == 2:
+                run2_bins.append(bin)
+            else:
+                run1_bins.append(bin)
+            continue
+
+        bin_weight = (bin['fullness'] / 100) * bin_max_weight
+
+        if current_weight + bin_weight > max_weight:
+            current_run += 1
+            current_weight = 0  # Reset the weight for the new run
+            if current_run > 2:
+                break
+
+        if current_run == 1:
+            run1_bins.append(bin)
+        elif current_run == 2:
+            run2_bins.append(bin)
+
+        current_weight += bin_weight
+
+    # Ensure the runs end at the starting location
+    if run1_bins and (run1_bins[-1]['lat'] != START_LOCATION['lat'] or run1_bins[-1]['lng'] != START_LOCATION['lng']):
+        run1_bins.append({"name": "Start", "lat": START_LOCATION['lat'], "lng": START_LOCATION['lng'], "fullness": 0})
+    if run2_bins and (run2_bins[-1]['lat'] != START_LOCATION['lat'] or run2_bins[-1]['lng'] != START_LOCATION['lng']):
+        run2_bins.append({"name": "Start", "lat": START_LOCATION['lat'], "lng": START_LOCATION['lng'], "fullness": 0})
+
+    def optimize_run(bins):
+        if len(bins) > 1:
+            travel_time_matrix = get_travel_time_matrix(bins)
+            route, _ = solve_tsp(travel_time_matrix)
+            return [bins[i] for i in route]
+        return bins
+
+    optimized_run1_bins = optimize_run(run1_bins)
+    optimized_run2_bins = optimize_run(run2_bins)
+
+    return JSONResponse(content={"Run1": optimized_run1_bins, "Run2": optimized_run2_bins})
+
+
 @app.post("/filter-bins-by-weight")
 def filter_bins_by_weight(bins: List[Dict], max_weight: int = 100, bin_max_weight: int = 50):
     filtered_bins = []
