@@ -19,10 +19,15 @@ const ACCESS_TOKEN = 'pk.eyJ1IjoidG9naWFoeSIsImEiOiJjbHd3NThyeXgwdWE0MnFxNXh3MzF
 function MapPage() {
   const [currentTruck, setCurrentTruck] = useState(1);
   const [titleSolution, setTitleSolution] = useState("None");
+  const [runOption, setRunOption] = useState("Run 1");
   const [binMap, setBinMap] = useState([]);
   const [showMap, setShowMap] = useState(false);
   const navigate = useNavigate();
   const currentLocation = useLocation();
+  const [run1Bins, setRun1Bins] = useState([]);
+  const [run2Bins, setRun2Bins] = useState([]);
+
+  
 
   const handleChangeSelectTruck = (e) => {
     setCurrentTruck(e.target.value);
@@ -32,13 +37,17 @@ function MapPage() {
     setTitleSolution(e.target.value);
   };
 
+  const handleRunOptionChange = (e) => {
+    setRunOption(e.target.value);
+  };
+
   const [scheduleData, setScheduleData] = useState([
     // Schedule data here...
   ]);
 
   const backendURL = process.env.REACT_APP_BACKEND_URL;
-  const mapRef = useRef(null);  // Define the map reference
-  const routingControlRef = useRef(null);  // Define the routing control reference
+  const mapRef = useRef(null);
+  const routingControlRef = useRef(null);
   const [location, setLocation] = useState({ lat: 10.792838340026323, lng: 106.69810333702068 });
   const [showPopup, setShowPopup] = useState(false);
   const [newBin, setNewBin] = useState({ name: "", address: "", trashPercentage: "", lat: "", lng: "" });
@@ -58,7 +67,7 @@ function MapPage() {
 
   const customIcon = new Icon({
     iconUrl: "https://cdn-icons-png.flaticon.com/512/447/447031.png",
-    iconSize: [38, 38], // size of the icon
+    iconSize: [38, 38],
   });
 
   const createDivIcon = (fullness) => {
@@ -70,7 +79,7 @@ function MapPage() {
                 <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10m0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6"/>
               </svg>
             </div>`,
-      iconSize: [30, 42], // Adjust the size as needed
+      iconSize: [30, 42],
       iconAnchor: [15, 42],
     });
   };
@@ -203,6 +212,22 @@ function MapPage() {
     }
   };
 
+  const fetchOptimizedMultiTrip = async () => {
+    try {
+      const response = await axios.post(`${BASE_URL}/multi-run-route`, readyToCollectBins);
+      if (response.data && response.data.Run1 && runOption == "Run 1") {
+        setBinMap(response.data.Run1);
+      }
+      if(response.data && response.data.Run2 && runOption == "Run 2"){
+        setBinMap(response.data.Run2);
+      }
+    } catch (error) {
+      console.error("Error fetching optimized multi-trip route:", error);
+      alert("Failed to fetch optimized multi-trip route. Please try again.");
+    }
+  };
+  
+
   useEffect(() => {
     if (titleSolution === "optimized") {
       fetchOptimizedRoute();
@@ -210,13 +235,15 @@ function MapPage() {
       fetchFilteredBins();
     } else if (titleSolution === "baseline") {
       fetchBaselineRoute();
+    } else if (titleSolution === "Optimized Multi Trip") {
+      fetchOptimizedMultiTrip()
     } else if (titleSolution === "None" && routingControlRef.current) {
-      // Remove the routing control when "None" is selected
       routingControlRef.current.getPlan().setWaypoints([]);
       mapRef.current.removeControl(routingControlRef.current);
       routingControlRef.current = null;
     }
-  }, [titleSolution]);
+  }, [titleSolution, runOption, run1Bins, run2Bins]);
+  
 
   useEffect(() => {
     const handleNavigation = (e) => {
@@ -246,10 +273,8 @@ function MapPage() {
     const map = useMap();
 
     useEffect(() => {
-      // Ensure the map is ready
       if (!map) return;
 
-      // Cleanup existing routing control
       if (routingControlRef.current) {
         routingControlRef.current.getPlan().setWaypoints([]);
         map.removeControl(routingControlRef.current);
@@ -257,11 +282,9 @@ function MapPage() {
       }
 
       if (titleSolution === "None") {
-        // If titleSolution is "None", we don't set up a new routing control
         return;
       }
 
-      // Initialize waypoints
       const waypoints = binMap.map((bin) => L.latLng(parseFloat(bin.lat), parseFloat(bin.lng)));
 
       if (waypoints.length < 2) {
@@ -274,7 +297,6 @@ function MapPage() {
         profile: 'mapbox/driving',
       });
 
-      // Create and add routing control
       const routingControl = L.Routing.control({
         waypoints,
         router,
@@ -298,7 +320,6 @@ function MapPage() {
         });
       });
 
-      // Cleanup function
       return () => {
         if (routingControlRef.current) {
           routingControlRef.current.getPlan().setWaypoints([]);
@@ -313,7 +334,6 @@ function MapPage() {
 
   useEffect(() => {
     return () => {
-      // Cleanup function when the component unmounts
       setTitleSolution("None");
       if (mapRef.current) {
         mapRef.current.eachLayer((layer) => {
@@ -332,7 +352,7 @@ function MapPage() {
     setTitleSolution("None");
     setTimeout(() => {
       setShowMap(!showMap);
-    }, 100); // Delay to ensure titleSolution is set to None first
+    }, 100);
   };
 
   return (
@@ -360,7 +380,17 @@ function MapPage() {
                 <option value="baseline">Baseline</option>
                 <option value="optimized">Optimized</option>
                 <option value="optimized2">Optimized Weight</option>
+                <option value="Optimized Multi Trip">Optimized Multi Trip</option>
               </select>
+              {titleSolution === "Optimized Multi Trip" && (
+                <div className="runSelect_routemap">
+                  <div className="runSelectText_routemap">Select Run: </div>
+                  <select name="runOption" onChange={handleRunOptionChange}>
+                    <option value="Run 1">Run 1</option>
+                    <option value="Run 2">Run 2</option>
+                  </select>
+                </div>
+              )}
             </div>
             <div className="container">
               <div className="map">
@@ -368,7 +398,7 @@ function MapPage() {
                   center={location}
                   zoom={ZOOM_LEVEL}
                   scrollWheelZoom={false}
-                  zoomControl={false} // Disable zoom control
+                  zoomControl={false}
                   whenCreated={(mapInstance) => {
                     mapRef.current = mapInstance;
                   }}
