@@ -2,8 +2,6 @@ import React, { useEffect, useState, useRef } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import "./map.css";
 import Navbar from "../Components/Navbar";
-import Footer from "../Components/Footer";
-import Schedule from "./Schedule";
 import 'leaflet-routing-machine/dist/leaflet-routing-machine.css';
 import "leaflet/dist/leaflet.css";
 import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
