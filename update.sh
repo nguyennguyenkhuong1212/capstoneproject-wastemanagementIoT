@@ -4,6 +4,6 @@ git fetch -p
 git pull
 cd /home/ec2-user/capstoneproject-wastemanagementIoT/frontend
 pm2 stop 0
-npm i
+npm i --legacy-peer-deps
 npm run build-prod
 pm2 serve ./build 3000 --name "client" --spa

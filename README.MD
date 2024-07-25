@@ -28,9 +28,7 @@ use `uvicorn main:app --reload`
 ## FOR UPDATE NEW WEBSITE VERSION ON EC2 INSTANCE
 ```
 ssh -i [your_key_path] ec2-user@54.251.168.188
-pm2 stop 0
-cd capstoneproject-wastemanagementIoT
-bash update.sh
+bash /home/ec2-user/capstoneproject-wastemanagementIoT/update.sh
 ```
 
 ## CODE FOR REBUILD AND REDEPLOY
