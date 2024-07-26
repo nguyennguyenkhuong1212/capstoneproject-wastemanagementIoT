@@ -28,13 +28,13 @@ function App() {
 
   return (
     <div className="App">
-      <Loading 
+      {/* <Loading 
         loading={loading}
         fullPage
         size={100}
         speed='fast'
         loadingComponent={<LoadingAnimation />} 
-      >
+      > */}
         <BrowserRouter>
           <div className="content">
             <Routes>
@@ -47,7 +47,7 @@ function App() {
           </div>
         </BrowserRouter>
         <Footer />
-      </Loading>
+      {/* </Loading> */}
     </div>
   );
 }
