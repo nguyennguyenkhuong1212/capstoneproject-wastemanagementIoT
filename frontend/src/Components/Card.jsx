@@ -40,7 +40,6 @@ function Card({ bID, name, address, trashPercentage }) {
 
   if (!trashPercentage) {
     trashPercentage = 0;
-    console.log(trashPercentage);
   }
 
   return (
