@@ -15,15 +15,9 @@ function App() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const handleLoad = () => {
-        setLoading(false);
-    };
-
-    window.addEventListener('load', handleLoad);
-
-    return () => {
-      window.removeEventListener('load', handleLoad);
-    };
+    setTimeout(() => {
+      setLoading(false);
+    }, 500); 
   }, []);
 
   return (
