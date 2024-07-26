@@ -99,11 +99,11 @@ function MapPage() {
         } else if (result.state === "prompt") {
           navigator.geolocation.getCurrentPosition(success, errors, options);
         } else if (result.state === "denied") {
-          console.log("Geolocation permission denied");
+          console.error("Geolocation permission denied");
         }
       });
     } else {
-      console.log("Geolocation is not supported by this browser.");
+      console.error("Geolocation is not supported by this browser.");
     }
   }, []);
 

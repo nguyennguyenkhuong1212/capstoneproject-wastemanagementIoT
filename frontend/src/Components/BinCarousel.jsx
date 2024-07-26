@@ -6,7 +6,6 @@ import Card from "./Card";
 import "./carousel.css";
 
 const BinCarousel = ({ readyToCollectBins }) => {
-  console.log(readyToCollectBins);
   const settings = {
     dots: true,
     infinite: false,
