@@ -12,19 +12,19 @@ import Trash from "./Route/Trash";
 import LoadingAnimation from "./Components/Loading";
 
 function App() {
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    const handleLoad = () => {
-        setLoading(false);
-    };
+  // useEffect(() => {
+  //   const handleLoad = () => {
+  //       setLoading(false);
+  //   };
 
-    window.addEventListener('load', handleLoad);
+  //   window.addEventListener('load', handleLoad);
 
-    return () => {
-      window.removeEventListener('load', handleLoad);
-    };
-  }, []);
+  //   return () => {
+  //     window.removeEventListener('load', handleLoad);
+  //   };
+  // }, []);
 
   return (
     <div className="App">
