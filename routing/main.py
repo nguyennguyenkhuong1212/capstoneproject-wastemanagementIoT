@@ -119,10 +119,17 @@ def multi_run_route(bins: List[Dict], max_weight: int = 100, bin_max_weight: int
 
 
 @app.post("/filter-bins-by-weight")
-def filter_bins_by_weight(bins: List[Dict], max_weight: int = 100, bin_max_weight: int = 50):
+def filter_bins_by_weight_and_time(bins: List[Dict], max_weight: int = 100, bin_max_weight: int = 50):
+    for idx, bin in enumerate(bins):
+        bin['index'] = idx
     filtered_bins = []
     current_weight = 0
-
+    def compute_route_time(route, travel_time_matrix):
+        total_time = 0
+        for i in range(len(route) - 1):
+            total_time += travel_time_matrix[route[i]][route[i + 1]]
+        total_time += travel_time_matrix[route[-1]][route[0]]  # Return to starting point
+        return total_time
     # Ensure the starting location is included in the route
     for bin in bins:
         if bin['lat'] == START_LOCATION['lat'] and bin['lng'] == START_LOCATION['lng']:
@@ -131,45 +138,46 @@ def filter_bins_by_weight(bins: List[Dict], max_weight: int = 100, bin_max_weigh
     else:
         raise HTTPException(status_code=400, detail="Starting location not found in the bins list.")
 
-    # Filter the bins based on the weight limit
-    for bin in bins:
-        if bin['lat'] == START_LOCATION['lat'] and bin['lng'] == START_LOCATION['lng']:
-            continue
-        
-        # Calculate the actual weight of the bin based on its fullness percentage
-        bin_weight = (bin['fullness'] / 100) * bin_max_weight
+    # Create a distance matrix for the filtered bins
+    travel_time_matrix = get_travel_time_matrix(bins)
+    num_bins = len(bins)
+    current_bin_index = 0
 
-        # Check if adding this bin exceeds the set weight limit
-        if current_weight + bin_weight <= max_weight:
-            filtered_bins.append(bin)
-            current_weight += bin_weight
+    # Nearest neighbor approach to select bins based on minimal additional travel time
+    while current_bin_index is not None:
+        next_bin_index = None
+        min_time = float('inf')
+        
+        for i in range(num_bins):
+            if i == current_bin_index or i in [bin['index'] for bin in filtered_bins]:
+                continue
+            
+            bin_weight = (bins[i]['fullness'] / 100) * bin_max_weight
+            
+            if current_weight + bin_weight > max_weight:
+                continue
+
+            travel_time = travel_time_matrix[current_bin_index][i]
+
+            if travel_time < min_time:
+                min_time = travel_time
+                next_bin_index = i
+
+        if next_bin_index is not None:
+            filtered_bins.append(bins[next_bin_index])
+            current_weight += (bins[next_bin_index]['fullness'] / 100) * bin_max_weight
+            current_bin_index = next_bin_index
+        else:
+            current_bin_index = None
 
     if len(filtered_bins) == 1:  # Only the starting location is included
-        raise HTTPException(status_code=400, detail="No bins can be collected within the weight limit.")
-
-    travel_time_matrix = get_travel_time_matrix(filtered_bins)
-    num_locations = len(travel_time_matrix)
-
-    def compute_route_time(route):
-        total_time = 0
-        for i in range(len(route) - 1):
-            total_time += travel_time_matrix[route[i]][route[i + 1]]
-        return total_time
-
-    def solve_tsp():
-        min_cost = float('inf')
-        min_route = []
-        for perm in itertools.permutations(range(1, num_locations)):
-            route = [0] + list(perm) + [0]
-            cost = compute_route_time(route)
-            if cost < min_cost:
-                min_cost = cost
-                min_route = route
-        return min_route, min_cost
+        raise HTTPException(status_code=400, detail="No bins can be collected within the weight and time limits.")
 
     try:
-        filteredRoute, filteredCost = solve_tsp()
-        optimized_bins = [filtered_bins[i] for i in filteredRoute]
+        # Use the travel time matrix and filtered bins to compute the optimal route
+        filteredRoute = [bin['index'] for bin in filtered_bins]
+        filteredCost = compute_route_time(filteredRoute, travel_time_matrix)
+        optimized_bins = [bins[i] for i in filteredRoute]
         return JSONResponse(content={"filteredRoute": filteredRoute, "filteredCost": filteredCost, "filtered_bins": optimized_bins})
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
