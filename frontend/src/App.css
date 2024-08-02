@@ -62,10 +62,19 @@ body {
 
 .Footer{
   margin-top: auto;
+  margin: 0;
+  padding: 0;
+
 }
 
 .content{
   margin: 1rem 7vw;
   display: flex;
   flex-direction: column;
+  flex: 1;
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
 }
