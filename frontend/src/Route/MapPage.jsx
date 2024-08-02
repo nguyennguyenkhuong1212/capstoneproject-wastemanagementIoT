@@ -13,7 +13,7 @@ import BinCarousel from "../Components/BinCarousel";
 const BASE_URL = process.env.REACT_APP_ROUTING_URL;
 const ZOOM_LEVEL = 13;
 const ACCESS_TOKEN = 'pk.eyJ1IjoidG9naWFoeSIsImEiOiJjbHd3NThyeXgwdWE0MnFxNXh3MzF4YjE3In0.Ikxdlh66ijGULuZhR3QaMw'; // Your Mapbox access token
-
+const BIN_ID = '66ac9524a6f4888fcfe0030a';
 function MapPage() {
   const [currentTruck, setCurrentTruck] = useState(1);
   const [titleSolution, setTitleSolution] = useState("None");
@@ -121,6 +121,32 @@ function MapPage() {
 
     fetchBins();
   }, []);
+
+  const updateBin = async () => {
+    try {
+      // Fetch data from Twilio
+      const twilioResponse = await axios.get(`${backendURL}/api/fullness`);
+      const fullnessData = Math.round(twilioResponse.data.fullness);
+
+      // Update the specific bin with the new data
+      const updateResponse = await axios.put(`${backendURL}/api/bin/updateBin`, {
+        id: BIN_ID,
+        newInfo: {
+          fullness: fullnessData,
+        },
+      });
+      window.location.reload();
+
+      if (updateResponse.data && updateResponse.data.status === 'success') {
+        // alert("Bin updated successfully!");
+      } else {
+        // alert("Failed to update bin.");
+      }
+    } catch (error) {
+      // console.error("Error updating bin:", error);
+      // alert("An error occurred while updating the bin.");
+    }
+  };
 
   useEffect(() => {
     const updateBinCategories = () => {
@@ -357,6 +383,7 @@ function MapPage() {
     <div>
       <Navbar name="Collection Route Planner" />
       <div className="main">
+        <button onClick={updateBin}>Update Bin</button>
         <button onClick={handleToggleMap}>
           {showMap ? "Hide Map" : "Show Map"}
         </button>
