@@ -419,7 +419,7 @@ function MapPage() {
                   center={location}
                   zoom={ZOOM_LEVEL}
                   scrollWheelZoom={true}
-                  zoomControl={true}
+                  zoomControl={false}
                   whenCreated={(mapInstance) => {
                     mapRef.current = mapInstance;
                   }}
