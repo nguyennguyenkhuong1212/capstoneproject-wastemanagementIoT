@@ -1,11 +1,11 @@
-.rise__teaminfo_section {
+.rise_section {
   flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
 }
-.rise__teaminfo_header {
+.rise_header {
   justify-content: center;
   font-family: "Open Sans", sans-serif;
   font-size: 20px;
@@ -13,7 +13,7 @@
   color: #458e60;
 }
 
-.rise__teaminfo_header hr {
+.rise_header hr {
   background: #458e60;
   margin-left: auto;
   margin-right: auto;
@@ -22,18 +22,17 @@
   border: 5px solid #458e60;
 }
 
-.rise__teaminfo_paragraph {
+.rise_paragraph {
   flex: 1;
   justify-content: flex-start;
   margin: 2rem 0;
-
-  font-family: "Roboto", sans-serif;
+  font-family: "Montserrat", sans-serif;
   color: black;
-  font-size: 22px;
+  font-size: 18px;
   text-align: justify;
 }
 
-.rise__teaminfo_member_section {
+.rise_member_section {
   display: flex;
   justify-content: space-around;
   font-family: "Roboto";
@@ -67,7 +66,7 @@
   margin: 0.5rem;
 }
 
-.rise__teaminfo_btn {
+.rise_btn {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -78,8 +77,9 @@
   animation: upup 2s ease-in-out infinite;
 }
 
-.section__padding {
+.landing-page-section {
   height: max-content;
+  margin-top: 7.5rem;
 }
 
 @keyframes upup {
@@ -95,19 +95,21 @@
 }
 
 @media (max-width: 490px) {
-  .rise__teaminfo_member_section {
+  .rise_member_section {
     display: flex;
     flex-direction: column;
   }
-  .rise__teaminfo_paragraph {
+  .rise_paragraph {
     display: none;
   }
-  .rise__teaminfo_header h1 {
+  .rise_header h1 {
     display: flex;
     flex-direction: column;
     text-align: center;
   }
-
+  #OURGOAL{
+    display: none;
+  }
   .profile_picture {
     display: flex;
     align-items: center;
@@ -121,7 +123,7 @@
     justify-content: center;
   }
 
-  .rise__teaminfo_member_section {
+  .rise_member_section {
     display: flex;
     flex-direction: column;
   }
@@ -132,7 +134,7 @@
   }
 }
 @media (max-width: 1000px) {
-  .rise__teaminfo_paragraph p {
+  .rise_paragraph p {
     font-size: 18px;
   }
 }

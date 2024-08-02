@@ -142,13 +142,62 @@
     background: #0056b3;
 }
 
-.truckSelect_routemap{
+.routeMap{
     margin-bottom: 2rem;
     display: flex;
     flex-direction: row;
     justify-content: center;
+    gap: 40px;
 }
 
-.truckSelectText_routemap{
-    margin-right: 0.5rem;
+.routeMapContainer{
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
 }
+
+.hide-map-btn {
+    background-color: #4CAF50; 
+    border: none; 
+    color: white;
+    padding: 15px 32px; 
+    text-align: center; 
+    text-decoration: none; 
+    display: inline-block; 
+    font-size: 16px; 
+    margin: 4px 2px; 
+    cursor: pointer; 
+    border-radius: 8px; 
+    transition: background-color 0.3s ease; 
+  }
+  
+  .hide-map-btn:hover {
+    background-color: #429445; 
+  }
+
+  .hide-map-btn:focus,
+  .hide-map-btn:focus-visible{
+    outline: none;
+  }
+
+  .sectionTop{
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }
+
+  .update-bin-btn {
+    stroke-width: 1px;
+    transform: translateY(3px) rotate(0deg);
+    color: #4CAF50;
+    width: 25px;
+    height: 25px;
+    border: none;
+    cursor: pointer;
+    transition: transform 1.8s ease-in-out;
+  }
+
+  .self-rotate{
+    transform: translateY(3px) rotate(360deg);
+    transition: transform 1.8s ease-in-out;
+  }
