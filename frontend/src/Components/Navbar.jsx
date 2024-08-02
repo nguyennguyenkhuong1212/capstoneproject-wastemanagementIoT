@@ -23,7 +23,7 @@ function Navbar() {
 
   return (
     <nav className="navbar">
-      <div className="second">
+      <div className="divider">
         <div className="logo">
           <NavLink to="/" className="link-logo">
             <h4>WASTE MANAGEMENT IOT</h4>

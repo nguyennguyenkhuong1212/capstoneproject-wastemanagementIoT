@@ -15,7 +15,6 @@ const ZOOM_LEVEL = 13;
 const ACCESS_TOKEN = 'pk.eyJ1IjoidG9naWFoeSIsImEiOiJjbHd3NThyeXgwdWE0MnFxNXh3MzF4YjE3In0.Ikxdlh66ijGULuZhR3QaMw'; // Your Mapbox access token
 const BIN_ID = '66ac9524a6f4888fcfe0030a';
 function MapPage() {
-  const [currentTruck, setCurrentTruck] = useState(1);
   const [titleSolution, setTitleSolution] = useState("None");
   const [runOption, setRunOption] = useState("Run 1");
   const [binMap, setBinMap] = useState([]);
@@ -24,12 +23,6 @@ function MapPage() {
   const currentLocation = useLocation();
   const [run1Bins, setRun1Bins] = useState([]);
   const [run2Bins, setRun2Bins] = useState([]);
-
-  
-
-  const handleChangeSelectTruck = (e) => {
-    setCurrentTruck(e.target.value);
-  };
 
   const handleChangeSelectTitleSolution = (e) => {
     setTitleSolution(e.target.value);
@@ -52,6 +45,7 @@ function MapPage() {
   const [bins, setBins] = useState([]);
   const [readyToCollectBins, setReadyToCollectBins] = useState([]);
   const [regularBins, setRegularBins] = useState([]);
+  const [isRotating, setIsRotating] = useState(false);
 
   const options = { enableHighAccuracy: true, timeout: 5000, maximumAge: 0 };
 
@@ -123,7 +117,10 @@ function MapPage() {
   }, []);
 
   const updateBin = async () => {
+    setIsRotating(!isRotating);
+    const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
     try {
+      await delay(2000);
       // Fetch data from Twilio
       const twilioResponse = await axios.get(`${backendURL}/api/fullness`);
       const fullnessData = Math.round(twilioResponse.data.fullness);
@@ -383,38 +380,37 @@ function MapPage() {
     <div>
       <Navbar name="Collection Route Planner" />
       <div className="main">
-        <button onClick={updateBin}>Update Bin</button>
-        <button onClick={handleToggleMap}>
+        <button className="hide-map-btn" onClick={handleToggleMap}>
           {showMap ? "Hide Map" : "Show Map"}
         </button>
         {showMap && (
           <div className="section">
             <div className="title">Route Map</div>
-            <div className="truckSelect_routemap">
-              <div className="truckSelectText_routemap">Select Truck: </div>
-              <select name="truck" onChange={handleChangeSelectTruck}>
-                {scheduleData.map((truck, index) => (
-                  <option key={index} value={truck.truckNumber}>
-                    {truck.plate}
-                  </option>
-                ))}
-              </select>
-              <div className="truckSelectText_routemap seperate_left">Select Title Solution: </div>
-              <select name="titleSolution" onChange={handleChangeSelectTitleSolution}>
-                <option value="None">None</option>
-                <option value="baseline">Baseline</option>
-                <option value="optimized">Optimized</option>
-                <option value="optimized2">Optimized Weight</option>
-                <option value="Optimized Multi Trip">Optimized Multi Trip</option>
-              </select>
-              {titleSolution === "Optimized Multi Trip" && (
-                <div className="runSelect_routemap">
-                  <div className="runSelectText_routemap">Select Run: </div>
-                  <select name="runOption" onChange={handleRunOptionChange}>
-                    <option value="Run 1">Run 1</option>
-                    <option value="Run 2">Run 2</option>
-                  </select>
+            <div className="routeMap">
+              <div className="routeMapContainer">
+                <div className="routeMapLabel">
+                      Select Solution:
                 </div>
+                <select name="titleSolution" onChange={handleChangeSelectTitleSolution}>
+                  <option value="None">None</option>
+                  <option value="baseline">Baseline</option>
+                  <option value="optimized">Optimized</option>
+                  <option value="optimized2">Optimized Weight</option>
+                  <option value="Optimized Multi Trip">Optimized Multi Trip</option>
+                </select>
+              </div>
+              {titleSolution === "Optimized Multi Trip" && (
+                <>
+                  <div className="routeMapContainer">
+                    <div className="routeMapLabel">
+                      Select Run for Truck: 
+                    </div>
+                    <select name="runOption" onChange={handleRunOptionChange}>
+                      <option value="Run 1">Truck 1</option>
+                      <option value="Run 2">Truck 2</option>
+                    </select>
+                  </div>
+                </> 
               )}
             </div>
             <div className="container">
@@ -422,8 +418,8 @@ function MapPage() {
                 <MapContainer
                   center={location}
                   zoom={ZOOM_LEVEL}
-                  scrollWheelZoom={false}
-                  zoomControl={false}
+                  scrollWheelZoom={true}
+                  zoomControl={true}
                   whenCreated={(mapInstance) => {
                     mapRef.current = mapInstance;
                   }}
@@ -453,7 +449,13 @@ function MapPage() {
         )}
 
         <div className="section">
-          <div className="title">Ready-to-collect Bin</div>
+          <div className="sectionTop">
+            <div className="title">Ready-to-collect Bin</div>
+            <svg onClick={updateBin} xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" className={`update-bin-btn bi bi-arrow-clockwise ${isRotating ? 'self-rotate' : ''}`} viewBox="0 0 16 16">
+              <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2z"/>
+              <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466"/>
+            </svg>
+          </div>
           <div className="container">
             <BinCarousel readyToCollectBins={readyToCollectBins}></BinCarousel>
           </div>

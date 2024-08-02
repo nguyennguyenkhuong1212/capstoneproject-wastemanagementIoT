@@ -344,7 +344,7 @@ nav {
   font-weight: 600;
 }
 .teaminfo_section{
-  height: 100vh;
+  height: max-content;
 }
 
 .home-image-section{
@@ -425,10 +425,6 @@ nav {
     max-width: 80%;
   }
 
-}
-.teaminfo_section{
-  margin-top: 3rem;
-  height: max-content;
 }
 
 ul {

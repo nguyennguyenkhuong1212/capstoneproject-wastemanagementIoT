@@ -63,15 +63,15 @@ function Card({ bID, name, address, trashPercentage }) {
             <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466"/>
           </svg>
         : 
-        <div onClick={() => {setFullnessLevel(Math.floor(Math.random() * 21) + 80, bID);}}>Set full</div>
+        <div style={{cursor: "pointer"}} onClick={() => {setFullnessLevel(Math.floor(Math.random() * 21) + 80, bID);}}>Set full</div>
         }
       </div>
 
       <Modal show={showModal} onHide={handleClose}>
         <Modal.Header>
           <Modal.Title>Confirm Pickup</Modal.Title>
-          <button type="button_confrim" class="close_button" data-dismiss="modal" onClick={handleClose} aria-label="Close">
-            <span aria-hidden="true">&times;</span>
+          <button type="button_confirm" className="close-button" data-dismiss="modal" onClick={handleClose} aria-label="Close">
+            &times;
           </button>
         </Modal.Header>
         <Modal.Body>Are you sure the bin has been picked up?</Modal.Body>
@@ -79,7 +79,7 @@ function Card({ bID, name, address, trashPercentage }) {
           <Button variant="secondary" onClick={handleClose}>
             Cancel
           </Button>
-          <Button variant="primary" onClick={() => handleConfirm(bID)}>
+          <Button className="confirmButton" onClick={() => handleConfirm(bID)}>
             Confirm
           </Button>
         </Modal.Footer>
