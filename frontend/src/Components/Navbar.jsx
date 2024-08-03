@@ -26,9 +26,9 @@ function Navbar() {
       <nav className="navbar">
         <div className="divider">
           <div className="logo">
-            <NavLink to="/" className="link-logo">
+            <a href="/" className="link-logo">
               <h4>WASTE MANAGEMENT IOT</h4>
-            </NavLink>
+            </a>
           </div>
           <div className="mobile-menu-button" onClick={toggleMobileMenu}>
             <div className="menu-icon"></div>
@@ -36,7 +36,7 @@ function Navbar() {
             <div className="menu-icon"></div>
           </div>
           {/* Navigation links */}
-          <div className={`nav-links ${isMobileMenuOpen ? "mobile-open show" : "hide"}`}>
+          <div className={`nav-links ${isMobileMenuOpen ? "mobile-open" : ""}`}>
             <NavLink to="/" className={`nav-link${isMobileMenuOpen ? "-mobile" : ""}`} activeClassName="active-link">
               HOME
             </NavLink>
