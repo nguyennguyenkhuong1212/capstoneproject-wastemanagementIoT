@@ -73,25 +73,9 @@
   margin-top: 2rem;
 }
 
-.social_media a:hover {
-  animation: upup 2s ease-in-out infinite;
-}
-
 .landing-page-section {
   height: max-content;
   margin-top: 7.5rem;
-}
-
-@keyframes upup {
-  0% {
-    transform: translateY(0px);
-  }
-  50% {
-    transform: translateY(-12px);
-  }
-  100% {
-    transform: translateY(0px);
-  }
 }
 
 @media (max-width: 490px) {

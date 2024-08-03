@@ -157,7 +157,7 @@
 }
 
 .hide-map-btn {
-    background-color: #4CAF50; 
+    background-color: #458e60; 
     border: none; 
     color: white;
     padding: 15px 32px; 
@@ -172,7 +172,7 @@
   }
   
   .hide-map-btn:hover {
-    background-color: #429445; 
+    background-color: #4caf50; 
   }
 
   .hide-map-btn:focus,

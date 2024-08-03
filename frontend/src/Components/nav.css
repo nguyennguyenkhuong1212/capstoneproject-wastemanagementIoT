@@ -38,10 +38,11 @@
   border: none;
   outline: none;
   margin: 0.5rem 0;
-  padding: 0;
+  padding: 5px 5px 2px 5px;
+  border-radius: 5px;
   display: block;
   &:hover {
-    color: #458e60;
+    color: #429445;
   }
   &:focus {
     outline: none;
@@ -54,24 +55,39 @@
     left: 50%;
     width: 0;
     height: 3px;
-    background-color: #458e60;
+    background-color: #429445;
     transition: width 0.3s ease-in-out;
     transform: translateX(-50%);
   }
   &:hover::after,
   &:focus::after {
-    width: 100%;
+    width: calc(100% - 10px);
   }
 }
 
 .nav-mobile-close-btn{
+  position: absolute;
+  bottom: 0;
+  padding-right: 1px;
+  padding-bottom: 1px;
   border: none;
-  background: none;
-  text-align: right;
-  padding-right: 5px;
-  padding: 15px 10px 10px 0;
-  color: #458e60;
+  background-color: #458e60;
+  width: 50px;
+  height: 50px;
+  margin: 0 auto;
+  left: 0;
+  right: 0;
+  text-align: center;
+  color: white;
   cursor: pointer;
+  border-radius: 50%;
+  font-size: 45px;
+  line-height: 45px;
+  vertical-align: middle;
+  transform: translateY(60px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .nav-link-mobile {
@@ -85,8 +101,10 @@
   background: none;
   border: none;
   outline: none;  
-  padding: 10px;
+  padding: 12px 10px;
   display: block;
+  width: 100%;
+  text-align: center;
   &:hover {
     color: white;
     text-decoration: none;
@@ -141,15 +159,49 @@ text-decoration: none;
   position: fixed;
   top: 0;
   right: 0;
-  width: 250px;
+  width: 200px;
   height: auto;
+  align-items: center;
   background-color: #fff;
   box-shadow: -2px 0 5px rgba(0,0,0,0.5);
   transform: translateX(0);
   z-index: 1000;
 }
 
+.hide{
+  visibility: hidden;
+  opacity: 0;
+}
+
+@media (min-width: 768px) {
+  .active{
+    &:hover{
+      color: #429445;
+    }
+    &:focus {
+      outline: none;
+    }
+    &::after {
+      content: '';
+      display: block;
+      position: absolute;
+      bottom: 0.5px;
+      left: 50%;
+      width: calc(100% - 10px);
+      height: 3px;
+      background-color: #429445;
+      transition: width 0.3s ease-in-out;
+      transform: translateX(-50%);
+    }
+  }
+}
+
 @media (max-width: 768px) {
+  .active{
+    background-color: #458e60;
+    color: white;
+  }
+
   .nav-links {
     display: none;
     transform: translateX(100%);

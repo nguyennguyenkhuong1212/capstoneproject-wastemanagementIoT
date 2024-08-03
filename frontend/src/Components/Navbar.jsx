@@ -9,7 +9,6 @@ function Navbar() {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
 
-  // Close the mobile menu if the screen is resized to be wider than 768px
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth > 768) {
@@ -22,55 +21,58 @@ function Navbar() {
   }, []);
 
   return (
-    <nav className="navbar">
-      <div className="divider">
-        <div className="logo">
-          <NavLink to="/" className="link-logo">
-            <h4>WASTE MANAGEMENT IOT</h4>
-          </NavLink>
-        </div>
-        <div className="mobile-menu-button" onClick={toggleMobileMenu}>
-          <div className="menu-icon"></div>
-          <div className="menu-icon"></div>
-          <div className="menu-icon"></div>
-        </div>
-        {/* Navigation links */}
-        <div className={`nav-links ${isMobileMenuOpen ? "mobile-open" : ""}`}>
-          <div className="nav-mobile-close-btn" onClick={toggleMobileMenu} style={{display: isMobileMenuOpen ? "block" : "none"}}>
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
-              <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z"/>
-            </svg>
+    <>
+      <div className={`fade modal-backdrop ${isMobileMenuOpen ? "show" : "hide"}`}></div>
+      <nav className="navbar">
+        <div className="divider">
+          <div className="logo">
+            <a href="/" className="link-logo">
+              <h4>WASTE MANAGEMENT IOT</h4>
+            </a>
           </div>
-          <NavLink to="/" className={`nav-link${isMobileMenuOpen ? "-mobile" : ""}`} activeClassName="active-link">
-            HOME
-          </NavLink>
-          <NavLink to="/map" className={`nav-link${isMobileMenuOpen ? "-mobile" : ""}`} activeClassName="active-link">
-            MAP
-          </NavLink>
-          <NavLink
-            to="/schedule"
-            className={`nav-link${isMobileMenuOpen ? "-mobile" : ""}`}
-            activeClassName="active-link"
-          >
-            SCHEDULE
-          </NavLink>
-          <NavLink
-            to="/guide"
-            className={`nav-link${isMobileMenuOpen ? "-mobile" : ""}`}
-            activeClassName="active-link"
-          >
-            GUIDE
-          </NavLink>
-          <NavLink
-            to="/bin"
-            className={`nav-link${isMobileMenuOpen ? "-mobile" : ""}`}
-            activeClassName="active-link"
-          >
-            BIN
-          </NavLink>
+          <div className="mobile-menu-button" onClick={toggleMobileMenu}>
+            <div className="menu-icon"></div>
+            <div className="menu-icon"></div>
+            <div className="menu-icon"></div>
+          </div>
+          {/* Navigation links */}
+          <div className={`nav-links ${isMobileMenuOpen ? "mobile-open" : ""}`}>
+            <NavLink to="/" className={`nav-link${isMobileMenuOpen ? "-mobile" : ""}`} activeClassName="active-link">
+              HOME
+            </NavLink>
+            <NavLink to="/map" className={`nav-link${isMobileMenuOpen ? "-mobile" : ""}`} activeClassName="active-link">
+              MAP
+            </NavLink>
+            <NavLink
+              to="/schedule"
+              className={`nav-link${isMobileMenuOpen ? "-mobile" : ""}`}
+              activeClassName="active-link"
+            >
+              SCHEDULE
+            </NavLink>
+            <NavLink
+              to="/guide"
+              className={`nav-link${isMobileMenuOpen ? "-mobile" : ""}`}
+              activeClassName="active-link"
+            >
+              GUIDE
+            </NavLink>
+            <NavLink
+              to="/bin"
+              className={`nav-link${isMobileMenuOpen ? "-mobile" : ""}`}
+              activeClassName="active-link"
+            >
+              BIN
+            </NavLink>
+            <div className={`nav-mobile-close-btn ${isMobileMenuOpen ? "show" : "hide"}`} onClick={toggleMobileMenu}>
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
+                <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z"/>
+              </svg>
+            </div>
+          </div>
         </div>
-      </div>
-    </nav>
+      </nav>
+    </>
   );
 }
 
