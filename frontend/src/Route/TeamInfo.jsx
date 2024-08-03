@@ -7,6 +7,7 @@ import Hy from "../Assets/Hy.jpg";
 import Khuong from "../Assets/Khuong.jpg";
 import Aos from "aos";
 import Facebook from "../Assets/facebook.png";
+import FacebookButton from "../Components/FacebookButton";
 
 function Teaminfo() {
   const [show, setShow] = useState(false);
@@ -54,7 +55,7 @@ function Teaminfo() {
                 target="_blank"
                 rel="noreferrer"
               >
-                <img src={Facebook} />
+                <FacebookButton />
               </a>
             </div>
           </div>
@@ -71,7 +72,7 @@ function Teaminfo() {
             </div>
             <div className="social_media">
               <a href="https://www.facebook.com/whitemirror1212" target="_blank" rel="noreferrer">
-                <img src={Facebook} />
+                <FacebookButton />
               </a>
             </div>
           </div>
@@ -88,7 +89,7 @@ function Teaminfo() {
             </div>
             <div className="social_media">
               <a href="https://www.facebook.com/didoan322" target="_blank" rel="noreferrer">
-                <img src={Facebook} />
+                <FacebookButton />
               </a>
             </div>
           </div>
@@ -109,7 +110,7 @@ function Teaminfo() {
                 target="_blank"
                 rel="noreferrer"
               >
-                <img src={Facebook} />
+                <FacebookButton />
               </a>
             </div>
           </div>
