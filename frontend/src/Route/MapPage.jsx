@@ -379,7 +379,7 @@ function MapPage() {
   return (
     <div>
       <Navbar name="Collection Route Planner" />
-      <div className="main">
+      <div className="map-container">
         <button className="hide-map-btn" onClick={handleToggleMap}>
           {showMap ? "Hide Map" : "Show Map"}
         </button>

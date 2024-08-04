@@ -84,104 +84,106 @@ function Schedule() {
   }
 
   return (
-    <div className="main-container">
+    <>
       <Navbar name="Pickup Truck Schedule" />
-      <div className="truckSelect">
-        <div className="truckSelectText">Select Truck: </div>
-        <select name="truck" onChange={handleChangeSelectTruck}>
-          {scheduleData.map((truck, index) => {
-            return (<option key={index} value={truck.truckNumber}>{truck.plate}</option>)
-          })}
-        </select>
-      </div>
-      
       <div className="schedule-container">
-        <table className="schedule-table">
-          <thead>
-            <tr>
-              <th>Location</th>
-              <th>Address</th>
-              <th style={{width: "100px"}}>Collected(?)</th>
-            </tr>
-          </thead>
-          <tbody>
-            {
-              scheduleData.filter((truck) => Number(truck.truckNumber) === Number(currentTruck))[0]
-                ?.schedule
-                ?.map((location, index) => (
-                  <tr key={index}>
-                    <td>{location.hospitalName}</td>
-                    <td>{location.address}</td>
-                    <td style={{textAlign: "center", paddingBottom: "10px"}}><input type="checkbox" /></td>
-                  </tr>
-                )) || (
-                  <tr>
-                    <td colSpan={3}>No schedule found</td>
-                  </tr>
-                )
-            }
-          </tbody>
-        </table>
-      </div>
-      <button className="add-button" onClick={() => setModalOpen(true)}>+</button>
-      {modalOpen && (
-        <div className="modal">
-          <div className="modal-content">
-            <span className="close" onClick={() => setModalOpen(false)}>&times;</span>
-            <h2>Add New Schedule</h2>
-            <form onSubmit={handleSubmit}>
-              <label>
-                Truck Number:
-                <input
-                  type="number"
-                  name="truckNumber"
-                  value={newTruck.truckNumber}
-                  onChange={handleInputChange}
-                  required
-                />
-              </label>
-              <br />
-              <label>
-                Available:
-                <select
-                  name="available"
-                  value={newTruck.available}
-                  onChange={handleInputChange}
-                  required
-                >
-                  <option value={true}>Yes</option>
-                  <option value={false}>No</option>
-                </select>
-              </label>
-              <br />
-              <label>
-                Schedule:
-                <input
-                  type="text"
-                  name="schedule"
-                  value={newTruck.schedule}
-                  onChange={handleInputChange}
-                  required
-                />
-              </label>
-              <br />
-              <label>
-                Pickup Point:
-                <input
-                  type="text"
-                  name="pickupPoint"
-                  value={newTruck.pickupPoint}
-                  onChange={handleInputChange}
-                  required
-                />
-              </label>
-              <br />
-              <button type="submit">Add Schedule</button>
-            </form>
-          </div>
+        <div className="truckSelect">
+          <div className="truckSelectText">Select Truck: </div>
+          <select name="truck" onChange={handleChangeSelectTruck}>
+            {scheduleData.map((truck, index) => {
+              return (<option key={index} value={truck.truckNumber}>{truck.plate}</option>)
+            })}
+          </select>
         </div>
-      )}
-    </div>
+        
+        <div className="schedule-container">
+          <table className="schedule-table">
+            <thead>
+              <tr>
+                <th>Location</th>
+                <th>Address</th>
+                <th style={{width: "100px"}}>Collected(?)</th>
+              </tr>
+            </thead>
+            <tbody>
+              {
+                scheduleData.filter((truck) => Number(truck.truckNumber) === Number(currentTruck))[0]
+                  ?.schedule
+                  ?.map((location, index) => (
+                    <tr key={index}>
+                      <td>{location.hospitalName}</td>
+                      <td>{location.address}</td>
+                      <td style={{textAlign: "center", paddingBottom: "10px"}}><input type="checkbox" /></td>
+                    </tr>
+                  )) || (
+                    <tr>
+                      <td colSpan={3}>No schedule found</td>
+                    </tr>
+                  )
+              }
+            </tbody>
+          </table>
+        </div>
+        <button className="add-button" onClick={() => setModalOpen(true)}>+</button>
+        {modalOpen && (
+          <div className="modal">
+            <div className="modal-content">
+              <span className="close" onClick={() => setModalOpen(false)}>&times;</span>
+              <h2>Add New Schedule</h2>
+              <form onSubmit={handleSubmit}>
+                <label>
+                  Truck Number:
+                  <input
+                    type="number"
+                    name="truckNumber"
+                    value={newTruck.truckNumber}
+                    onChange={handleInputChange}
+                    required
+                  />
+                </label>
+                <br />
+                <label>
+                  Available:
+                  <select
+                    name="available"
+                    value={newTruck.available}
+                    onChange={handleInputChange}
+                    required
+                  >
+                    <option value={true}>Yes</option>
+                    <option value={false}>No</option>
+                  </select>
+                </label>
+                <br />
+                <label>
+                  Schedule:
+                  <input
+                    type="text"
+                    name="schedule"
+                    value={newTruck.schedule}
+                    onChange={handleInputChange}
+                    required
+                  />
+                </label>
+                <br />
+                <label>
+                  Pickup Point:
+                  <input
+                    type="text"
+                    name="pickupPoint"
+                    value={newTruck.pickupPoint}
+                    onChange={handleInputChange}
+                    required
+                  />
+                </label>
+                <br />
+                <button type="submit">Add Schedule</button>
+              </form>
+            </div>
+          </div>
+        )}
+      </div>
+    </>
   );
 }
 
