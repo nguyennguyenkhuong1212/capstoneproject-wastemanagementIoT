@@ -9,6 +9,7 @@ import L, { Icon, DivIcon } from "leaflet";
 import "leaflet-routing-machine";
 import axios from "axios";
 import BinCarousel from "../Components/BinCarousel";
+import e from "cors";
 
 const BASE_URL = process.env.REACT_APP_ROUTING_URL;
 const ZOOM_LEVEL = 13;
@@ -245,21 +246,29 @@ function MapPage() {
   const fetchOptimizedMultiTrip = async () => {
     try {
       const response = await axios.post(`${BASE_URL}/multi-run-route`, readyToCollectBins);
-      if (response.data && response.data.Run1 && runOption === "Run 1") {
-        setBinMap(response.data.Run1);
-        setTotalDistance(response.data.Run1Distance);
-        setTotalTime(response.data.Run1Cost);
-      }
-      if (response.data && response.data.Run2 && runOption === "Run 2") {
-        setBinMap(response.data.Run2);
-        setTotalDistance(response.data.Run2Distance);
-        setTotalTime(response.data.Run2Cost);
+      if (response.data) {
+        if (runOption === "Run 1" && response.data.Run1) {
+          setBinMap(response.data.Run1);
+          setTotalDistance(response.data.Run1Distance);
+          setTotalTime(response.data.Run1Time);
+        } else if (runOption === "Run 2" && response.data.Run2) {
+          setBinMap(response.data.Run2);
+          setTotalDistance(response.data.Run2Distance);
+          setTotalTime(response.data.Run2Time);
+        } else {
+          setTotalDistance(0);
+          setTotalTime(0);
+        }
+      } else {
+        setTotalDistance(0);
+        setTotalTime(0);
       }
     } catch (error) {
       console.error("Error fetching optimized multi-trip route:", error);
       alert("Failed to fetch optimized multi-trip route. Please try again.");
     }
   };
+  
 
   useEffect(() => {
     if (titleSolution === "optimized") {
