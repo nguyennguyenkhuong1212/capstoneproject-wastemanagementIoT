@@ -42,16 +42,28 @@ def get_locations():
         loc["_id"] = str(loc["_id"])  # Convert ObjectId to string
     return JSONResponse(content=locations)
 
-def get_travel_time_matrix(locations):
+def get_travel_time_and_distance_matrix(locations):
     coordinates = ";".join([f"{loc['lng']},{loc['lat']}" for loc in locations])
-    url = f"https://api.mapbox.com/directions-matrix/v1/mapbox/driving/{coordinates}?access_token={MAPBOX_API_KEY}"
+    url = f"https://api.mapbox.com/directions-matrix/v1/mapbox/driving/{coordinates}?access_token={MAPBOX_API_KEY}&annotations=duration,distance"
     
     response = requests.get(url)
     if response.status_code != 200:
         raise HTTPException(status_code=response.status_code, detail="Error fetching travel times from Mapbox API")
     
     data = response.json()
-    return data['durations']
+    return data['durations'], data['distances']
+
+def compute_route_time_and_distance(route, travel_time_matrix, distance_matrix):
+    total_time = 0
+    total_distance = 0
+    for i in range(len(route) - 1):
+        total_time += travel_time_matrix[route[i]][route[i + 1]]
+        total_distance += distance_matrix[route[i]][route[i + 1]]
+    total_time += travel_time_matrix[route[-1]][route[0]]  # Return to starting point
+    total_distance += distance_matrix[route[-1]][route[0]]  # Return to starting point
+    total_time_minutes = total_time / 60  # Convert seconds to minutes
+    total_distance_km = total_distance / 1000  # Convert meters to kilometers
+    return total_time_minutes, total_distance_km
 
 @app.post("/multi-run-route")
 def multi_run_route(bins: List[Dict], max_weight: int = 100, bin_max_weight: int = 50):
@@ -66,6 +78,18 @@ def multi_run_route(bins: List[Dict], max_weight: int = 100, bin_max_weight: int
                 min_cost = cost
                 min_route = route
         return min_route, min_cost
+
+    def compute_total_distance(route, distance_matrix):
+        total_distance = sum(distance_matrix[route[i]][route[i + 1]] for i in range(len(route) - 1))
+        total_distance += distance_matrix[route[-1]][route[0]]  # Return to starting point
+        total_distance_km = total_distance / 1000  # Convert meters to kilometers
+        return total_distance_km
+
+    def compute_total_time(route, travel_time_matrix):
+        total_time = sum(travel_time_matrix[route[i]][route[i + 1]] for i in range(len(route) - 1))
+        total_time += travel_time_matrix[route[-1]][route[0]]  # Return to starting point
+        total_time_minutes = total_time / 60  # Convert seconds to minutes
+        return total_time_minutes
 
     run1_bins = []
     run2_bins = []
@@ -107,16 +131,17 @@ def multi_run_route(bins: List[Dict], max_weight: int = 100, bin_max_weight: int
 
     def optimize_run(bins):
         if len(bins) > 1:
-            travel_time_matrix = get_travel_time_matrix(bins)
+            travel_time_matrix, distance_matrix = get_travel_time_and_distance_matrix(bins)
             route, _ = solve_tsp(travel_time_matrix)
-            return [bins[i] for i in route]
-        return bins
+            total_distance = compute_total_distance(route, distance_matrix)
+            total_time = compute_total_time(route, travel_time_matrix)
+            return [bins[i] for i in route], total_distance, total_time
+        return bins, 0, 0
 
-    optimized_run1_bins = optimize_run(run1_bins)
-    optimized_run2_bins = optimize_run(run2_bins)
+    optimized_run1_bins, run1_distance, run1_time = optimize_run(run1_bins)
+    optimized_run2_bins, run2_distance, run2_time = optimize_run(run2_bins)
 
-    return JSONResponse(content={"Run1": optimized_run1_bins, "Run2": optimized_run2_bins})
-
+    return JSONResponse(content={"Run1": optimized_run1_bins, "Run1Distance": run1_distance, "Run1Time": run1_time, "Run2": optimized_run2_bins, "Run2Distance": run2_distance, "Run2Time": run2_time})
 
 @app.post("/filter-bins-by-weight")
 def filter_bins_by_weight_and_time(bins: List[Dict], max_weight: int = 100, bin_max_weight: int = 50):
@@ -124,12 +149,7 @@ def filter_bins_by_weight_and_time(bins: List[Dict], max_weight: int = 100, bin_
         bin['index'] = idx
     filtered_bins = []
     current_weight = 0
-    def compute_route_time(route, travel_time_matrix):
-        total_time = 0
-        for i in range(len(route) - 1):
-            total_time += travel_time_matrix[route[i]][route[i + 1]]
-        total_time += travel_time_matrix[route[-1]][route[0]]  # Return to starting point
-        return total_time
+
     # Ensure the starting location is included in the route
     for bin in bins:
         if bin['lat'] == START_LOCATION['lat'] and bin['lng'] == START_LOCATION['lng']:
@@ -139,7 +159,7 @@ def filter_bins_by_weight_and_time(bins: List[Dict], max_weight: int = 100, bin_
         raise HTTPException(status_code=400, detail="Starting location not found in the bins list.")
 
     # Create a distance matrix for the filtered bins
-    travel_time_matrix = get_travel_time_matrix(bins)
+    travel_time_matrix, distance_matrix = get_travel_time_and_distance_matrix(bins)
     num_bins = len(bins)
     current_bin_index = 0
 
@@ -176,9 +196,9 @@ def filter_bins_by_weight_and_time(bins: List[Dict], max_weight: int = 100, bin_
     try:
         # Use the travel time matrix and filtered bins to compute the optimal route
         filteredRoute = [bin['index'] for bin in filtered_bins]
-        filteredCost = compute_route_time(filteredRoute, travel_time_matrix)
+        filteredCost, filteredDistance = compute_route_time_and_distance(filteredRoute, travel_time_matrix, distance_matrix)
         optimized_bins = [bins[i] for i in filteredRoute]
-        return JSONResponse(content={"filteredRoute": filteredRoute, "filteredCost": filteredCost, "filtered_bins": optimized_bins})
+        return JSONResponse(content={"filteredRoute": filteredRoute, "filteredCost": filteredCost, "filteredDistance": filteredDistance, "filtered_bins": optimized_bins})
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
@@ -187,29 +207,36 @@ def find_route():
     locations = list(collection.find())  # Get all documents from the collection
     for loc in locations:
         loc["_id"] = str(loc["_id"])  # Convert ObjectId to string
-    travel_time_matrix = get_travel_time_matrix(locations)
+    travel_time_matrix, distance_matrix = get_travel_time_and_distance_matrix(locations)
     num_locations = len(travel_time_matrix)
     
-    def compute_route_time(route):
+    def compute_route_time_and_distance(route):
         total_time = 0
+        total_distance = 0
         for i in range(len(route) - 1):
             total_time += travel_time_matrix[route[i]][route[i + 1]]
-        return total_time
+            total_distance += distance_matrix[route[i]][route[i + 1]]
+        total_time += travel_time_matrix[route[-1]][route[0]]  # Return to starting point
+        total_distance += distance_matrix[route[-1]][route[0]]  # Return to starting point
+        total_time_minutes = total_time / 60  # Convert seconds to minutes
+        total_distance_km = total_distance / 1000  # Convert meters to kilometers
+        return total_time_minutes, total_distance_km
 
     def solve_tsp():
         min_cost = float('inf')
         min_route = []
         for perm in itertools.permutations(range(1, num_locations)):
             route = [0] + list(perm) + [0]
-            cost = compute_route_time(route)
+            cost, distance = compute_route_time_and_distance(route)
             if cost < min_cost:
                 min_cost = cost
                 min_route = route
-        return min_route, min_cost
+                min_distance = distance
+        return min_route, min_cost, min_distance
 
     try:
-        route, cost = solve_tsp()
-        return JSONResponse(content={"route": route, "cost": cost, "locations": locations})
+        route, cost, distance = solve_tsp()
+        return JSONResponse(content={"route": route, "cost": cost, "distance": distance, "locations": locations})
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
@@ -224,30 +251,37 @@ def optimize_route(bins: List[Dict]):
     if starting_index != 0:
         bins.insert(0, bins.pop(starting_index))
 
-    travel_time_matrix = get_travel_time_matrix(bins)
+    travel_time_matrix, distance_matrix = get_travel_time_and_distance_matrix(bins)
     num_locations = len(travel_time_matrix)
     
-    def compute_route_time(route):
+    def compute_route_time_and_distance(route):
         total_time = 0
+        total_distance = 0
         for i in range(len(route) - 1):
             total_time += travel_time_matrix[route[i]][route[i + 1]]
-        return total_time
+            total_distance += distance_matrix[route[i]][route[i + 1]]
+        total_time += travel_time_matrix[route[-1]][route[0]]  # Return to starting point
+        total_distance += distance_matrix[route[-1]][route[0]]  # Return to starting point
+        total_time_minutes = total_time / 60  # Convert seconds to minutes
+        total_distance_km = total_distance / 1000  # Convert meters to kilometers
+        return total_time_minutes, total_distance_km
 
     def solve_tsp():
         min_cost = float('inf')
         min_route = []
         for perm in itertools.permutations(range(1, num_locations)):
             route = [0] + list(perm) + [0]
-            cost = compute_route_time(route)
+            cost, distance = compute_route_time_and_distance(route)
             if cost < min_cost:
                 min_cost = cost
                 min_route = route
-        return min_route, min_cost
+                min_distance = distance
+        return min_route, min_cost, min_distance
 
     try:
-        route, cost = solve_tsp()
+        route, cost, distance = solve_tsp()
         optimized_bins = [bins[i] for i in route]
-        return JSONResponse(content={"route": route, "cost": cost, "optimized_bins": optimized_bins})
+        return JSONResponse(content={"route": route, "cost": cost, "distance": distance, "optimized_bins": optimized_bins})
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
@@ -262,7 +296,11 @@ def baseline_route(bins: List[Dict]):
     if starting_index != 0:
         bins.insert(0, bins.pop(starting_index))
     
-    return JSONResponse(content={"route": list(range(len(bins))), "cost": 0, "optimized_bins": bins})
+    travel_time_matrix, distance_matrix = get_travel_time_and_distance_matrix(bins)
+    route = list(range(len(bins)))
+    cost, distance = compute_route_time_and_distance(route, travel_time_matrix, distance_matrix)
+    
+    return JSONResponse(content={"route": route, "cost": cost, "distance": distance, "optimized_bins": bins})
 
 if __name__ == "__main__":
     import uvicorn

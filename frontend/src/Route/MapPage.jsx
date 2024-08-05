@@ -14,6 +14,7 @@ const BASE_URL = process.env.REACT_APP_ROUTING_URL;
 const ZOOM_LEVEL = 13;
 const ACCESS_TOKEN = 'pk.eyJ1IjoidG9naWFoeSIsImEiOiJjbHd3NThyeXgwdWE0MnFxNXh3MzF4YjE3In0.Ikxdlh66ijGULuZhR3QaMw'; // Your Mapbox access token
 const BIN_ID = '66ac9524a6f4888fcfe0030a';
+
 function MapPage() {
   const [titleSolution, setTitleSolution] = useState("None");
   const [runOption, setRunOption] = useState("Run 1");
@@ -23,6 +24,8 @@ function MapPage() {
   const currentLocation = useLocation();
   const [run1Bins, setRun1Bins] = useState([]);
   const [run2Bins, setRun2Bins] = useState([]);
+  const [totalDistance, setTotalDistance] = useState(0);
+  const [totalTime, setTotalTime] = useState(0);
 
   const handleChangeSelectTitleSolution = (e) => {
     setTitleSolution(e.target.value);
@@ -202,6 +205,8 @@ function MapPage() {
       const response = await axios.post(`${BASE_URL}/filter-bins-by-weight`, readyToCollectBins);
       if (response.data && response.data.filtered_bins) {
         setBinMap(response.data.filtered_bins);
+        setTotalDistance(response.data.filteredDistance);
+        setTotalTime(response.data.filteredCost);
       }
     } catch (error) {
       console.error("Error filtering bins:", error);
@@ -214,6 +219,8 @@ function MapPage() {
       const response = await axios.post(`${BASE_URL}/optimize-route`, readyToCollectBins);
       if (response.data && response.data.optimized_bins) {
         setBinMap(response.data.optimized_bins);
+        setTotalDistance(response.data.distance);
+        setTotalTime(response.data.cost);
       }
     } catch (error) {
       console.error("Error fetching optimized route:", error);
@@ -226,6 +233,8 @@ function MapPage() {
       const response = await axios.post(`${BASE_URL}/baseline-route`, readyToCollectBins);
       if (response.data && response.data.optimized_bins) {
         setBinMap(response.data.optimized_bins);
+        setTotalDistance(response.data.distance);
+        setTotalTime(response.data.cost);
       }
     } catch (error) {
       console.error("Error fetching baseline route:", error);
@@ -236,18 +245,21 @@ function MapPage() {
   const fetchOptimizedMultiTrip = async () => {
     try {
       const response = await axios.post(`${BASE_URL}/multi-run-route`, readyToCollectBins);
-      if (response.data && response.data.Run1 && runOption == "Run 1") {
+      if (response.data && response.data.Run1 && runOption === "Run 1") {
         setBinMap(response.data.Run1);
+        setTotalDistance(response.data.Run1Distance);
+        setTotalTime(response.data.Run1Cost);
       }
-      if(response.data && response.data.Run2 && runOption == "Run 2"){
+      if (response.data && response.data.Run2 && runOption === "Run 2") {
         setBinMap(response.data.Run2);
+        setTotalDistance(response.data.Run2Distance);
+        setTotalTime(response.data.Run2Cost);
       }
     } catch (error) {
       console.error("Error fetching optimized multi-trip route:", error);
       alert("Failed to fetch optimized multi-trip route. Please try again.");
     }
   };
-  
 
   useEffect(() => {
     if (titleSolution === "optimized") {
@@ -257,14 +269,13 @@ function MapPage() {
     } else if (titleSolution === "baseline") {
       fetchBaselineRoute();
     } else if (titleSolution === "Optimized Multi Trip") {
-      fetchOptimizedMultiTrip()
+      fetchOptimizedMultiTrip();
     } else if (titleSolution === "None" && routingControlRef.current) {
       routingControlRef.current.getPlan().setWaypoints([]);
       mapRef.current.removeControl(routingControlRef.current);
       routingControlRef.current = null;
     }
   }, [titleSolution, runOption, run1Bins, run2Bins]);
-  
 
   useEffect(() => {
     const handleNavigation = (e) => {
@@ -389,7 +400,7 @@ function MapPage() {
             <div className="routeMap">
               <div className="routeMapContainer">
                 <div className="routeMapLabel">
-                      Select Solution:
+                  Select Solution:
                 </div>
                 <select name="titleSolution" onChange={handleChangeSelectTitleSolution}>
                   <option value="None">None</option>
@@ -410,7 +421,7 @@ function MapPage() {
                       <option value="Run 2">Truck 2</option>
                     </select>
                   </div>
-                </> 
+                </>
               )}
             </div>
             <div className="container">
@@ -444,6 +455,10 @@ function MapPage() {
                   <RoutingControl />
                 </MapContainer>
               </div>
+            </div>
+            <div className="route-info">
+              <div>Total Distance: {totalDistance.toFixed(2)} km</div>
+              <div>Total Time: {totalTime.toFixed(2)} minutes</div>
             </div>
           </div>
         )}
