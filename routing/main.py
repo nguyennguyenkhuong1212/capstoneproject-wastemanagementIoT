@@ -79,17 +79,13 @@ def multi_run_route(bins: List[Dict], max_weight: int = 100, bin_max_weight: int
                 min_route = route
         return min_route, min_cost
 
-    def compute_total_distance(route, distance_matrix):
-        total_distance = sum(distance_matrix[route[i]][route[i + 1]] for i in range(len(route) - 1))
-        total_distance += distance_matrix[route[-1]][route[0]]  # Return to starting point
-        total_distance_km = total_distance / 1000  # Convert meters to kilometers
-        return total_distance_km
-
-    def compute_total_time(route, travel_time_matrix):
-        total_time = sum(travel_time_matrix[route[i]][route[i + 1]] for i in range(len(route) - 1))
-        total_time += travel_time_matrix[route[-1]][route[0]]  # Return to starting point
-        total_time_minutes = total_time / 60  # Convert seconds to minutes
-        return total_time_minutes
+    def optimize_run(bins):
+        if len(bins) > 1:
+            travel_time_matrix, distance_matrix = get_travel_time_and_distance_matrix(bins)
+            route, _ = solve_tsp(travel_time_matrix)
+            total_time, total_distance = compute_route_time_and_distance(route, travel_time_matrix, distance_matrix)
+            return [bins[i] for i in route], total_distance, total_time
+        return bins, 0, 0
 
     run1_bins = []
     run2_bins = []
@@ -129,18 +125,9 @@ def multi_run_route(bins: List[Dict], max_weight: int = 100, bin_max_weight: int
     if run2_bins and (run2_bins[-1]['lat'] != START_LOCATION['lat'] or run2_bins[-1]['lng'] != START_LOCATION['lng']):
         run2_bins.append({"name": "Start", "lat": START_LOCATION['lat'], "lng": START_LOCATION['lng'], "fullness": 0})
 
-    def optimize_run(bins):
-        if len(bins) > 1:
-            travel_time_matrix, distance_matrix = get_travel_time_and_distance_matrix(bins)
-            route, _ = solve_tsp(travel_time_matrix)
-            total_distance = compute_total_distance(route, distance_matrix)
-            total_time = compute_total_time(route, travel_time_matrix)
-            return [bins[i] for i in route], total_distance, total_time
-        return bins, 0, 0
-
     optimized_run1_bins, run1_distance, run1_time = optimize_run(run1_bins)
     optimized_run2_bins, run2_distance, run2_time = optimize_run(run2_bins)
-
+    print(run1_distance,run1_time,run2_distance,run2_time)
     return JSONResponse(content={"Run1": optimized_run1_bins, "Run1Distance": run1_distance, "Run1Time": run1_time, "Run2": optimized_run2_bins, "Run2Distance": run2_distance, "Run2Time": run2_time})
 
 @app.post("/filter-bins-by-weight")
