@@ -1,0 +1,57 @@
+.landingCard {
+  display: flex;
+  border: 1px solid #ddd;
+  border-radius: 25px;
+  padding: 20px;
+  margin: 20px;
+  width: 30%;
+  background-color: #EFEFEF;
+  font-family: "Montserrat", sans-serif;
+}
+
+.landingCardText {
+  flex: 3 1;
+  margin-right: 20px;
+}
+
+.landingCardText h2 {
+  font-size: 24px;
+  margin-bottom: 10px;
+  color: #458E60;
+  font-weight: bold;
+}
+
+.landingCardText p {
+  font-size: 16px;
+  line-height: 1.2;
+}
+
+.landingCardText button {
+  background: none;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  color: #458E60;
+}
+
+.landingCardImg {
+  flex: 2 1;
+}
+
+.landingCardImg img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+
+.readMoreText {
+    font-size: 20px;
+}
+
+.readMoreBtn{
+    width: 45px;
+    aspect-ratio: 1 / 1;
+}

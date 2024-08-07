@@ -43,13 +43,13 @@ function Navbar() {
             <NavLink to="/map" className={`nav-link${isMobileMenuOpen ? "-mobile" : ""}`} activeClassName="active-link">
               MAP
             </NavLink>
-            <NavLink
+            {/* <NavLink
               to="/schedule"
               className={`nav-link${isMobileMenuOpen ? "-mobile" : ""}`}
               activeClassName="active-link"
             >
               SCHEDULE
-            </NavLink>
+            </NavLink> */}
             <NavLink
               to="/guide"
               className={`nav-link${isMobileMenuOpen ? "-mobile" : ""}`}

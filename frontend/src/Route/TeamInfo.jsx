@@ -23,7 +23,7 @@ function Teaminfo() {
       <div id="TEAMPROFILE" className="landing-page-section">
         <div className="rise_section">
           <div className="rise_header">
-            <h1 style={{ fontWeight: "800" }}>TEAM PROFILE</h1>
+            <h1 style={{ fontWeight: "800" }}>ABOUT US</h1>
             <hr />
           </div>
         </div>
@@ -36,6 +36,25 @@ function Teaminfo() {
           collection routes, using sensors to measure bin fullness and an
           algorithm to find the most efficient paths for the waste-collecting
           trucks.
+        </div>
+
+        <div className="rise_paragraph">
+          In Vietnam, refuse trucks help keep our city clean by following set
+          routes. Medical refuse trucks also follow these routes but incinerate
+          waste at processing plants. However, trips can be wasteful if bins
+          aren’t full, contributing significantly to CO2 emissions—trucks are
+          responsible for 80% of this pollution.
+        </div>
+
+        <div className="rise_paragraph">
+          To address this, we need a system to notify drivers when bins are full
+          and provide the most efficient routes to reduce unnecessary travel.
+          Our solution involves IoT hardware with ultrasonic sensors to measure
+          bin fullness, transmitting data via a SIM module. This data is
+          processed on our website, which uses a routing algorithm to determine
+          optimal pickup routes and displays this information through a
+          user-friendly interface, helping drivers reduce their travel time and
+          environmental impact.
         </div>
 
         <div className="rise_member_section" data-aos="fade-right">
@@ -71,7 +90,11 @@ function Teaminfo() {
               <p>s3924577</p>
             </div>
             <div className="social_media">
-              <a href="https://www.facebook.com/whitemirror1212" target="_blank" rel="noreferrer">
+              <a
+                href="https://www.facebook.com/whitemirror1212"
+                target="_blank"
+                rel="noreferrer"
+              >
                 <FacebookButton />
               </a>
             </div>
@@ -88,7 +111,11 @@ function Teaminfo() {
               <p>s3926977</p>
             </div>
             <div className="social_media">
-              <a href="https://www.facebook.com/didoan322" target="_blank" rel="noreferrer">
+              <a
+                href="https://www.facebook.com/didoan322"
+                target="_blank"
+                rel="noreferrer"
+              >
                 <FacebookButton />
               </a>
             </div>
@@ -114,20 +141,6 @@ function Teaminfo() {
               </a>
             </div>
           </div>
-        </div>
-      </div>
-      <div id="OURGOAL" className="landing-page-section">
-        <div className="rise_section">
-          <div className="rise_header">
-            <h1 style={{ fontWeight: "800" }}>OUR GOAL</h1>
-            <hr />
-          </div>
-        </div>
-        <div className="rise_paragraph">
-          In Vietnam, refuse trucks help keep our city clean by following set routes. Medical refuse trucks also follow these routes but incinerate waste at processing plants. However, trips can be wasteful if bins aren’t full, contributing significantly to CO2 emissions—trucks are responsible for 80% of this pollution.
-        </div>
-        <div className="rise_paragraph">
-          To address this, we need a system to notify drivers when bins are full and provide the most efficient routes to reduce unnecessary travel. Our solution involves IoT hardware with ultrasonic sensors to measure bin fullness, transmitting data via a SIM module. This data is processed on our website, which uses a routing algorithm to determine optimal pickup routes and displays this information through a user-friendly interface, helping drivers reduce their travel time and environmental impact.
         </div>
       </div>
     </>
