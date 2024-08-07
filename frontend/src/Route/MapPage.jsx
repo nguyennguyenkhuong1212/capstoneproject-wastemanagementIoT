@@ -436,11 +436,11 @@ function MapPage() {
             </div>
             <div className="route-info">
               <div className="route-info-section">
-                <div className="route-info-title">Total Distance:</div>{" "}
+                <div className="route-info-title">Total Distance:</div>
                 {totalDistance.toFixed(2)} km
               </div>
               <div className="route-info-section">
-                <div className="route-info-title">Total Time:</div>{" "}
+                <div className="route-info-title">Total Time:</div>
                 {totalTime.toFixed(2)} minutes
               </div>
             </div>
