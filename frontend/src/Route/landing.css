@@ -57,6 +57,7 @@ nav {
   display: flex;
   padding-top: 2.6rem;
   height: max-content;
+  align-items: center;
 }
 .home-bannerImage-container img{
   width: 100%;

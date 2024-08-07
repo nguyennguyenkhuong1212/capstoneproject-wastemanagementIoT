@@ -51,7 +51,7 @@
   font-weight: bold;
 }
 
-.footer_content {
+.footer-content {
   display: flex;
   justify-content: space-between; /* Distribute columns evenly */
   align-items: flex-start; /* Align items to the top */
@@ -59,12 +59,16 @@
 }
 
 @media (max-width: 800px) {
-  .footer_content {
+  .footer-content {
     flex-direction: column;
     align-items: center; /* Center items */
     text-align: center;
     justify-content: center; /* Center justify content */
     gap: 2rem;
+  }
+
+  .footer-column:first-child {
+    display: none;
   }
 
   .footer {

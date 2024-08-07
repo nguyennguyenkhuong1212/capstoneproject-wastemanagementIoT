@@ -202,3 +202,39 @@
     transform: translateY(3px) rotate(360deg);
     transition: transform 1.8s ease-in-out;
   }
+
+  .route-info {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 5rem;
+    width: 40%;
+    text-align: center;
+    border: 3px solid #458e60;
+    border-style: dashed;
+    padding: 2rem;
+    margin: 0 auto 1.5rem;
+    border-radius: 15px;
+  }
+
+  .route-info-section {
+    font-size: 20px;
+    display: flex;
+    gap: 0.5rem;
+  } 
+
+  .route-info-title{
+    font-weight: bold;
+    color: #458e60;
+  }
+
+  @media (max-width: 768px) {  
+    .routeMap {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .routeMapContainer {
+        justify-content: center;
+    }
+  }

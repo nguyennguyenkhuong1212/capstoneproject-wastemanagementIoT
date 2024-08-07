@@ -408,23 +408,24 @@ function MapPage() {
             <div className="title">Route Map</div>
             <div className="routeMap">
               <div className="routeMapContainer">
-                <div className="routeMapLabel">
-                  Select Solution:
-                </div>
-                <select name="titleSolution" onChange={handleChangeSelectTitleSolution}>
+                <div className="routeMapLabel">Select Solution:</div>
+                <select
+                  name="titleSolution"
+                  onChange={handleChangeSelectTitleSolution}
+                >
                   <option value="None">None</option>
                   <option value="baseline">Baseline</option>
                   <option value="optimized">Optimized</option>
                   <option value="optimized2">Optimized Weight</option>
-                  <option value="Optimized Multi Trip">Optimized Multi Trip</option>
+                  <option value="Optimized Multi Trip">
+                    Optimized Multi Trip
+                  </option>
                 </select>
               </div>
               {titleSolution === "Optimized Multi Trip" && (
                 <>
                   <div className="routeMapContainer">
-                    <div className="routeMapLabel">
-                      Select Run for Truck: 
-                    </div>
+                    <div className="routeMapLabel">Select Run for Truck:</div>
                     <select name="runOption" onChange={handleRunOptionChange}>
                       <option value="Run 1">Truck 1</option>
                       <option value="Run 2">Truck 2</option>
@@ -432,6 +433,16 @@ function MapPage() {
                   </div>
                 </>
               )}
+            </div>
+            <div className="route-info">
+              <div className="route-info-section">
+                <div className="route-info-title">Total Distance:</div>{" "}
+                {totalDistance.toFixed(2)} km
+              </div>
+              <div className="route-info-section">
+                <div className="route-info-title">Total Time:</div>{" "}
+                {totalTime.toFixed(2)} minutes
+              </div>
             </div>
             <div className="container">
               <div className="map">
@@ -465,19 +476,28 @@ function MapPage() {
                 </MapContainer>
               </div>
             </div>
-            <div className="route-info">
-              <div>Total Distance: {totalDistance.toFixed(2)} km</div>
-              <div>Total Time: {totalTime.toFixed(2)} minutes</div>
-            </div>
           </div>
         )}
 
         <div className="section">
           <div className="sectionTop">
             <div className="title">Ready-to-collect Bin</div>
-            <svg onClick={updateBin} xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" className={`update-bin-btn bi bi-arrow-clockwise ${isRotating ? 'self-rotate' : ''}`} viewBox="0 0 16 16">
-              <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2z"/>
-              <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466"/>
+            <svg
+              onClick={updateBin}
+              xmlns="http://www.w3.org/2000/svg"
+              width="18"
+              height="18"
+              fill="currentColor"
+              className={`update-bin-btn bi bi-arrow-clockwise ${
+                isRotating ? "self-rotate" : ""
+              }`}
+              viewBox="0 0 16 16"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2z"
+              />
+              <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466" />
             </svg>
           </div>
           <div className="container">
@@ -507,23 +527,53 @@ function MapPage() {
               <form onSubmit={handleSubmit}>
                 <label>
                   Bin Name:
-                  <input type="text" name="name" value={newBin.name} onChange={handleInputChange} required />
+                  <input
+                    type="text"
+                    name="name"
+                    value={newBin.name}
+                    onChange={handleInputChange}
+                    required
+                  />
                 </label>
                 <label>
                   Address:
-                  <input type="text" name="address" value={newBin.address} onChange={handleInputChange} required />
+                  <input
+                    type="text"
+                    name="address"
+                    value={newBin.address}
+                    onChange={handleInputChange}
+                    required
+                  />
                 </label>
                 <label>
                   Trash Percentage:
-                  <input type="number" name="fullness" value={newBin.fullness} onChange={handleInputChange} required />
+                  <input
+                    type="number"
+                    name="fullness"
+                    value={newBin.fullness}
+                    onChange={handleInputChange}
+                    required
+                  />
                 </label>
                 <label>
                   Latitude:
-                  <input type="number" name="lat" value={newBin.lat} onChange={handleInputChange} required />
+                  <input
+                    type="number"
+                    name="lat"
+                    value={newBin.lat}
+                    onChange={handleInputChange}
+                    required
+                  />
                 </label>
                 <label>
                   Longitude:
-                  <input type="number" name="lng" value={newBin.lng} onChange={handleInputChange} required />
+                  <input
+                    type="number"
+                    name="lng"
+                    value={newBin.lng}
+                    onChange={handleInputChange}
+                    required
+                  />
                 </label>
                 <button type="submit">Finish</button>
               </form>
