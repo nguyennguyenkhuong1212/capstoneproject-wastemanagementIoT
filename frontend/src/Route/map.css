@@ -157,6 +157,14 @@
     gap: 10px;
 }
 
+#map-section{
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 0;
+}
+
 .hide-map-btn {
     background-color: #458e60; 
     border: none; 

@@ -38,24 +38,9 @@ function Teaminfo() {
           trucks.
         </div>
 
-        <div className="rise_paragraph">
-          In Vietnam, refuse trucks help keep our city clean by following set
-          routes. Medical refuse trucks also follow these routes but incinerate
-          waste at processing plants. However, trips can be wasteful if bins
-          aren’t full, contributing significantly to CO2 emissions—trucks are
-          responsible for 80% of this pollution.
-        </div>
-
-        <div className="rise_paragraph">
-          To address this, we need a system to notify drivers when bins are full
-          and provide the most efficient routes to reduce unnecessary travel.
-          Our solution involves IoT hardware with ultrasonic sensors to measure
-          bin fullness, transmitting data via a SIM module. This data is
-          processed on our website, which uses a routing algorithm to determine
-          optimal pickup routes and displays this information through a
-          user-friendly interface, helping drivers reduce their travel time and
-          environmental impact.
-        </div>
+        {/* <div className="rise_paragraph">
+        In Vietnam, refuse trucks follow set routes to keep the city clean, including medical refuse trucks that incinerate waste at processing plants. However, these trips can be inefficient and contribute significantly to CO2 emissions, with trucks responsible for 80% of this pollution. To reduce unnecessary travel, we propose an IoT-based system using ultrasonic sensors to measure bin fullness and transmit data via a SIM module. This data is processed on our website, which uses a routing algorithm to determine optimal pickup routes, displayed through a user-friendly interface, helping drivers minimize travel time and environmental impact.
+        </div> */}
 
         <div className="rise_member_section" data-aos="fade-right">
           <div className="rise_member">

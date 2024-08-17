@@ -10,9 +10,9 @@ nav {
   justify-content: space-between;
   min-height: 90px;
 }
+
 .home-container{
-  height: max-content;
-  margin-bottom: 30px;
+  height: calc(100vh - 90px);
 }
 
 .navbar-menu-container {
@@ -55,8 +55,8 @@ nav {
 .home-banner-container {
   position: relative;
   display: flex;
-  padding-top: 2.6rem;
   height: max-content;
+  min-height: calc(92vh - 90px);
   align-items: center;
 }
 .home-bannerImage-container img{
@@ -65,14 +65,14 @@ nav {
   max-height: 100vh;
 }
 .home-image-section img{
+  position: relative;
   width: 35vw;
   height: 35vw;
   max-width: 100%;
-  transform: translateX(25px);
 }
 .home-bannerImage-container {
   position: absolute;
-  top: -110px;
+  top: -90px;
   right: -190px;
   z-index: -2;
   max-width: 100%;
@@ -346,9 +346,14 @@ nav {
 }
 .teaminfo_section{
   height: max-content;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .home-image-section{
+  position: relative;
   display: flex;
   justify-content: center;
 }
@@ -424,8 +429,13 @@ nav {
   .primary-text {
     text-align: center;
     max-width: 80%;
+    margin: 0 0 1rem 0;
+    line-height: 30px;
   }
 
+  .landing-page-section{
+    max-height: unset!important;
+  }
 }
 
 ul {

@@ -1,5 +1,4 @@
 .rise_section {
-  flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -23,9 +22,8 @@
 }
 
 .rise_paragraph {
-  flex: 1;
   justify-content: flex-start;
-  margin: 2rem 0;
+  margin: 1rem 0;
   font-family: "Montserrat", sans-serif;
   color: black;
   font-size: 18px;
@@ -36,6 +34,7 @@
   display: flex;
   justify-content: space-around;
   font-family: "Roboto";
+  margin-top: 2.5vh;
   font-style: normal;
   font-size: 20px;
   line-height: 27px;
@@ -75,7 +74,7 @@
 
 .landing-page-section {
   height: max-content;
-  margin-top: 7.5rem;
+  max-height: 100vh;
 }
 
 @media (max-width: 490px) {

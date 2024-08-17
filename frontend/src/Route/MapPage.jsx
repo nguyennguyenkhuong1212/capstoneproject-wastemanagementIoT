@@ -404,7 +404,7 @@ function MapPage() {
           {showMap ? "Hide Map" : "Show Map"}
         </button>
         {showMap && (
-          <div className="section">
+          <div className="section" id="map-section">
             <div className="title">Route Map</div>
             <div className="routeMap">
               <div className="routeMapContainer">
