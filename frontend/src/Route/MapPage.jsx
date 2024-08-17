@@ -500,16 +500,12 @@ function MapPage() {
               <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466" />
             </svg>
           </div>
-          <div className="container">
-            <BinCarousel readyToCollectBins={readyToCollectBins}></BinCarousel>
-          </div>
+          <BinCarousel readyToCollectBins={readyToCollectBins}></BinCarousel>
         </div>
 
         <div className="section">
           <div className="title">Bins</div>
-          <div className="container">
-            <BinCarousel readyToCollectBins={regularBins}></BinCarousel>
-          </div>
+          <BinCarousel readyToCollectBins={regularBins}></BinCarousel>
         </div>
 
         <div className="section">

@@ -436,6 +436,10 @@ nav {
   .landing-page-section{
     max-height: unset!important;
   }
+
+  .teaminfo_section{
+    margin-top: 3.5vw;
+  }
 }
 
 ul {
