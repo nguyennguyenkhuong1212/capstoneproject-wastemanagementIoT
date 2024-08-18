@@ -79,6 +79,7 @@ nav {
 }
 
 .home-text-section {
+  flex: 1;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -384,6 +385,7 @@ nav {
 
 @media (max-width: 800px) {
   .home-text-section {
+    flex: none;
     align-items: center;
     justify-content: center;
   }
