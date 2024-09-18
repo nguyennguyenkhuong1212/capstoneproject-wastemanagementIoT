@@ -27,7 +27,7 @@ const Guide = () => {
         <div className="video-container">
           <iframe
             className='video-player'
-            src="https://www.youtube.com/embed/7i0QMnz4ExY"
+            src="https://www.youtube.com/watch?v=Y818FBnMgVg"
             title="YouTube video player"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowFullScreen
